@@ -2,25 +2,49 @@ import React, { useState, useEffect } from "react";
 "use client";
 import { Label, Select } from "flowbite-react";
 const NewCalculation = () => {
-  const [newInput, setNewInput] = useState('');
   const [inputList, setInputList] = useState([{
     id: 1,
-    input: true
+    input: 
+    <>
+    <input className='w-[100px] border-gray-300 outline-none rounded-md' id="small" type="text" placeholder='Module'/>
+    <Select defaultValue="A+" className='w-[70px]' id="semester" required>
+      <option>A+</option>
+      <option>A</option>
+      <option>A-</option>
+      <option>B+</option>
+      <option>B</option>
+      <option>B-</option>
+      <option>C+</option>
+      <option>C</option>
+      <option>C-</option>
+      <option>D</option>
+      <option>E</option>
+      <option>F</option>
+    </Select>
+    <Select className='cursor-pointer w-[70px]' id="semester" defaultValue="2" required>
+      <option>2</option>
+      <option>3</option>
+    </Select>
+    </>
   }]);
 
   const handleClick = (e)=>{
     e.preventDefault();
     console.log("Clicked")
     addNewItem();
-    setNewInput("")
+    console.log(inputList.length);
   }
 
   const addNewItem = ()=>{
     const id = inputList.length ? inputList[inputList.length - 1].id + 1 : 1;
     const item = inputList[0].input;
+    console.log(item);
     const newInputItem = {id, item};
-    setNewInput(newInputItem);
-    setInputList(newInput);
+    console.log(newInputItem);
+    const newArray = [...inputList, newInputItem];
+    // setNewInput(newInputItem);
+    console.log(inputList.map(item=> (item.input)));
+    setInputList(newArray);
   }
   return (
     <main className='flex flex-col items-center justify-center mt-16'>
@@ -41,27 +65,13 @@ const NewCalculation = () => {
           </div>
 
           {/* LIST OF INPUTS  */}
-          <div className="flex items-center justify-between">
-            <input className='w-[100px] border-gray-300 outline-none rounded-md' id="small" type="text" placeholder='Module'/>
-            <Select defaultValue="A+" className='w-[70px]' id="semester" required>
-              <option>A+</option>
-              <option>A</option>
-              <option>A-</option>
-              <option>B+</option>
-              <option>B</option>
-              <option>B-</option>
-              <option>C+</option>
-              <option>C</option>
-              <option>C-</option>
-              <option>D</option>
-              <option>E</option>
-              <option>F</option>
-            </Select>
-            <Select className='cursor-pointer w-[70px]' id="semester" defaultValue="2" required>
-              <option>2</option>
-              <option>3</option>
-            </Select>
-          </div>
+
+          {inputList.map(item=> 
+            <div className="flex items-center justify-between mt-8" key={item.id}>
+              {item.input}
+            </div>
+          )}
+
         </div>
       </form>
       <div className="flex items-center justify-between m-1 w-[300px]">
