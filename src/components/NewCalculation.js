@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-"use client";
+import React, { useState } from "react";
+
 import { Label, Select } from "flowbite-react";
 const NewCalculation = () => {
   const [inputList, setInputList] = useState([{
@@ -37,9 +37,8 @@ const NewCalculation = () => {
 
   const addNewItem = ()=>{
     const id = inputList.length ? inputList[inputList.length - 1].id + 1 : 1;
-    const item = inputList[0].input;
-    console.log(item);
-    const newInputItem = {id, item};
+    const input = inputList[0].input;
+    const newInputItem = {id, input};
     console.log(newInputItem);
     const newArray = [...inputList, newInputItem];
     // setNewInput(newInputItem);

@@ -3,11 +3,10 @@ import profileImage from '../images/focus_studio-removebg-preview.png';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
-"use client";
 import { Drawer, Sidebar} from "flowbite-react";
 import unimakSM from '../images/unimak-sm.png';
 
-import { useState } from "react";
+
 
 const sidebar = ({isOpen, handleClose, setIsOpen}) => {
   // const [isOpen, setIsOpen] = useState(true);

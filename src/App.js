@@ -1,6 +1,5 @@
 import React from "react";
 import Header from "./components/Header";
-import SideBar from './components/SideBar';
 import DashBoard from "./components/DashBoard";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
