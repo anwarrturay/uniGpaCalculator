@@ -6,12 +6,7 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { Drawer, Sidebar} from "flowbite-react";
 import unimakSM from '../images/unimak-sm.png';
 
-
-
-const sidebar = ({isOpen, handleClose, setIsOpen}) => {
-  // const [isOpen, setIsOpen] = useState(true);
-
-  // const handleClose = () => setIsOpen(false);
+const sidebar = ({isOpen, handleClose}) => {
   return (
     <>
       <Drawer open={isOpen} onClose={handleClose}>

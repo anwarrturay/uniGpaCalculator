@@ -1,13 +1,28 @@
 import React, { useState } from "react";
-
 import { Label, Select } from "flowbite-react";
 const NewCalculation = () => {
+  const [mod, setModule] = useState("");
+  const [grade, setGrade] = useState("");
+  const [creditHrs, setCreditHrs] = useState("");
+  const [inputsValue, setInputsValue] = useState([
+    {id:1, module: "Golang", grade: "A+", creditHrs: "3"}
+  ]);
   const [inputList, setInputList] = useState([{
     id: 1,
     input: 
     <>
-    <input className='w-[100px] border-gray-300 outline-none rounded-md' id="small" type="text" placeholder='Module'/>
-    <Select defaultValue="A+" className='w-[70px]' id="semester" required>
+    <input 
+      className='w-[100px] border-gray-300 outline-none rounded-md' 
+      id="small" 
+      type="text"
+      onChange={(e)=> setModule(e.target.value)}
+      placeholder='Module'/>
+    <Select 
+      defaultValue="A+" 
+      className='w-[70px]' 
+      id="semester" 
+      onChange={(e)=> setGrade(e.target.value)}
+      required>
       <option>A+</option>
       <option>A</option>
       <option>A-</option>
@@ -21,30 +36,39 @@ const NewCalculation = () => {
       <option>E</option>
       <option>F</option>
     </Select>
-    <Select className='cursor-pointer w-[70px]' id="semester" defaultValue="2" required>
+    <Select 
+      className='cursor-pointer w-[70px]' 
+      id="semester" 
+      defaultValue="2" 
+      onChange={(e)=> setCreditHrs(e.target.value)}
+      required>)
       <option>2</option>
       <option>3</option>
     </Select>
     </>
   }]);
 
+  const handleInputValue = ()=>{
+    const id = inputsValue.length ? inputsValue[inputsValue.length -1].id + 1 : 1;
+    const inpValue = inputsValue.id === inputList.id ? {id, module: mod, grade, creditHrs} : '';
+    console.log(inpValue)
+    setInputsValue(inpValue);
+    console.log(inputsValue);
+  }
+
   const handleClick = (e)=>{
     e.preventDefault();
-    console.log("Clicked")
     addNewItem();
-    console.log(inputList.length);
   }
 
   const addNewItem = ()=>{
     const id = inputList.length ? inputList[inputList.length - 1].id + 1 : 1;
     const input = inputList[0].input;
     const newInputItem = {id, input};
-    console.log(newInputItem);
     const newArray = [...inputList, newInputItem];
-    // setNewInput(newInputItem);
-    console.log(inputList.map(item=> (item.input)));
     setInputList(newArray);
   }
+
   return (
     <main className='flex flex-col items-center justify-center mt-16'>
       <form action="" className='flex flex-col mt-4'>
@@ -64,7 +88,6 @@ const NewCalculation = () => {
           </div>
 
           {/* LIST OF INPUTS  */}
-
           {inputList.map(item=> 
             <div className="flex items-center justify-between mt-8" key={item.id}>
               {item.input}
@@ -74,7 +97,9 @@ const NewCalculation = () => {
         </div>
       </form>
       <div className="flex items-center justify-between m-1 w-[300px]">
-        <button className="bg-[#364AFF] px-4 py-2 text-base font-bold border-none cursor-pointer text-white mt-8 rounded-md">
+        <button 
+        className="bg-[#364AFF] px-4 py-2 text-base font-bold border-none cursor-pointer text-white mt-8 rounded-md"
+        onClick={handleInputValue}>
             Calculate
         </button>
         <button className="flex items-center justify-center ml-5 cursor-pointer" onClick={handleClick}>
