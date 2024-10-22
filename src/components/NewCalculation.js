@@ -51,9 +51,7 @@ const NewCalculation = () => {
   const handleInputValue = ()=>{
     const id = inputsValue.length ? inputsValue[inputsValue.length -1].id + 1 : 1;
     const inpValue = inputsValue.id === inputList.id ? {id, module: mod, grade, creditHrs} : '';
-    console.log(inpValue)
     setInputsValue(inpValue);
-    console.log(inputsValue);
   }
 
   const handleClick = (e)=>{
