@@ -1,114 +1,173 @@
-import React, { useState } from "react";
-import { Label, Select } from "flowbite-react";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { X, Plus } from "lucide-react"
+
 const NewCalculation = () => {
-  const [mod, setModule] = useState("");
-  const [grade, setGrade] = useState("");
-  const [creditHrs, setCreditHrs] = useState("");
-  const [inputsValue, setInputsValue] = useState([
-    {id:1, module: "Golang", grade: "A+", creditHrs: "3"}
-  ]);
-  const [inputList, setInputList] = useState([{
-    id: 1,
-    input: 
-    <>
-      <input 
-        className='w-[100px] border-gray-300 outline-none rounded-md xs:w-[170px] sm:w-[300px]' 
-        id="small" 
-        type="text"
-        onChange={(e)=> setModule(e.target.value)}
-        placeholder='Module'/>
-      <Select 
-        defaultValue="A+" 
-        className='w-[70px] xs:w-[75px] sm:ml-4' 
-        id="semester" 
-        onChange={(e)=> setGrade(e.target.value)}
-        required>
-        <option>A+</option>
-        <option>A</option>
-        <option>A-</option>
-        <option>B+</option>
-        <option>B</option>
-        <option>B-</option>
-        <option>C+</option>
-        <option>C</option>
-        <option>C-</option>
-        <option>D</option>
-        <option>E</option>
-        <option>F</option>
-      </Select>
-      <Select 
-        className='cursor-pointer w-[70px] xs:w-[75px] sm:ml-4' 
-        id="semester" 
-        defaultValue="2" 
-        onChange={(e)=> setCreditHrs(e.target.value)}
-        required>)
-        <option>2</option>
-        <option>3</option>
-      </Select>
-    </>
-  }]);
+    const [modules, setModules] = useState([
+        { module_name: '', marks: '', grade: '', credits: 2 }
+    ]);
+    // const [studentYear, setStudentYear] = useState(1);
+    // const [semester, setSemester] = useState(1);
+    const [gpa, setGPA] = useState(null);
 
-  const handleInputValue = ()=>{
-    const id = inputsValue.length ? inputsValue[inputsValue.length -1].id + 1 : 1;
-    const inpValue = inputsValue.id === inputList.id ? {id, module: mod, grade, creditHrs} : '';
-    setInputsValue(inpValue);
-  }
+    const getGradeFromMarks = (marks) => {
+        if (marks >= 90) return 'A+';
+        if (marks >= 86) return 'A';
+        if (marks >= 75) return 'A-';
+        if (marks >= 70) return 'B+';
+        if (marks >= 65) return 'B';
+        if (marks >= 60) return 'B-';
+        if (marks >= 50) return 'C+';
+        if (marks >= 46) return 'C';
+        if (marks >= 40) return 'C-';
+        if (marks >= 37) return 'D';
+        if (marks >= 35) return 'E';
+        return 'F';
+    };
+    
+    const handleChange = (index, event) => {
+        const values = [...modules];
+        if (event.target.name === 'marks') {
+            const marks = parseFloat(event.target.value);
+            values[index].marks = marks;
+            values[index].grade = marks ? getGradeFromMarks(marks) : '';
+        } else if (event.target.name === 'credits') {
+            // Ensure credits are converted to numbers
+            values[index].credits = parseInt(event.target.value, 10);
+        } else {
+            values[index][event.target.name] = event.target.value;
+        }
+        setModules(values);
+    };
 
-  const handleClick = (e)=>{
-    e.preventDefault();
-    addNewItem();
-  }
+    
+    const handleAddModule = () => {
+        setModules([...modules, { module_name: '', marks: '', grade: '', credits: 2 }]);
+    };
 
-  const addNewItem = ()=>{
-    const id = inputList.length ? inputList[inputList.length - 1].id + 1 : 1;
-    const input = inputList[0].input;
-    const newInputItem = {id, input};
-    const newArray = [...inputList, newInputItem];
-    setInputList(newArray);
-  }
+    const handleDeleteModule = (index) => {
+        const values = [...modules];
+        values.splice(index, 1);
+        setModules(values);
+    };
 
-  return (
-    <main className='flex flex-col items-center justify-center mt-16'>
-      <form action="" className='flex flex-col mt-4'>
-        <div className='font-medium text-xl text-center xs:text-2xl'>New Calculation</div>
-        <div className="max-w-md mt-2 xs:mt-6">
-          <div className="mb block">
-            <Label htmlFor="semesters" value="Select your Semester" />
-          </div>
-          <Select className='cursor-pointer w-[300px] xs:w-[400px] sm:w-[500px]' id="semester" required>
-            <option>Semester 1</option>
-            <option>Semester 2</option>
-          </Select>
-          <div className="flex items-center mt-2 font-medium justify-between">
-            <div>Module</div>
-            <div className="xs:relative xs:left-10 sm:left-28">Grade</div>
-            <div>Credit Hrs</div>
-          </div>
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/api/gpa/calculate', {
+                // student_year: studentYear,
+                // semester,
+                modules
+            });
+            setGPA(response.data.gpa);
+        } catch (error) {
+            console.error('Error calculating GPA:', error);
+            setGPA(null); // Reset the GPA to null in case of error
+        }
+    };
 
-          {/* LIST OF INPUTS  */}
-          {inputList.map(item=> 
-            <div className="flex items-center justify-between mt-3 " key={item.id}>
-              {item.input}
-            </div>
-          )}
-
+    return (
+        <div className="flex flex-col items-center justify-center relative top-24">
+            <h2 className='font-medium font-Montserrat text-2xl'>Semester 1</h2>
+            <form onSubmit={handleSubmit} >
+                {/* <div className="year-semester-section">
+                    <div>
+                        <label>Year:</label>
+                        <select 
+                            value={studentYear} 
+                            onChange={(e) => setStudentYear(parseInt(e.target.value))}
+                        >
+                            <option value={1}>1st Year</option>
+                            <option value={2}>2nd Year</option>
+                            <option value={3}>3rd Year</option>
+                            <option value={4}>4th Year</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Semester:</label>
+                        <select 
+                            value={semester} 
+                            onChange={(e) => setSemester(parseInt(e.target.value))}
+                        >
+                            <option value={1}>1st Semester</option>
+                            <option value={2}>2nd Semester</option>
+                        </select>
+                    </div>
+                </div> */}
+                {modules.map((module, index) => (
+                    <div key={index} className='flex items-center justify-center mt-3'>
+                        <input
+                            type="text"
+                            name="module_name"
+                            placeholder="Module Name"
+                            value={module.module_name}
+                            onChange={(event) => handleChange(index, event)}
+                            required
+                            className='w-[200px] border border-[#ccc] rounded-md ml-2 font-Montserrat motion-preset-pop motion-duration-1500'
+                        />
+                        {/* <input
+                            type="number"
+                            name="marks"
+                            placeholder="Marks (0-100)"
+                            value={module.marks}
+                            onChange={(event) => handleChange(index, event)}
+                            min="0"
+                            max="100"
+                            required
+                        /> */}
+                        <div className="grade-display">
+                            <select
+                                name="grade"
+                                value={module.grade}
+                                onChange={(event) => handleChange(index, event)}
+                                className='w-[50px] xs:w-[75px] mx-2 border border-[#ccc] rounded-md font-Montserrat motion-preset-pop motion-duration-1500'
+                            >
+                                <option value={''}></option>
+                                <option value={'A+'}>A+</option>
+                                <option value={'A'}>A</option>
+                                <option value={'A-'}>A-</option>
+                                <option value={'B+'}>B+</option>
+                                <option value={'B'}>B</option>
+                                <option value={'B-'}>B-</option>
+                                <option value={'C+'}>C+</option>
+                                <option value={'C'}>C</option>
+                                <option value={'C-'}>C-</option>
+                                <option value={'D'}>D</option>
+                                <option value={'E'}>E</option>
+                                <option value={'F'}>F</option>
+                            </select>
+                            {/* Grade: {module.grade} */}
+                        </div>
+                        <button 
+                            type="button" 
+                            className="bg-[#ff4444] rounded-full p-1.5 mr-2 motion-preset-pop motion-duration-1500"
+                            onClick={() => handleDeleteModule(index)}
+                        >
+                            <X className='font-bold text-xl text-white'/>
+                        </button>
+                    </div>
+                ))}
+                <div className="mt-5 flex flex-col items-center">
+                    <button 
+                        type="button" 
+                        onClick={handleAddModule}
+                        className='border-2 border-[#007bff] text-blue-500 p-2 mb-3 rounded-3xl'
+                    >
+                        <Plus />
+                    </button>
+                    <button 
+                        type="submit"
+                        className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'
+                    >Calculate GPA</button>
+                </div>
+            </form>
+            {gpa !== null && (
+                <div className="result">
+                    <h3>Your GPA: {gpa.toFixed(2)}</h3>
+                </div>
+            )}
         </div>
-      </form>
-      <div className="flex items-center justify-between m-1 w-[300px]">
-        <button 
-        className="bg-[#364AFF] px-4 py-2 text-base font-bold border-none cursor-pointer text-white mt-8 rounded-md xs:relative xs:right-16 xs:ml-4 sm:right-20"
-        onClick={handleInputValue}>
-            Calculate
-        </button>
-        <button className="flex items-center justify-center ml-5 cursor-pointer xs:relative xs:left-14 sm:left-20" onClick={handleClick}>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10 text-[#364AFF] relative top-4 xs:size-12">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-          </svg>
-        </button>
-      </div>
-    </main>
-  )
-}
+    );
+};
 
-export default NewCalculation
-
+export default NewCalculation;

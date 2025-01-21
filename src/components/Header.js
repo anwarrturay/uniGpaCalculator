@@ -28,7 +28,7 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
               </svg>
-              <div className='font-medium text-[19px] xs:text-2xl'>Back</div>
+              <div className='font-medium text-[19px] xs:text-xl'>Back</div>
             </div>
           </Link>
         }
@@ -54,9 +54,9 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
               DashBoard
             </div>
           :
-            <div className='font-[500] flex items-center justify-center text-xl mr-3 xs:text-2xl lg:text-2xl'>
-              Add Modules
-            </div>
+            <Link to={'/'} className='font-[500] flex items-center border border-[#ccc] px-2 rounded-md justify-center text-xl mr-3 xs:text-xl lg:text-2xl'>
+              Profile
+            </Link>
         }
       </div>
     </div>
