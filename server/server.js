@@ -2,12 +2,13 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import gpaRoutes from "./routes/gpaRoutes.js";
 // import './config/dbConn';
 
 const PORT = 5000 || process.env.PORT;
+const app = express();
 dotenv.config();
 app.use(bodyParser());
-const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/api/gpa', gpaRoutes);
