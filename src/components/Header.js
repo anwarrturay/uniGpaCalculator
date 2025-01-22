@@ -24,7 +24,7 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
         }
         {location.pathname === '/newcalculation' && 
           <Link to={'/studentdashboard'}>
-            <div className='flex items-center'>
+            <div className='flex items-center font-Montserrat'>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
               </svg>
@@ -50,11 +50,11 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
         { location.pathname === '/studentdashboard' && <SideBar isOpen={isOpen} setIsOpen={setIsOpen} handleClose={handleClose}/>}
 
         {location.pathname === '/studentdashboard' ? 
-            <div className='font-[500] flex items-center justify-center text-xl text-center mr-3 xs:text-3xl'>
+            <div className='font-[500] font-Montserrat flex items-center justify-center text-xl text-center mr-3 xs:text-3xl'>
               DashBoard
             </div>
           :
-            <Link to={'/'} className='font-[500] flex items-center border border-[#ccc] px-2 rounded-md justify-center text-xl mr-3 xs:text-xl lg:text-2xl'>
+            <Link to={'/'} className='font-[500] font-Montserrat flex items-center border border-[#ccc] px-2 rounded-md justify-center text-xl mr-3 xs:text-xl lg:text-2xl'>
               Profile
             </Link>
         }
