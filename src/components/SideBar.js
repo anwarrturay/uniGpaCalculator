@@ -13,7 +13,7 @@ const sidebar = ({isOpen, handleClose}) => {
         { isOpen &&
           <div className='flex items-center justify-start border-b-2'>
             <img src={unimakSM} alt="" className='w-[50px] h-[50px]'/>
-            <Drawer.Header title="University Of Makeni" titleIcon={() => <></>} className='text-center align-middle ml-2 text-lg'/>
+            <Drawer.Header title="University Of Makeni" titleIcon={() => <></>} className='text-center align-middle ml-2 text-lg font-Montserrat'/>
           </div>
         }
         <Drawer.Items>
@@ -26,7 +26,7 @@ const sidebar = ({isOpen, handleClose}) => {
                 <Sidebar.Items>
                   <Sidebar.ItemGroup>
                     <Sidebar.Item>
-                      <Link to={'/userprofile'}>
+                      <Link to={'/userprofile'} className='font-Montserrat'>
                         <div className='flex items-center justify-evenly cursor-pointer'>
                           <img src={profileImage} className='w-[50px] h-[50px]' alt="" />
                           <div>Anwarr O.B Turay</div>
@@ -36,7 +36,7 @@ const sidebar = ({isOpen, handleClose}) => {
                   </Sidebar.ItemGroup>
                   <Sidebar.ItemGroup>
                     <Sidebar.Item>
-                      <Link to={'/recent'} className='flex items-center justify-evenly cursor-pointer'>
+                      <Link to={'/recent'} className='flex items-center justify-evenly cursor-pointer font-Montserrat'>
                         <div className="flex items-center justify-center rounded-md hover:bg-[#c3c7f2] p-2.5">
                           <FontAwesomeIcon icon={faClock} className='text-3xl text-[#364AFF]'/>
                         </div>
@@ -53,7 +53,7 @@ const sidebar = ({isOpen, handleClose}) => {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /> 
                               </svg>
                             </div>
-                            <div className="text-black text-base ml-2">
+                            <div className="text-black text-base ml-2 font-Montserrat">
                                 New Calculation
                             </div>
                         </div>

@@ -21,9 +21,9 @@ function Signup() {
   };
 
   return (
-    <div className="flex flex-col relative top-32 xs:top-20 items-center justify-center bg-white drop-shadow-2xl shadow shadow-blue-300 w-[500px] xs:w-[350px] rounded-xl">
+    <div className="flex flex-col relative top-5 xs:top-20 items-center justify-center bg-white drop-shadow-2xl shadow shadow-blue-300 w-[500px] xs:w-[350px] rounded-xl">
       <h2 className='font-bold font-Montserrat mt-2 mb-3'>Student Registration</h2>
-      <form onSubmit={handleSubmit} className='flex flex-col p-5 mt-3'>
+      <form onSubmit={handleSubmit} className='flex flex-col p-5 mt-3 font-Montserrat'>
         <input
           type="text"
           placeholder="Firstname"
@@ -64,14 +64,44 @@ function Signup() {
           required
           className='mb-2 w-[300px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
         />
-        <input
+        {/* <input
           type="text"
           placeholder="Department"
           value={formData.department}
           onChange={(e) => setFormData({ ...formData, department: e.target.value })}
           required
           className='mb-2 w-[300px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
-        />
+        /> */}
+        <select
+          value={formData.department}
+          onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+          required
+          className='mb-2 w-[300px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
+        >
+          <option value="" disabled>
+           Select Department
+          </option>
+          <option value="Computer Science">Computer Science</option>
+          <option value="Agriculture">Agriculture</option>
+          <option value="Law">Law</option>
+          <option value="Public Health">Public Health</option>
+          <option value="Political Science">Political Science</option>
+          <option value="Acccounting && Finance">Acccounting && Finance</option>
+          <option value="Business Administration && Mgt">Business Administration && Mgt</option>
+          <option value="Public Administration && Mgt">Public Administration && Mgt</option>
+          <option value="Development studies">Development studies</option>
+          <option value="Human Resource Mgt.">Human Resource Mgt.</option>
+          <option value="Procurement Logistics && supply chain Mgt.">Procurement Logistics && supply chain Mgt.</option>
+          <option value="Education">Education</option>
+          <option value="Philosophy">Philosophy</option>
+          <option value="Religious Studies">Religious Studies</option>
+          <option value="Nursing">Nursing</option>
+          <option value="Economics">Economics</option>
+          <option value="Social Work">Social Work</option>
+          <option value="Clinical Psychology">Clinical Psychology</option>
+          <option value="Special Needs Education">Special Needs Education</option>
+        </select>
+
         <select
           value={formData.year}
           onChange={(e) => setFormData({ ...formData, year: e.target.value })}

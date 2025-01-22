@@ -6,16 +6,17 @@ import dotenv from 'dotenv';
 
 const PORT = 5000 || process.env.PORT;
 dotenv.config();
+app.use(bodyParser());
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/api/gpa', gpaRoutes);
 
 // API route for login
-app.post('/signup', (req, res) => {
-  const { email, password } = req.body;
+app.post('/', (req, res) => {
+  const { idNumber, password } = req.body;
   const query = 'SELECT * FROM login WHERE email = ? AND password = ?';
-  db.query(query, [email, password], (err, results) => {
+  db.query(query, [idNumber, password], (err, results) => {
     if (err) {
       console.error('Error during login:', err);
       res.status(500).send({ message: 'Internal server error' });
@@ -29,14 +30,14 @@ app.post('/signup', (req, res) => {
 
 // API route for signup
 app.post('/signup', (req, res) => {
-  const { firstname, lastname, email, password, department, year } = req.body;
+  const { firstname, lastname, email, idNumber, password, department, year } = req.body;
 
-  if (!firstname || !lastname || !email || !password || !department || !year) {
+  if (!firstname || !lastname || !email || idNumber || !password || !department || !year) {
     return res.status(400).send({ message: 'All fields are required' });
   }
 
-  const query = 'INSERT INTO signup (firstname, lastname, email, password, department, year) VALUES (?, ?, ?, ?, ?, ?)';
-  db.query(query, [firstname, lastname, email, password, department, year], (err, results) => {
+  const query = 'INSERT INTO signup (firstname, lastname, email, idNumber, password, department, year) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  db.query(query, [firstname, lastname, email, idNumber, password, department, year], (err, results) => {
     if (err) {
       console.error('Error during signup:', err);
       res.status(500).send({ message: 'Internal server error' });

@@ -68,8 +68,8 @@ const NewCalculation = () => {
 
     return (
         <div className="flex flex-col items-center justify-center relative top-24">
-            <h2 className='font-medium font-Montserrat text-2xl'>Semester 1</h2>
-            <form onSubmit={handleSubmit} >
+            <h2 className='font-medium font-Montserrat text-xl'>Semester 1</h2>
+            <form onSubmit={handleSubmit}>
                 {/* <div className="year-semester-section">
                     <div>
                         <label>Year:</label>
@@ -94,17 +94,25 @@ const NewCalculation = () => {
                         </select>
                     </div>
                 </div> */}
+                <div className="flex justify-evenly font-Montserrat mt-3">
+                    <div className='font-medium'>Module</div>
+                    <div className='font-medium'>Grade</div>
+                    <div className='font-medium'>Credit Hrs</div>
+                </div>
                 {modules.map((module, index) => (
-                    <div key={index} className='flex items-center justify-center mt-3'>
-                        <input
-                            type="text"
-                            name="module_name"
-                            placeholder="Module Name"
-                            value={module.module_name}
-                            onChange={(event) => handleChange(index, event)}
-                            required
-                            className='w-[200px] border border-[#ccc] rounded-md ml-2 font-Montserrat motion-preset-pop motion-duration-1500'
-                        />
+                    <div key={index} className='flex items-center justify-center mt-3 font-Montserrat'>
+                        <div className='flex flex-col'>
+                            <input
+                                id='module_name'
+                                type="text"
+                                name="module_name"
+                                placeholder="Module Name"
+                                value={module.module_name}
+                                onChange={(event) => handleChange(index, event)}
+                                required
+                                className='w-[150px] border border-[#ccc] rounded-md ml-4 xs:ml-1 font-Montserrat motion-preset-pop motion-duration-1000'
+                            />
+                        </div>
                         {/* <input
                             type="number"
                             name="marks"
@@ -115,12 +123,13 @@ const NewCalculation = () => {
                             max="100"
                             required
                         /> */}
-                        <div className="grade-display">
+                        <div className="flex flex-col">
+                            
                             <select
                                 name="grade"
                                 value={module.grade}
                                 onChange={(event) => handleChange(index, event)}
-                                className='w-[50px] xs:w-[75px] mx-2 border border-[#ccc] rounded-md font-Montserrat motion-preset-pop motion-duration-1500'
+                                className='w-[50px] xs:w-[75px] mx-2 border border-[#ccc] rounded-md font-Montserrat motion-preset-pop motion-duration-1000'
                             >
                                 <option value={''}></option>
                                 <option value={'A+'}>A+</option>
@@ -138,13 +147,20 @@ const NewCalculation = () => {
                             </select>
                             {/* Grade: {module.grade} */}
                         </div>
+                        <div className='flex flex-col'>
+                            <select name="" id="" className='w-[50px] xs:w-[65px] border border-[#ccc] rounded-md motion-preset-pop motion-duration-1000'>
+                                <option value={2}>2</option>
+                                <option value={3}>3</option>
+                            </select>
+                        </div>
                         <button 
                             type="button" 
-                            className="bg-[#ff4444] rounded-full p-1.5 mr-2 motion-preset-pop motion-duration-1500"
+                            className="bg-[#ff4444] rounded-full p-1.5 mx-2 motion-preset-pop motion-duration-1500"
                             onClick={() => handleDeleteModule(index)}
                         >
                             <X className='font-bold text-xl text-white'/>
                         </button>
+                        
                     </div>
                 ))}
                 <div className="mt-5 flex flex-col items-center">
