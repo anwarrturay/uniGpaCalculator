@@ -46,8 +46,10 @@ const NewCalculation = () => {
     };
 
     const handleDeleteModule = (index) => {
-        const values = [...modules];
-        values.splice(index, 1);
+        const values = [...modules]; 
+        if(values.length > 1){
+            values.splice(index, 1);
+        }
         setModules(values);
     };
 
@@ -94,10 +96,10 @@ const NewCalculation = () => {
                         </select>
                     </div>
                 </div> */}
-                <div className="flex justify-evenly font-Montserrat mt-3">
+                <div className="flex items-center justify-evenly font-Montserrat mt-3">
                     <div className='font-medium'>Module</div>
-                    <div className='font-medium'>Grade</div>
-                    <div className='font-medium'>Credit Hrs</div>
+                    <div className='font-medium relative xs:left-10 sm:left-24 md:left-28'>Grade</div>
+                    <div className='font-medium relative xs:left-5 sm:left-10 md:left-12'>Credit Hrs</div>
                 </div>
                 {modules.map((module, index) => (
                     <div key={index} className='flex items-center justify-center mt-3 font-Montserrat'>
@@ -110,7 +112,7 @@ const NewCalculation = () => {
                                 value={module.module_name}
                                 onChange={(event) => handleChange(index, event)}
                                 required
-                                className='w-[150px] border border-[#ccc] rounded-md ml-4 xs:ml-1 font-Montserrat motion-preset-pop motion-duration-1000'
+                                className='w-[150px] xs:w-[200px] sm:w-[300px] md:w-[330px] border border-[#ccc] rounded-md ml-4 xs:ml-1 font-Montserrat motion-preset-pop motion-duration-1000'
                             />
                         </div>
                         {/* <input
@@ -129,9 +131,9 @@ const NewCalculation = () => {
                                 name="grade"
                                 value={module.grade}
                                 onChange={(event) => handleChange(index, event)}
-                                className='w-[50px] xs:w-[75px] mx-2 border border-[#ccc] rounded-md font-Montserrat motion-preset-pop motion-duration-1000'
+                                className='w-[75px] xs:w-[75px] mx-2 border border-[#ccc] rounded-md font-Montserrat motion-preset-pop motion-duration-1000'
                             >
-                                <option value={''}></option>
+                                {/* <option value={''}></option> */}
                                 <option value={'A+'}>A+</option>
                                 <option value={'A'}>A</option>
                                 <option value={'A-'}>A-</option>
@@ -148,7 +150,7 @@ const NewCalculation = () => {
                             {/* Grade: {module.grade} */}
                         </div>
                         <div className='flex flex-col'>
-                            <select name="" id="" className='w-[50px] xs:w-[65px] border border-[#ccc] rounded-md motion-preset-pop motion-duration-1000'>
+                            <select name="" id="" className='w-[70px] xs:w-[65px] border border-[#ccc] rounded-md motion-preset-pop motion-duration-1000'>
                                 <option value={2}>2</option>
                                 <option value={3}>3</option>
                             </select>
@@ -167,7 +169,7 @@ const NewCalculation = () => {
                     <button 
                         type="button" 
                         onClick={handleAddModule}
-                        className='border-2 border-[#007bff] text-blue-500 p-2 mb-3 rounded-3xl'
+                        className='bg-[#c3c7f2] text-blue-500 p-2 mb-3 rounded-3xl'
                     >
                         <Plus />
                     </button>
