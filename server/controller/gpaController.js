@@ -1,19 +1,19 @@
 import {gpaRecord} from '../models/gpaRecord.js';
 
-const getGradeFromMarks = (marks) => {
-    if (marks >= 90) return 'A+';
-    if (marks >= 86) return 'A';
-    if (marks >= 75) return 'A-';
-    if (marks >= 70) return 'B+';
-    if (marks >= 65) return 'B';
-    if (marks >= 60) return 'B-';
-    if (marks >= 50) return 'C+';
-    if (marks >= 46) return 'C';
-    if (marks >= 40) return 'C-';
-    if (marks >= 37) return 'D';
-    if (marks >= 35) return 'E';
-    return 'F';
-};
+const getGradeFromMarks = (grade) => grade;
+//     if (marks >= 90) return 'A+';
+//     if (marks >= 86) return 'A';
+//     if (marks >= 75) return 'A-';
+//     if (marks >= 70) return 'B+';
+//     if (marks >= 65) return 'B';
+//     if (marks >= 60) return 'B-';
+//     if (marks >= 50) return 'C+';
+//     if (marks >= 46) return 'C';
+//     if (marks >= 40) return 'C-';
+//     if (marks >= 37) return 'D';
+//     if (marks >= 35) return 'E';
+//     return 'F';
+// };
                                                    
 const getGradePoints = (grade, credits) => {
     let basePoints;
@@ -39,6 +39,7 @@ const getGradePoints = (grade, credits) => {
 
 export const calculateGPA = (req, res) => {
     const { student_year, semester, modules } = req.body;
+    const { selectedSemester } = req.query;
 
     let totalPoints = 0;
     let totalWeightedCredits = 0;
@@ -73,3 +74,28 @@ export const calculateGPA = (req, res) => {
     res.json({ gpa: roundedGPA });
 };
 
+export const saveCalculation = async (req, res) => {
+  try {
+    const { student_year, semester, modules } = req.body;
+
+    // Save the calculation to the database
+    await Promise.all(
+      modules.map((module) =>
+        gpaRecord.createRecord(
+          student_year,
+          semester,
+          module.module_name,
+          module.grade,
+          module.credits,
+          getGradePoints(module.grade, module.credits),
+          () => {}
+        )
+      )
+    );
+
+    res.json({ message: 'Calculation saved successfully' });
+  } catch (error) {
+    console.error('Error saving calculation:', error);
+    res.status(500).json({ message: 'Error saving calculation' });
+  }
+};
