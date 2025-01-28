@@ -26,7 +26,7 @@ const sidebar = ({isOpen, handleClose}) => {
                 <Sidebar.Items>
                   <Sidebar.ItemGroup>
                     <Sidebar.Item>
-                      <Link to={'/userprofile'} className='font-Montserrat'>
+                      <Link to={'/profile'} className='font-Montserrat'>
                         <div className='flex items-center justify-evenly cursor-pointer'>
                           <img src={profileImage} className='w-[50px] h-[50px]' alt="" />
                           <div>Anwarr O.B Turay</div>

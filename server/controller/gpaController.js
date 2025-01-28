@@ -1,4 +1,4 @@
-import {gpaRecord} from '../models/gpaRecord.js';
+import { gpaRecord } from '../models/gpaRecord.js';
 
 const getGradeFromMarks = (marks) => {
     if (marks >= 90) return 'A+';

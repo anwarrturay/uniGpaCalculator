@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
+import axios from 'axios';
+import Success from './utils/Success';
+import Failure from './utils/Failure';
 function Signup() {
   const [formData, setFormData] = useState({
-    firstname: '',
-    lastname: '',
+    first_name: '',
+    last_name: '',
     email: '',
-    idNumber: '',
+    id_number: '',
     year: '',
     password: '',
     department: '',
+    Image: ''
   });
   // getting the password value from the formData obj.
+  const [success, setSuccess] = useState(false)
+  const [status, setStatus] = useState(false)
+  let display = status === true ? "flex" : "hidden";
   const { password } = formData;
 
   const [showPassword, setShowPassword] = useState(false);
@@ -22,30 +29,54 @@ function Signup() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    console.log("form submitted");
     e.preventDefault();
-    // API call to register the user
-    // On success:
-    navigate('/home');
+    try{
+      const response = await axios.post("http://localhost:5000/register", formData, {
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await response.data;
+      console.log(data);
+      setStatus(true);
+      setSuccess(true);
+      navigate('/studentdashboard'); 
+      setFormData({
+        first_name: '',
+        last_name: '',
+        email: '',
+        id_number: '',
+        level: '',
+        password: '',
+        department: '',
+        image: '',
+      });
+    }catch(err){
+      console.error("Error registering user:", err);
+      setStatus(true);
+      setSuccess(false);
+    }
+    
   };
 
   return (
-    <div className="flex flex-col relative top-24 xs:top-20 xl:top-10 items-center justify-center bg-white drop-shadow-2xl shadow shadow-blue-300 w-[370px] xs:w-[400px] sm:w-[450px] rounded-md">
+    <div className="flex flex-col relative top-8 xs:top-20 xl:top-10 items-center justify-center bg-white drop-shadow-2xl shadow shadow-blue-300 w-[370px] xs:w-[400px] sm:w-[450px] rounded-md">
       <h2 className='font-bold font-Montserrat text-xl mt-4 mb-3'>Student Registration</h2>
+      <div className={`${display}`}>{success ? <Success /> : <Failure />}</div>
       <form onSubmit={handleSubmit} className='flex flex-col p-5 mt-3 font-Montserrat'>
         <input
           type="text"
           placeholder="Firstname"
-          value={formData.firstname}
-          onChange={(e) => setFormData({ ...formData, firstname: e.target.value })}
+          value={formData.first_name}
+          onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
           required
           className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
         />
         <input
           type="text"
           placeholder="Lastname"
-          value={formData.lastname}
-          onChange={(e) => setFormData({ ...formData, lastname: e.target.value })}
+          value={formData.last_name}
+          onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
           required
           className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
         />
@@ -60,8 +91,8 @@ function Signup() {
         <input
           type="text"
           placeholder="ID Number"
-          value={formData.idNumber}
-          onChange={(e) => setFormData({ ...formData, idNumber: e.target.value })}
+          value={formData.id_number}
+          onChange={(e) => setFormData({ ...formData, id_number: e.target.value })}
           required
           className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
         />
@@ -84,14 +115,6 @@ function Signup() {
             </button>
           }
         </div>
-        {/* <input
-          type="text"
-          placeholder="Department"
-          value={formData.department}
-          onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-          required
-          className='mb-2 w-[300px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
-        /> */}
         <select
           value={formData.department}
           onChange={(e) => setFormData({ ...formData, department: e.target.value })}
@@ -123,8 +146,8 @@ function Signup() {
         </select>
 
         <select
-          value={formData.year}
-          onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+          value={formData.level}
+          onChange={(e) => setFormData({ ...formData, level: e.target.value })}
           required
           className='mb-2 w-[300px] xs:w-[330px] border border-[#ccc] sm:w-[360px] rounded-md focus:ring-2 focus:ring-blue-500'
         >
@@ -136,8 +159,26 @@ function Signup() {
           <option value="Year 3">Year 3</option>
           <option value="Year 4">Year 4</option>
         </select>
+        <input 
+          type="file" 
+          onChange={(e) => {
+            const file = e.target.files[0];
+            if (file) {
+              if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                alert('File size exceeds the 5MB limit');
+                return;
+              }
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                setFormData({ ...formData, image: reader.result });
+              };
+              reader.readAsDataURL(file);
+            }
+          }}
+          className='mb-2 w-[300px] xs:w-[330px] border border-[#ccc] sm:w-[360px] rounded-md'
+        />
 
-        <Link to={'/studentdashboard'} type="submit" className='bg-blue-500 py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center'>SIGN UP</Link>
+        <button type="submit" className='bg-blue-500 py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center'>SIGN UP</button>
       </form>
       <p className='font-Montserrat mb-3 text-lg'>
         Already have an account?{' '}
