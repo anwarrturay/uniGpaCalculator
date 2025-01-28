@@ -178,7 +178,7 @@ function Signup() {
           className='mb-2 w-[300px] xs:w-[330px] border border-[#ccc] sm:w-[360px] rounded-md'
         />
 
-        <button type="submit" className='bg-blue-500 py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center'>SIGN UP</button>
+        <Link to={'/studentdashboard'} type="submit" className='bg-blue-500 py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center'>SIGN UP</Link>
       </form>
       <p className='font-Montserrat mb-3 text-lg'>
         Already have an account?{' '}
