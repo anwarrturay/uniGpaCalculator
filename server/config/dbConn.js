@@ -3,7 +3,7 @@ import dotenv from "dotenv"
 
 dotenv.config();
 // MySQL connection
-const db = mysql2.createConnection({
+const dbConn = mysql2.createConnection({
     host: 'localhost',
     user: 'root', // Replace with your MySQL username
     password: '', // Replace with your MySQL password
@@ -12,7 +12,7 @@ const db = mysql2.createConnection({
 });
   
   // Connect to MySQL database
-    db.connect((err) => {
+    dbConn.connect((err) => {
     if (err) {
         console.error('Database connection error:', err);
     } else {

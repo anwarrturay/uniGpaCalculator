@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import gpaRoutes from "./routes/gpaRoutes.js";
+import dbConn from './config/dbConn.js';
 // import './config/dbConn';
 
 const PORT = 5000 || process.env.PORT;
@@ -17,7 +18,7 @@ app.use('/api/gpa', gpaRoutes);
 app.post('/', (req, res) => {
   const { idNumber, password } = req.body;
   const query = 'SELECT * FROM login WHERE email = ? AND password = ?';
-  db.query(query, [idNumber, password], (err, results) => {
+  dbConn.query(query, [idNumber, password], (err, results) => {
     if (err) {
       console.error('Error during login:', err);
       res.status(500).send({ message: 'Internal server error' });
@@ -38,7 +39,7 @@ app.post('/signup', (req, res) => {
   }
 
   const query = 'INSERT INTO signup (firstname, lastname, email, idNumber, password, department, year) VALUES (?, ?, ?, ?, ?, ?, ?)';
-  db.query(query, [firstname, lastname, email, idNumber, password, department, year], (err, results) => {
+  dbConn.query(query, [firstname, lastname, email, idNumber, password, department, year], (err, results) => {
     if (err) {
       console.error('Error during signup:', err);
       res.status(500).send({ message: 'Internal server error' });
