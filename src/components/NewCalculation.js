@@ -1,16 +1,21 @@
-import React, { useState, useEffect } from "react";
-"use client";
 import { Label, Select } from "flowbite-react";
+import React, { useState, useEffect } from "react";
+"use client"
+
+
 
 const NewCalculation = () => {
   const [selectedSemester, setSelectedSemester] = useState('1');
   const [hasBothSemesters, setHasBothSemesters] = useState(false);
+  const [modules, setModules] = useState([
+    { module_name: '', grade: 'A+', credits: 2 }
+  ]);
   const [inputList, setInputList] = useState([{
     id: 1,
     input: 
     <>
-    <input className='w-[100px] border-gray-300 outline-none rounded-md' id="small" type="text" placeholder='Module'/>
-    <Select defaultValue="A+" className='w-[70px]' id="grade" required>
+    <input className='w-[100px] border-gray-300 outline-none rounded-md' id="small" type="text" placeholder='Module' onChange={(e) => handleModuleChange(0, 'module_name', e.target.value)}/>
+    <Select defaultValue="A+" className='w-[70px]' id="grade" required onChange={(e) => handleModuleChange(0, 'grade', e.target.value)}>
       <option>A+</option>
       <option>A</option>
       <option>A-</option>
@@ -24,33 +29,87 @@ const NewCalculation = () => {
       <option>E</option>
       <option>F</option>
     </Select>
-    <Select className='cursor-pointer w-[70px]' id="semester" defaultValue="2" required>
+    <Select className='cursor-pointer w-[70px]' id="semester" defaultValue="2" required onChange={(e) => handleModuleChange(0, 'credits', parseInt(e.target.value))}>
       <option>2</option>
       <option>3</option>
     </Select>
     </>
   }]);
 
-  const handleClick = (e)=>{
+  const handleModuleChange = (index, field, value) => {
+    const updatedModules = [...modules];
+    updatedModules[index] = {
+      ...updatedModules[index],
+      [field]: value
+    };
+    setModules(updatedModules);
+  };
+
+  const handleClick = (e) => {
     e.preventDefault();
-    console.log("Clicked")
     addNewItem();
-    console.log(inputList.length);
-  }
+    setModules([...modules, { module_name: '', grade: 'A+', credits: 2 }]);
+  };
+
 
   const handleSemesterChange = (e) => {
     setSelectedSemester(e.target.value);
   };
 
-  const addNewItem = ()=>{
+  // const addNewItem = ()=>{
+  //   const id = inputList.length ? inputList[inputList.length - 1].id + 1 : 1;
+  //   const item = inputList[0].input;
+  //   console.log(item);
+  //   const newInputItem = {id, item};
+  //   console.log(newInputItem);
+  //   const newArray = [...inputList, newInputItem];
+  //   setInputList(newArray);
+  // }
+  const addNewItem = () => {
     const id = inputList.length ? inputList[inputList.length - 1].id + 1 : 1;
-    const item = inputList[0].input;
-    console.log(item);
-    const newInputItem = {id, item};
-    console.log(newInputItem);
-    const newArray = [...inputList, newInputItem];
-    setInputList(newArray);
-  }
+    const newInput = (
+      <>
+        <input 
+          className='w-[100px] border-gray-300 outline-none rounded-md' 
+          type="text" 
+          placeholder='Module'
+          onChange={(e) => handleModuleChange(inputList.length, 'module_name', e.target.value)}
+        />
+        <Select 
+          defaultValue="A+" 
+          className='w-[70px]' 
+          required
+          onChange={(e) => handleModuleChange(inputList.length, 'grade', e.target.value)}
+        >
+          <option>A+</option>
+          <option>A</option>
+          <option>A-</option>
+          <option>B+</option>
+          <option>B</option>
+          <option>B-</option>
+          <option>C+</option>
+          <option>C</option>
+          <option>C-</option>
+          <option>D</option>
+          <option>E</option>
+          <option>F</option>
+        </Select>
+        <Select 
+          className='cursor-pointer w-[70px]' 
+          defaultValue="2" 
+          required
+          onChange={(e) => handleModuleChange(inputList.length, 'credits', parseInt(e.target.value))}
+        >
+          <option>2</option>
+          <option>3</option>
+        </Select>
+      </>
+    );
+  
+    const newInputItem = { id, input: newInput };
+    setInputList([...inputList, newInputItem]);
+  };
+
   const handleSaveCalculation = async () => {
     try {
       const response = await fetch('/api/gpa/save', {

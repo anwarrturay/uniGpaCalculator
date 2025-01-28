@@ -11,8 +11,13 @@ const dbConn = mysql2.createConnection({
     port: 3306, // Explicitly specify the port
 });
   
+<<<<<<< HEAD
+  // Connect to MySQL database
+    dbConn.connect((err) => {
+=======
 // Connect to MySQL database
 dbConn.connect((err) => {
+>>>>>>> 6757b83e68a4cc68e544ff83dcfdf5473e633d77
     if (err) {
         console.error('Database connection error:', err);
     } else {
