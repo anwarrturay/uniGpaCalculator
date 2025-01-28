@@ -6,6 +6,8 @@ import NewCalculation from "./components/NewCalculation";
 import StudentDashBoard from "./components/StudentDashBoard";
 import Login from "./components/Login";
 import Signup from "./components/SignUp";
+import UserProfile from "./components/UserProfile"
+import EditProfilePage from "./components/EditProfilePage";
 function App() {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -24,6 +26,10 @@ function App() {
             <NewCalculation />
           </>}
         />
+        <Route path="/profile">
+          <Route index element={<UserProfile />}></Route>
+          <Route path="/profile/edit" element={<EditProfilePage/>}></Route>
+        </Route>
       </Routes>
 
     </div>

@@ -3,3 +3,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.header{
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 70%, 0% 100%);
+  }
+
+body{
+  background-color: #d0d4ff;
+}
+
+.loading{
+  width: 3vw;
+  height: 3vw;
+  border-radius: 50%;
+  background-color: #747bff;
+  transform: translateX(-16vw);
+  position: relative;
+  animation: slide 1.5s ease infinite forwards;
+}
+
+.loading::before{
+  content: '';
+  width: 3vw;
+  height: 3vw;
+  border-radius: 50%;
+  background-color: #747bff;
+  position: absolute;
+  left: -4vw
+}
+
+.loading::after{
+  content: '';
+  width: 3vw;
+  height: 3vw;
+  border-radius: 50%;
+  background-color: #747bff;
+  position: absolute;
+  left: 4vw;
+}
+
+@keyframes slide {
+  from{
+    transform: translateX(-16vw);
+  }
+  to{
+    transform: translateX(16vw);
+  }
+}

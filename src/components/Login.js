@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
+import Success from './utils/Success';
+import Failure from './utils/Failure';
 
 function Login() {
-  const [IdNumber, setIdNumber] = useState('');
+  const [id_number, setIdNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
+  const [success, setSuccess] = useState(false)
+  const [status, setStatus] = useState(false)
+  let display = status === true ? "flex" : "hidden";
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -21,35 +25,34 @@ function Login() {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/login', {
+      const response = await axios.post('http://localhost:5000/', { id_number, password }, {
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ IdNumber, password }),
+        }
       });
 
       const data = await response.data;
+      console.log(data)
+      navigate('/studentdashboard');
+      setIdNumber("");
+      setPassword("")
 
-      if (response.ok) {
-        // On successful login, navigate to the Home page
-        navigate('/studentdashboard');
-      } else {
-        // Show error message from backend
-        setError(data.message || 'Invalid login credentials');
-      }
     } catch (err) {
       console.error('Error during login:', err);
       setError('An error occurred. Please try again later.');
+      setStatus(false);
+      setSuccess(false)
     }
   };
 
   return (
-    <div className="flex flex-col relative top-48 xs:top-48 xl:top-32 items-center justify-center bg-white drop-shadow-2xl shadow shadow-blue-300 w-[370px] h-[350px] xs:w-[400px] sm:w-[430px] md:w-[440px] rounded-md">
+    <div className="flex flex-col relative top-40 xs:top-48 xl:top-32 items-center justify-center bg-white drop-shadow-2xl shadow shadow-blue-300 w-[370px] h-[350px] xs:w-[400px] sm:w-[430px] md:w-[440px] rounded-md">
       <h2 className='font-bold font-Montserrat mt-3 text-xl'>WELCOME BACK</h2>
+      <div className={`${display}`}>{success ? <Success /> : <Failure />}</div>
       <form onSubmit={handleSubmit} className='flex flex-col p-5 mt-3 font-Montserrat'>
         <input
           type="number"
-          value={IdNumber}
+          value={id_number}
           onChange={(e) => setIdNumber(e.target.value)}
           placeholder="ID Number"
           required
@@ -77,7 +80,7 @@ function Login() {
           }
         </div>
 
-        <button type="submit" className='bg-blue-500 py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium'>LOGIN</button> 
+        <button type='submit' className='bg-blue-500 py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center'>LOGIN</button> 
         {error && <p className="error-message">{error}</p>}
       </form>
       <p className='font-Montserrat mb-3 text-lg'>
