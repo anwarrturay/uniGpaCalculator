@@ -1,19 +1,5 @@
 import { gpaRecord } from '../models/gpaRecord.js';
-
-const getGradeFromMarks = (grade) => grade;
-//     if (marks >= 90) return 'A+';
-//     if (marks >= 86) return 'A';
-//     if (marks >= 75) return 'A-';
-//     if (marks >= 70) return 'B+';
-//     if (marks >= 65) return 'B';
-//     if (marks >= 60) return 'B-';
-//     if (marks >= 50) return 'C+';
-//     if (marks >= 46) return 'C';
-//     if (marks >= 40) return 'C-';
-//     if (marks >= 37) return 'D';
-//     if (marks >= 35) return 'E';
-//     return 'F';
-// };
+import db from '../config/dbConn.js';
                                                    
 const getGradePoints = (grade, credits) => {
     let basePoints;
@@ -38,8 +24,7 @@ const getGradePoints = (grade, credits) => {
 };
 
 export const calculateGPA = (req, res) => {
-    const { student_year, semester, modules } = req.body;
-    const { selectedSemester } = req.query;
+    const { semester, modules } = req.body;
 
     let totalPoints = 0;
     let totalWeightedCredits = 0;
@@ -47,21 +32,21 @@ export const calculateGPA = (req, res) => {
     modules.forEach(module => {
         // Ensure credits are numbers
         const credits = parseInt(module.credits, 10);
-        const grade = module.grade || getGradeFromMarks(module.marks);
+        const grade = module.grade;
         const points = getGradePoints(grade, credits);
         
         totalPoints += points;
         totalWeightedCredits += credits;
 
         gpaRecord.createRecord(
-            student_year,
-            semester,
+            semester || 1, //default semester if not provided
             module.module_name,
-            module.marks,
             grade,
             credits,
             points,
-            () => {}
+            (err) => {
+                if (err) console.error('Error creating record:', err)
+            }
         );
     });
 
@@ -74,28 +59,31 @@ export const calculateGPA = (req, res) => {
     res.json({ gpa: roundedGPA });
 };
 
-export const saveCalculation = async (req, res) => {
-  try {
-    const { student_year, semester, modules } = req.body;
+export const saveGPA = async (req, res) => {
+    const { semester, gpa } = req.body;
+    
+    const sql = 'INSERT INTO semester_gpa (semester, gpa) VALUES (?, ?) ON DUPLICATE KEY UPDATE gpa = ?';
+    
+    db.query(sql, [semester, gpa, gpa], (err, result) => {
+        if (err) {
+            console.error('Error saving GPA:', err);
+            res.status(500).json({ error: 'Failed to save GPA' });
+            return;
+        }
+        res.json({ message: 'GPA saved successfully' });
+    });
+};
 
-    // Save the calculation to the database
-    await Promise.all(
-      modules.map((module) =>
-        gpaRecord.createRecord(
-          student_year,
-          semester,
-          module.module_name,
-          module.grade,
-          module.credits,
-          getGradePoints(module.grade, module.credits),
-          () => {}
-        )
-      )
-    );
-
-    res.json({ message: 'Calculation saved successfully' });
-  } catch (error) {
-    console.error('Error saving calculation:', error);
-    res.status(500).json({ message: 'Error saving calculation' });
-  }
+export const getCGPA = async (req, res) => {
+    const sql = 'SELECT AVG(gpa) as cgpa FROM semester_gpa';
+    
+    db.query(sql, (err, result) => {
+        if (err) {
+            console.error('Error calculating CGPA:', err);
+            res.status(500).json({ error: 'Failed to calculate CGPA' });
+            return;
+        }
+        const cgpa = result[0].cgpa || 0;
+        res.json({ cgpa: Math.round(cgpa * 100) / 100 });
+    });
 };
