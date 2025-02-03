@@ -2,8 +2,6 @@ import { Label, Select } from "flowbite-react";
 import React, { useState } from "react";
 // "use client"
 
-
-
 const NewCalculation = () => {
   const [selectedSemester, setSelectedSemester] = useState('1');
   const [hasBothSemesters, setHasBothSemesters] = useState(false);
@@ -51,7 +49,6 @@ const NewCalculation = () => {
     setModules([...modules, { module_name: '', grade: 'A+', credits: 2 }]);
   };
 
-
   const handleSemesterChange = (e) => {
     setSelectedSemester(e.target.value);
   };
@@ -65,6 +62,7 @@ const NewCalculation = () => {
   //   const newArray = [...inputList, newInputItem];
   //   setInputList(newArray);
   // }
+  
   const addNewItem = () => {
     const id = inputList.length ? inputList[inputList.length - 1].id + 1 : 1;
     const newInput = (
