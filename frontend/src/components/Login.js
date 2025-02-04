@@ -25,8 +25,7 @@ function Login() {
     setError('');
 
     try {
-      const response = await axios.post('uni-gpa-calculator-api.vercel.app
-/', { id_number, password }, {
+      const response = await axios.post('https://uni-gpa-calculator-api.onrender.com/', { id_number, password }, {
         headers: {
           'Content-Type': 'application/json',
         }
