@@ -33,7 +33,8 @@ function Signup() {
     console.log("form submitted");
     e.preventDefault();
     try{
-      const response = await axios.post("http://localhost:5000/register", formData, {
+      const response = await axios.post("uni-gpa-calculator-api.vercel.app
+/register", formData, {
         headers: { "Content-Type": "application/json" },
       });
       const data = await response.data;
