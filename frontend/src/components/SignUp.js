@@ -33,7 +33,7 @@ function Signup() {
     console.log("form submitted");
     e.preventDefault();
     try{
-      const response = await axios.post("uni-gpa-calculator-api.vercel.app
+      const response = await axios.post("https://uni-gpa-calculator-api.onrender.com
 /register", formData, {
         headers: { "Content-Type": "application/json" },
       });
