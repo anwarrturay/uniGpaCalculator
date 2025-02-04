@@ -19,8 +19,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: false }))
 app.use('/api/gpa', gpaRoutes);
 
 // API route for login
-app.post('uni-gpa-calculator-api.vercel.app
-/', (req, res) => {
+app.post('/', (req, res) => {
   const { idNumber, password } = req.body;
   const query = 'SELECT * FROM login WHERE email = ? AND password = ?';
   dbConn.query(query, [idNumber, password], (err, results) => {
@@ -36,8 +35,7 @@ app.post('uni-gpa-calculator-api.vercel.app
 });
 
 // API route for signup
-app.post('uni-gpa-calculator-api.vercel.app
-/register', async (req, res) => {
+app.post('/register', async (req, res) => {
   const { first_name, last_name, email, id_number, password, department, level, image } = req.body;
 
   try{
