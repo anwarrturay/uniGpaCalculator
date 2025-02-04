@@ -18,6 +18,7 @@ function Signup() {
   // getting the password value from the formData obj.
   const [success, setSuccess] = useState(false)
   const [status, setStatus] = useState(false)
+  const URL = "https://uni-gpa-calculator-api.onrender.com";
   let display = status === true ? "flex" : "hidden";
   const { password } = formData;
 
@@ -33,8 +34,7 @@ function Signup() {
     console.log("form submitted");
     e.preventDefault();
     try{
-      const response = await axios.post("https://uni-gpa-calculator-api.onrender.com
-/register", formData, {
+      const response = await axios.post(`${URL}/register`, formData, {
         headers: { "Content-Type": "application/json" },
       });
       const data = await response.data;

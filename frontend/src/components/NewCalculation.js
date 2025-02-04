@@ -39,10 +39,12 @@ const NewCalculation = () => {
         setSemesterModules(values);
     };
 
+    const URL = "https://uni-gpa-calculator-api.onrender.com";
+
     const handleCalculateGpa = async (semester, modules, setGPA) => {
         try {
-            const response = await axios.post('https://uni-gpa-calculator-api.onrender.com
-/api/gpa/calculate', {
+            const response = await axios.post(`${URL}/api/gpa/calculate`, 
+            {
                 semester,
                 modules
             });
@@ -55,8 +57,7 @@ const NewCalculation = () => {
 
     const handleSaveGPA = async (semester, gpa) => {
         try {
-            await axios.post('https://uni-gpa-calculator-api.onrender.com
-/api/gpa/save', {
+            await axios.post(`${URL}/api/gpa/save`, {
                 semester,
                 gpa
             });
