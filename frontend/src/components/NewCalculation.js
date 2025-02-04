@@ -137,7 +137,8 @@ const NewCalculation = () => {
 
     const handleCalculateGpa = async (semester, modules, setGPA) => {
         try {
-            const response = await axios.post('http://localhost:5000/api/gpa/calculate', {
+            const response = await axios.post('uni-gpa-calculator-api.vercel.app
+/api/gpa/calculate', {
                 semester,
                 modules
             });
@@ -150,7 +151,8 @@ const NewCalculation = () => {
 
     const handleSaveGPA = async (semester, gpa) => {
         try {
-            await axios.post('http://localhost:5000/api/gpa/save', {
+            await axios.post('uni-gpa-calculator-api.vercel.app
+/api/gpa/save', {
                 semester,
                 gpa
             });
