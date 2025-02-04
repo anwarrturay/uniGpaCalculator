@@ -1,3 +1,8 @@
+
+import { Label, Select } from "flowbite-react";
+import React, { useState } from "react";
+// "use client"
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import { X, Plus } from "lucide-react"
@@ -26,10 +31,101 @@ const NewCalculation = () => {
         setSemesterModules(values);
     };
 
+  
+    setModules(updatedModules);
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    addNewItem();
+    setModules([...modules, { module_name: '', grade: 'A+', credits: 2 }]);
+  };
+
+  const handleSemesterChange = (e) => {
+    setSelectedSemester(e.target.value);
+  };
+
+  // const addNewItem = ()=>{
+  //   const id = inputList.length ? inputList[inputList.length - 1].id + 1 : 1;
+  //   const item = inputList[0].input;
+  //   console.log(item);
+  //   const newInputItem = {id, item};
+  //   console.log(newInputItem);
+  //   const newArray = [...inputList, newInputItem];
+  //   setInputList(newArray);
+  // }
+  
+  const addNewItem = () => {
+    const id = inputList.length ? inputList[inputList.length - 1].id + 1 : 1;
+    const newInput = (
+      <>
+        <input 
+          className='w-[100px] border-gray-300 outline-none rounded-md' 
+          type="text" 
+          placeholder='Module'
+          onChange={(e) => handleModuleChange(inputList.length, 'module_name', e.target.value)}
+        />
+        <Select 
+          defaultValue="A+" 
+          className='w-[70px]' 
+          required
+          onChange={(e) => handleModuleChange(inputList.length, 'grade', e.target.value)}
+        >
+          <option>A+</option>
+          <option>A</option>
+          <option>A-</option>
+          <option>B+</option>
+          <option>B</option>
+          <option>B-</option>
+          <option>C+</option>
+          <option>C</option>
+          <option>C-</option>
+          <option>D</option>
+          <option>E</option>
+          <option>F</option>
+        </Select>
+        <Select 
+          className='cursor-pointer w-[70px]' 
+          defaultValue="2" 
+          required
+          onChange={(e) => handleModuleChange(inputList.length, 'credits', parseInt(e.target.value))}
+        >
+          <option>2</option>
+          <option>3</option>
+        </Select>
+      </>
+    );
+  
+    const newInputItem = { id, input: newInput };
+    setInputList([...inputList, newInputItem]);
+  };
+
+  const handleSaveCalculation = async () => {
+    try {
+      const response = await fetch('/api/gpa/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          student_year: '2023',
+          semester: selectedSemester,
+          modules,
+        }),
+      });
+      const data = await response.json();
+      console.log('Calculation saved successfully:', data);
+    } catch (error) {
+      console.error('Error saving calculation:', error);
+    }
+  };
+
+
     
     const handleAddModule = (semesterModules, setSemesterModules) => {
         setSemesterModules([...semesterModules, { module_name: '', grade: 'A+', credits: 2 }]);
     };
+
 
     const handleDeleteModule = (index, semesterModules, setSemesterModules) => {
         const values = [...semesterModules]; 
@@ -41,7 +137,8 @@ const NewCalculation = () => {
 
     const handleCalculateGpa = async (semester, modules, setGPA) => {
         try {
-            const response = await axios.post('http://localhost:5000/api/gpa/calculate', {
+            const response = await axios.post('uni-gpa-calculator-api.vercel.app
+/api/gpa/calculate', {
                 semester,
                 modules
             });
@@ -54,7 +151,8 @@ const NewCalculation = () => {
 
     const handleSaveGPA = async (semester, gpa) => {
         try {
-            await axios.post('http://localhost:5000/api/gpa/save', {
+            await axios.post('uni-gpa-calculator-api.vercel.app
+/api/gpa/save', {
                 semester,
                 gpa
             });
