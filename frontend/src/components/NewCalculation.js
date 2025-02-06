@@ -39,7 +39,7 @@ const NewCalculation = () => {
         setSemesterModules(values);
     };
 
-    const URL = "https://uni-gpa-calculator-api.onrender.com";
+    const URL = "https://unigpacalculator-api.onrender.com";
 
     const handleCalculateGpa = async (semester, modules, setGPA) => {
         try {

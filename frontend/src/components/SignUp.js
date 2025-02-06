@@ -18,7 +18,7 @@ function Signup() {
   // getting the password value from the formData obj.
   const [success, setSuccess] = useState(false)
   const [status, setStatus] = useState(false)
-  const URL = "https://uni-gpa-calculator-api.onrender.com";
+  const URL = "https://unigpacalculator-api.onrender.com";
   let display = status === true ? "flex" : "hidden";
   const { password } = formData;
 
@@ -179,7 +179,7 @@ function Signup() {
           className='mb-2 w-[300px] xs:w-[330px] border border-[#ccc] sm:w-[360px] rounded-md'
         />
 
-        <Link to={'/studentdashboard'} type="submit" className='bg-blue-500 py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center'>SIGN UP</Link>
+        <button type="submit" className='bg-blue-500 py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center'>SIGN UP</button>
       </form>
       <p className='font-Montserrat mb-3 text-lg'>
         Already have an account?{' '}
