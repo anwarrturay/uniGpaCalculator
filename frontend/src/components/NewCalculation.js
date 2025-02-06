@@ -72,7 +72,7 @@ const NewCalculation = () => {
 
     const renderSemester = (semester, modules, setModules, gpa, setGPA) => (
         <div className="mb-10">
-            <h2 className='font-medium font-Montserrat text-xl'>Semester {semester}</h2>
+            <h2 className='font-medium font-Montserrat text-xl ml-3'>Semester {semester}</h2>
                 <div className="flex items-center justify-evenly font-Montserrat mt-3">
                     <div className='font-medium'>Module</div>
                     <div className='font-medium relative xs:left-10 sm:left-24 md:left-28'>Grade</div>
