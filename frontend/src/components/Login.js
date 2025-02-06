@@ -6,7 +6,7 @@ import Success from './utils/Success';
 import Failure from './utils/Failure';
 
 function Login() {
-  const [id_number, setIdNumber] = useState('');
+  const [idNumber, setIdNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [success, setSuccess] = useState(false)
@@ -25,7 +25,7 @@ function Login() {
     setError('');
 
     try {
-      const response = await axios.post('https://unigpacalculator-api.onrender.com/auth', { id_number, password }, {
+      const response = await axios.post('https://unigpacalculator-api.onrender.com/auth', { idNumber, password }, {
         headers: {
           'Content-Type': 'application/json',
         }
@@ -51,7 +51,7 @@ function Login() {
       <form onSubmit={handleSubmit} className='flex flex-col p-5 mt-3 font-Montserrat'>
         <input
           type="number"
-          value={id_number}
+          value={idNumber}
           onChange={(e) => setIdNumber(e.target.value)}
           placeholder="ID Number"
           required

@@ -6,11 +6,11 @@ import Success from './utils/Success';
 import Failure from './utils/Failure';
 function Signup() {
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
+    firstname: '',
+    lastname: '',
     email: '',
-    id_number: '',
-    year: '',
+    idNumber: '',
+    level: '',
     password: '',
     department: '',
     Image: ''
@@ -43,10 +43,10 @@ function Signup() {
       setSuccess(true);
       navigate('/studentdashboard'); 
       setFormData({
-        first_name: '',
-        last_name: '',
+        firstname: '',
+        lastname: '',
         email: '',
-        id_number: '',
+        idNumber: '',
         level: '',
         password: '',
         department: '',
@@ -68,16 +68,16 @@ function Signup() {
         <input
           type="text"
           placeholder="Firstname"
-          value={formData.first_name}
-          onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
+          value={formData.firstname}
+          onChange={(e) => setFormData({ ...formData, firstname: e.target.value })}
           required
           className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
         />
         <input
           type="text"
           placeholder="Lastname"
-          value={formData.last_name}
-          onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
+          value={formData.lastname}
+          onChange={(e) => setFormData({ ...formData, lastname: e.target.value })}
           required
           className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
         />
@@ -92,8 +92,8 @@ function Signup() {
         <input
           type="text"
           placeholder="ID Number"
-          value={formData.id_number}
-          onChange={(e) => setFormData({ ...formData, id_number: e.target.value })}
+          value={formData.idNumber}
+          onChange={(e) => setFormData({ ...formData, idNumber: e.target.value })}
           required
           className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
         />
