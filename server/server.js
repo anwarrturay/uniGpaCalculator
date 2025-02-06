@@ -7,7 +7,7 @@ const auth = require("./routes/auth.js")
 const upload = require("./middleware/multerConfig.js")
 const connectDB = require("./config/dbConn.js");
 const corsOptions = require('./config/corsOptions.js');
-require('dotenv').config;
+require('dotenv').config();
 
 
 connectDB();
