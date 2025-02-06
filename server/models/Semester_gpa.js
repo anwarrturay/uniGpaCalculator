@@ -22,6 +22,7 @@ const gpaRecordSchema = new Schema({
         type: Number,
         required: true
     },
+ 
 })
 
 module.exports = mongoose.model("gpaRecord", gpaRecordSchema);
