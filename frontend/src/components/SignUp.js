@@ -13,7 +13,7 @@ function Signup() {
     level: '',
     password: '',
     department: '',
-    Image: ''
+    image: ''
   });
   // getting the password value from the formData obj.
   const [success, setSuccess] = useState(false)
