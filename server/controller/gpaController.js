@@ -1,5 +1,5 @@
-import { gpaRecord } from '../models/gpaRecord.js';
-import db from '../config/dbConn.js';
+const  gpaRecord =  require('../models/gpaRecord.js');
+const db = require('../config/dbConn.js')
                                                    
 const getGradePoints = (grade, credits) => {
     let basePoints;
@@ -23,7 +23,7 @@ const getGradePoints = (grade, credits) => {
     return basePoints * credits;
 };
 
-export const calculateGPA = (req, res) => {
+const calculateGPA = (req, res) => {
     const { semester, modules } = req.body;
 
     let totalPoints = 0;
@@ -59,7 +59,7 @@ export const calculateGPA = (req, res) => {
     res.json({ gpa: roundedGPA });
 };
 
-export const saveGPA = async (req, res) => {
+const saveGPA = async (req, res) => {
     const { semester, gpa } = req.body;
     
     const sql = 'INSERT INTO semester_gpa (semester, gpa) VALUES (?, ?) ON DUPLICATE KEY UPDATE gpa = ?';
@@ -74,7 +74,7 @@ export const saveGPA = async (req, res) => {
     });
 };
 
-export const getCGPA = async (req, res) => {
+const getCGPA = async (req, res) => {
     const sql = 'SELECT AVG(gpa) as cgpa FROM semester_gpa';
     
     db.query(sql, (err, result) => {
@@ -87,3 +87,11 @@ export const getCGPA = async (req, res) => {
         res.json({ cgpa: Math.round(cgpa * 100) / 100 });
     });
 };
+
+
+module.exports = {
+    saveGPA,
+    getCGPA,
+    calculateGPA,
+    getGradePoints
+}
