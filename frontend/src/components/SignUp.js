@@ -162,6 +162,7 @@ function Signup() {
         </select>
         <input 
           type="file" 
+          required
           onChange={(e) => {
             const file = e.target.files[0];
             if (file) {
