@@ -25,7 +25,7 @@ function Login() {
     setError('');
 
     try {
-      const response = await axios.post('https://unigpacalculator-api.onrender.com/', { id_number, password }, {
+      const response = await axios.post('https://unigpacalculator-api.onrender.com/auth', { id_number, password }, {
         headers: {
           'Content-Type': 'application/json',
         }
@@ -35,8 +35,7 @@ function Login() {
       console.log(data)
       navigate('/studentdashboard');
       setIdNumber("");
-      setPassword("")
-
+      setPassword("");
     } catch (err) {
       console.error('Error during login:', err);
       setError('An error occurred. Please try again later.');
