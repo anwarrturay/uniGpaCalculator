@@ -7,13 +7,16 @@ const auth = require("./routes/auth.js")
 const upload = require("./middleware/multerConfig.js")
 const connectDB = require("./config/dbConn.js");
 const corsOptions = require('./config/corsOptions.js');
+const credentials = require("./middleware/credentials.js")
 require('dotenv').config();
+const app = express();
 
 
 connectDB();
 
+app.use(credentials);
+
 const PORT = process.env.PORT || 5000;
-const app = express();
 
 
 app.use(cors(corsOptions));
