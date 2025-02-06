@@ -1,5 +1,5 @@
 const allowedOrigins = [
-    'http://localhost:3000'
+    'https://uni-gpa-calculator.onrender.com'
 ];
 
 module.exports = allowedOrigins;
