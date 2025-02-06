@@ -39,7 +39,6 @@ app.post('/register', async (req, res) => {
   const { first_name, last_name, email, id_number, password, department, level, image } = req.body;
 
   try{
-
     const query = `INSERT INTO registration (first_name, last_name, email, id_number, password, department, level, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
     dbConn.query(query, [first_name, last_name, email, id_number, encryptedPassword, department, level, image], (err, results) => {
       if (err) {

@@ -6,9 +6,9 @@ dotenv.config();
 const dbConn = mysql2.createConnection({
     host: 'localhost',
     user: 'root', // Replace with your MySQL username
-    password: '1234', // Replace with your MySQL password
-    database: 'cgpa_db', // Replace with your database name
-    port: 3306, // Explicitly specify the port
+    password: '', // Replace with your MySQL password
+    database: 'unigpa_db', // Replace with your database name
+    // port: 3306, // Explicitly specify the port
 });
 
 // Connect to MySQL database
