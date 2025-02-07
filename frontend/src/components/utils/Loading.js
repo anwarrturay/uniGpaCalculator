@@ -3,7 +3,7 @@ import { DataContext } from '../context/DataContext'
 import { useLocation } from 'react-router-dom';
 import { IoSadOutline } from 'react-icons/io5';
 
-const Loading = ({link}) => {
+const Loading = () => {
     const location = useLocation();
     const { networkError } = useContext(DataContext);
   

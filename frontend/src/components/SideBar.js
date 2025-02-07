@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { Drawer, Sidebar} from "flowbite-react";
 import unimakSM from '../images/unimak-sm.png';
-
+import { LogOut } from 'lucide-react';
 const sidebar = ({isOpen, handleClose}) => {
   return (
     <>
@@ -58,6 +58,21 @@ const sidebar = ({isOpen, handleClose}) => {
                             </div>
                         </div>
                       </Link>
+                    </Sidebar.Item>
+                  </Sidebar.ItemGroup>
+                  {/* LOGOUT SECTION */}
+                  <Sidebar.ItemGroup>
+                    <Sidebar.Item className='mt-10'>
+                        <Link to={'/'}>
+                            <div className="flex items-center justify-evenly cursor-pointer relative right-5">
+                                <div className='bg-[#c3c7f2] hover:bg-[#abb0ed] flex items-center justify-center p-2.5 rounded-md'>
+                                    <LogOut className='size-6 text-[#364AFF]'/>
+                                </div>
+                                <div className="text-black text-base ml-2 font-Montserrat">
+                                    Log Out
+                                </div>
+                            </div>
+                        </Link>
                     </Sidebar.Item>
                   </Sidebar.ItemGroup>
                 </Sidebar.Items>

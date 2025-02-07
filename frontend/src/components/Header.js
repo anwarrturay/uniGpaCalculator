@@ -5,7 +5,7 @@ import unimakSM from '../images/unimak-sm.png'
 import unimakXL from '../images/unimak-xl.png'
 import useWindowSize from '../hooks/useWindowSize';
 import { Link } from 'react-router-dom';
-
+import { History } from 'lucide-react';
 const Header = ({isOpen, setIsOpen, handleClose}) => {
   const location = useLocation();
   const { width } = useWindowSize();
@@ -54,8 +54,8 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
               DashBoard
             </div>
           :
-            <Link to={'/'} className='font-[500] font-Montserrat flex items-center border border-[#ccc] px-2 rounded-md justify-center text-xl mr-3 xs:text-xl lg:text-2xl'>
-              Profile
+            <Link to={'/recent'} className='font-[500] font-Montserrat flex items-center rounded-md justify-center text-xl mr-3 xs:text-xl lg:text-2xl bg-[#c3c7f2] hover:bg-[#abb0ed] p-2.5'>
+              <History className='text-2xl text-[#364AFF]'/>
             </Link>
         }
       </div>
