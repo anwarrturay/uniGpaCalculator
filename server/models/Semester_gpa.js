@@ -1,28 +1,16 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const gpaRecordSchema = new Schema({
+const semesterGpaSchema = new Schema({
     semester: {
-        type: String,
-        required: true
-    },
-    module_name: {
-        type: String,
-        required: true
-    },
-    grade: {
-        type: String,
-        required: true
-    },
-    creditHrs: {
         type: Number,
+        required: true,
+        unique: true
+    },
+    gpa: {
+        type: Float,
         required: true
     },
-    points: {
-        type: Number,
-        required: true
-    },
- 
 })
 
-module.exports = mongoose.model("gpaRecord", gpaRecordSchema);
+module.exports = mongoose.model("semester_gpa", semesterGpaSchema);

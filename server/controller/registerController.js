@@ -1,5 +1,20 @@
 const Registration = require("../models/Registration");
 const bcrypt = require('bcrypt');
+const multer = require("multer");
+const path = require("path");
+
+// Multer configuration for image upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Save uploaded files to the "uploads" folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname); // Unique filename
+  },
+});
+
+const upload = multer({ storage });
+
 const handleNewUser = async (req, res) => {
     const { firstname, lastname, email, idNumber, password, department, level } = req.body;
     if (!firstname || !lastname || !email || !idNumber || !password || !department || !level || !req.file) return res.status(400).json({ 'message': 'All fields, including an image is required.' });
@@ -18,10 +33,7 @@ const handleNewUser = async (req, res) => {
             "password": hashedPwd,
             "department": department,
             "level": level, 
-            "image": {
-                data: req.file.buffer, // Store image as binary data
-                contentType: req.file.mimetype, // Store image type (e.g., "image/png")
-            }, 
+            "image": req.file.path, 
         });
         const result = await newUser.save();
         console.log(result);
@@ -31,4 +43,4 @@ const handleNewUser = async (req, res) => {
     }
 }
 
-module.exports = { handleNewUser };
+module.exports = { handleNewUser, upload };
