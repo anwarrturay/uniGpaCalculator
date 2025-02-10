@@ -31,7 +31,9 @@ function Signup() {
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, image: e.target.files[0] });
+	const file = e.target.files[0];
+	console.log("Selected file:", file);
+    setFormData({ ...formData, image: file });
   };
 
 

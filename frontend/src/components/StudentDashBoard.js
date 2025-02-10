@@ -23,9 +23,9 @@ const StudentDashBoard = ({isOpen, setIsOpen, handleClose}) => {
         }
         };
 
-        if (accessToken) {
-            fetchUserData();
-        }
+        
+        fetchUserData();
+        
     }, [accessToken]);
 
   return (
@@ -46,4 +46,4 @@ const StudentDashBoard = ({isOpen, setIsOpen, handleClose}) => {
   )
 }
 
-export default StudentDashBoard
+export default StudentDashBoard;

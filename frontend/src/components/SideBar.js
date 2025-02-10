@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import profileImage from '../images/focus_studio-removebg-preview.png';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
@@ -13,7 +12,7 @@ import axios from 'axios';
 const sidebar = ({isOpen, handleClose}) => {
   const navigate = useNavigate()
   const [user, setUser] = useState(null);
-  const { userId } = useContext(DataContext)
+  const { userId } = useContext(DataContext);
   
   useEffect(()=>{
     const fetchUserData = async ()=>{
@@ -25,6 +24,7 @@ const sidebar = ({isOpen, handleClose}) => {
 
       try{
         const response = await axios.get(`https://unigpacalculator-api.onrender.com/users/${userId}`);
+        console.log("API Response:", response.data);
         setUser(response.data);
       }catch(err){
         console.error("Error fetching user data:", err);
@@ -33,7 +33,7 @@ const sidebar = ({isOpen, handleClose}) => {
 
     fetchUserData();
 
-  }, [])
+  }, [userId])
 
 
   return (
@@ -56,9 +56,9 @@ const sidebar = ({isOpen, handleClose}) => {
                   <Sidebar.ItemGroup>
                     <Sidebar.Item>
                       <Link to={'/profile'} className='font-Montserrat'>
-                        <div className='flex items-center justify-evenly cursor-pointer'>
-                          <img src={user?.image || Avatar} className='w-[50px] h-[50px] rounded-full' alt="Profile" />
-                          <div>{user?.firstname && user?.lastname || "User"}</div>
+                        <div className='flex items-center justify-between cursor-pointer'>
+                          <img src={user?.image ? user.image : Avatar} className='w-[50px] h-[50px] rounded-full' alt="Profile" />
+                          <div>{user?.firstname && user.lastname ? `${user?.firstname}  ${user?.lastname}` : "Username"}</div>
                         </div>
                       </Link>
                     </Sidebar.Item>
