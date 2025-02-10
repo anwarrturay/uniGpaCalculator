@@ -59,7 +59,7 @@ function Signup() {
       setStatus(true);
       setSuccess(true);
       setIsLoading(false)
-      navigate('/'); 
+      navigate('/studentdashboard'); 
       // Reset the form
       setFormData({
         firstname: '',
