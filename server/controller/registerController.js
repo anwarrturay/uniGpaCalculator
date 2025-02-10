@@ -16,6 +16,8 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname); // Unique filename
+    console.log("Saving file:", file.filename);
+    cb(null, file.filename)
   },
 });
 
@@ -45,6 +47,7 @@ const handleNewUser = async (req, res) => {
             "level": level, 
             "image": req.file.path, 
         });
+        console.log("Saved file path:", req.file.path);
         const result = await newUser.save();
         console.log(result);
         res.status(201).json({ 'success': `New user ${firstname}/t${lastname} created!` });
