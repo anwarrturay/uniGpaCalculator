@@ -14,7 +14,7 @@ function Signup() {
     password: '',
     department: '',
     level: '',
-    image: ''
+    image: null
   });
   // State for tracking registration feedback.
   const [success, setSuccess] = useState(false);
