@@ -12,7 +12,7 @@ if (!fs.existsSync(uploadPath)) {
 // Multer configuration for image upload
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Save uploaded files to the "uploads" folder
+    cb(null, uploadPath); // Save uploaded files to the "uploads" folder
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname); // Unique filename
@@ -23,6 +23,10 @@ const upload = multer({ storage });
 
 const handleNewUser = async (req, res) => {
     const { firstname, lastname, email, idNumber, password, department, level } = req.body;
+    console.log("upload image", req.file)
+    if (!req.file) {
+      return res.status(400).json({ message: "Image upload is required" });
+    }
     if (!firstname || !lastname || !email || !idNumber || !password || !department || !level || !req.file) return res.status(400).json({ 'message': 'All fields, including an image is required.' });
     // check for duplicate usernames in the db
     const duplicate = await Registration.findOne({email: email}).exec();
