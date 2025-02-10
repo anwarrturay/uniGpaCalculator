@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import profileImage from '../images/focus_studio-removebg-preview.png';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,7 +6,36 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { Drawer, Sidebar} from "flowbite-react";
 import unimakSM from '../images/unimak-sm.png';
 import { LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { DataContext } from './context/DataContext';
+import Avatar from "../assets/Avatar-boy.jpg"
+import axios from 'axios';
 const sidebar = ({isOpen, handleClose}) => {
+  const navigate = useNavigate()
+  const [user, setUser] = useState(null);
+  const { userId } = useContext(DataContext)
+  
+  useEffect(()=>{
+    const fetchUserData = async ()=>{
+
+      if (!userId) {
+        console.error("User ID not found in localStorage.");
+        return;
+      }
+
+      try{
+        const response = await axios.get(`https://unigpacalculator-api.onrender.com/users/${userId}`);
+        setUser(response.data);
+      }catch(err){
+        console.error("Error fetching user data:", err);
+      }
+    }
+
+    fetchUserData();
+
+  }, [])
+
+
   return (
     <>
       <Drawer open={isOpen} onClose={handleClose}>
@@ -28,8 +57,8 @@ const sidebar = ({isOpen, handleClose}) => {
                     <Sidebar.Item>
                       <Link to={'/profile'} className='font-Montserrat'>
                         <div className='flex items-center justify-evenly cursor-pointer'>
-                          <img src={profileImage} className='w-[50px] h-[50px]' alt="" />
-                          <div>Anwarr O.B Turay</div>
+                          <img src={user?.image || Avatar} className='w-[50px] h-[50px] rounded-full' alt="Profile" />
+                          <div>{user?.firstname && user?.lastname || "User"}</div>
                         </div>
                       </Link>
                     </Sidebar.Item>
@@ -63,7 +92,7 @@ const sidebar = ({isOpen, handleClose}) => {
                   {/* LOGOUT SECTION */}
                   <Sidebar.ItemGroup>
                     <Sidebar.Item className='mt-10'>
-                        <Link to={'/'}>
+                        <span onClick={()=> navigate('/')}>
                             <div className="flex items-center justify-evenly cursor-pointer relative right-5">
                                 <div className='bg-[#c3c7f2] hover:bg-[#abb0ed] flex items-center justify-center p-2.5 rounded-md'>
                                     <LogOut className='size-6 text-[#364AFF]'/>
@@ -72,7 +101,7 @@ const sidebar = ({isOpen, handleClose}) => {
                                     Log Out
                                 </div>
                             </div>
-                        </Link>
+                        </span>
                     </Sidebar.Item>
                   </Sidebar.ItemGroup>
                 </Sidebar.Items>

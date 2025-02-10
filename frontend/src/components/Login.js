@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Eye, EyeOff } from 'lucide-react';
 import Success from './utils/Success';
 import Failure from './utils/Failure';
 import Loading from './utils/Loading';
-
+import { jwtDecode } from 'jwt-decode'
+import { DataContext } from './context/DataContext';
 function Login() {
   const [idNumber, setIdNumber] = useState('');
   const [password, setPassword] = useState('');
@@ -15,6 +16,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { login } = useContext(DataContext);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -36,8 +38,13 @@ function Login() {
         }
       );
 
-      const data = response.data;
-      console.log(data);
+      const { accessToken } = response.data;
+      console.log(accessToken);
+      const decodedToken = jwtDecode(accessToken);
+      const userId = decodedToken.userId;
+
+      login(accessToken, userId)
+
       setSuccess(true);
       setStatus(true);
       setIsLoading(false); // Stop loading after success
@@ -57,9 +64,7 @@ function Login() {
 
   return (
     <>
-      {isLoading ? (
-        <Loading /> // Show loading component while isLoading is true
-      ) : (
+ 
         <div className="flex flex-col relative top-40 xs:top-48 xl:top-32 items-center justify-center bg-white drop-shadow-2xl shadow shadow-blue-300 w-[370px] h-[350px] xs:w-[400px] sm:w-[430px] md:w-[440px] rounded-md">
           <h2 className="font-bold font-Montserrat mt-3 text-xl">WELCOME BACK</h2>
           <div className={`${display}`}>{success ? <Success /> : <Failure />}</div>
@@ -101,12 +106,11 @@ function Login() {
           </form>
           <p className="font-Montserrat mb-3 text-lg">
             Do not have an account?{' '}
-            <span className="text-blue-500 cursor-pointer font-medium" onClick={() => navigate('/signup')}>
+            <span className="text-blue-500 cursor-pointer font-medium" onClick={()=> navigate('/signup')}>
               sign up
             </span>
           </p>
         </div>
-      )}
     </>
   );
 }

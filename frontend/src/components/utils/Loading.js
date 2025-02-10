@@ -14,12 +14,12 @@ const Loading = () => {
     <div className='flex flex-col items-center justify-center h-[100vh] font-Montserrat'>
         {networkError ? 
             <>
-                <div className='text-2xl font-extrabold flex items-center gap-2'><p>Ooops</p> <IoSadOutline /></div>
+                <div className='text-2xl font-extrabold flex items-center gap-2 font-Montserrat'><p>Ooops</p> <IoSadOutline /></div>
                 Check your network connection!
                 <button className='underline' onClick={handleRefresh}>Refresh</button>
             </>  :
             <>
-                <p>Loading, Please wait!</p>
+                <p className='font-Montserrat'>Loading, Please wait!</p>
                 <div className='overflow-hidden w-[20vw] flex items-center justify-center mt-2'>
                 <div className='loading'></div>
                 </div>

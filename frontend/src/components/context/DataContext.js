@@ -8,6 +8,18 @@ const DataContextProvider = ({children}) => {
     const [user, setUser] = useState();
     const [formData, setFormData] = useState(null);
     const [networkError, setNetworkError] = useState(false);
+    const [accessToken, setAccessToken] = useState(null);
+    const [userId, setUserId] = useState(null);
+
+    const login = (token, id) => {
+        setAccessToken(token);
+        setUserId(id);
+    };
+
+    const logout = () => {
+    setAccessToken(null);
+    setUserId(null);
+    };
 
     const fetchUser = async () => {
         try{
@@ -43,7 +55,11 @@ const DataContextProvider = ({children}) => {
                     user,setUser,
                     loading, setLoading,
                     formData, setFormData,
-                    networkError
+                    networkError,
+                    accessToken,
+                    userId,
+                    login,
+                    logout
                 }}
             >{ children }</DataContext.Provider>
 }
