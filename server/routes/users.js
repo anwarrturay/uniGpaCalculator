@@ -5,6 +5,6 @@ const verifyJWT = require("../middleware/verifyJWT");
 const { getSpecificUser } = require('../controller/usersController');
 
 
-router.route("/:id").get(verifyJWT, getSpecificUser)
+router.route("/:id").get(getSpecificUser)
 
 module.exports = router;
