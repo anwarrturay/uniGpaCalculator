@@ -12,6 +12,7 @@ import axios from 'axios';
 const sidebar = ({isOpen, handleClose}) => {
   const navigate = useNavigate()
   const [user, setUser] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null)
   const { userId } = useContext(DataContext);
   
   useEffect(()=>{
@@ -23,7 +24,7 @@ const sidebar = ({isOpen, handleClose}) => {
       }
 
       try{
-        const response = await axios.get(`https://unigpacalculator-api.onrender.com/users/${userId}`);
+        const response = await axios.get(`http://localhost:5000/users/${userId}`);
         console.log("API Response:", response.data);
         setUser(response.data);
       }catch(err){
@@ -34,6 +35,21 @@ const sidebar = ({isOpen, handleClose}) => {
     fetchUserData();
 
   }, [userId])
+
+  useEffect(() => {
+    if (!userId) return;
+
+    axios
+      .get(`http://localhost:5000/user-image/${userId}`, {
+        responseType: "blob", // Get image as a Blob
+      })
+      .then((response) => {
+        const imageBlob = new Blob([response.data]);
+        const imageObjectUrl = URL.createObjectURL(imageBlob);
+        setImageUrl(imageObjectUrl);
+      })
+      .catch((error) => console.error("Error loading image:", error));
+  }, [userId]);
 
 
   return (
@@ -57,7 +73,7 @@ const sidebar = ({isOpen, handleClose}) => {
                     <Sidebar.Item>
                       <Link to={'/profile'} className='font-Montserrat'>
                         <div className='flex items-center justify-between cursor-pointer'>
-                          <img src={user?.image ? user.image : Avatar} className='w-[50px] h-[50px] rounded-full' alt="Profile" />
+                          <img src={imageUrl ? imageUrl : Avatar} className='w-[50px] h-[50px] rounded-full' alt="Profile" />
                           <div>{user?.firstname && user.lastname ? `${user?.firstname}  ${user?.lastname}` : "Username"}</div>
                         </div>
                       </Link>

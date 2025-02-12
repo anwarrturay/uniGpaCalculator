@@ -1,15 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import ProfileFooter from './ProfileFotter';
 import ProfileHeader from './ProfileHeader';
 import { useContext } from 'react';
 import { DataContext } from './context/DataContext';
 import { useNavigate } from 'react-router-dom';
 import Loading from './utils/Loading';
-
+import axios from 'axios';
 const EditProfilePage = () => {
     const navigate = useNavigate()
+    const [user, setUser] = useState()
+    const {userId, loading, formData, setFormData} = useContext(DataContext);
 
-    const {user, loading, setUser, formData, setFormData} = useContext(DataContext);
+    useEffect(()=>{
+        const fetchUserData = async ()=>{
+    
+          if (!userId) {
+            console.error("User ID not found in localStorage.");
+            return;
+          }
+    
+          try{
+            const response = await axios.get(`http://localhost:5000/users/${userId}`);
+            console.log("API Response:", response.data);
+            setUser(response.data);
+          }catch(err){
+            console.error("Error fetching user data:", err);
+          }
+        }
+    
+        fetchUserData();
+    
+      }, [userId])
+
+
 
     const cpyFormData = formData;
     let disable = true
@@ -67,7 +90,7 @@ const EditProfilePage = () => {
                                 autoFocus
                                 name='firstName'
                                 type="text"
-                                value={formData?.firstName}
+                                value={formData?.firstname}
                                 onChange={handleEditForm}
                             />
             
@@ -75,7 +98,7 @@ const EditProfilePage = () => {
                             <input className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
                                 type="text"
                                 name='lastName'
-                                value={formData?.lastName}
+                                value={formData?.lastname}
                                 onChange={handleEditForm}
                             />
             
@@ -94,11 +117,11 @@ const EditProfilePage = () => {
                                 value={formData?.email}
                                 onChange={handleEditForm}/>
             
-                            <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="phone">Mobile:</label>
+                            <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="phone">Department:</label>
                             <input className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
                                 name='phone'
                                 type='text' 
-                                value={formData?.phone}
+                                value={formData?.department}
                                 onChange={handleEditForm}
                             />
             

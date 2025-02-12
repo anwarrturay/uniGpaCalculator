@@ -25,11 +25,11 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setIsLoading(true); 
+    setIsLoading(true); // Start loading
 
     try {
       const response = await axios.post(
-        'https://unigpacalculator-api.onrender.com/auth',
+        'http://localhost:5000/auth',
         { idNumber, password },
         {
           headers: {
