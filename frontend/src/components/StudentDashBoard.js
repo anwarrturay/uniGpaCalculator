@@ -12,7 +12,7 @@ const StudentDashBoard = ({isOpen, setIsOpen, handleClose}) => {
     useEffect(() => {
         const fetchUserData = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/users/${userId}`, {
+            const response = await axios.get(`https://unigpacalculator-api.onrender.com/users/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`, // Include the access token in the request
                 },

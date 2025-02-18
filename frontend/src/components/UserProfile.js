@@ -39,7 +39,7 @@ const UserProfile = () => {
         if (!userId) return;
     
         axios
-          .get(`http://localhost:5000/user-image/${userId}`, {
+          .get(`https://unigpacalculator-api.onrender.com/user-image/${userId}`, {
             responseType: "blob", // Get image as a Blob
           })
           .then((response) => {
