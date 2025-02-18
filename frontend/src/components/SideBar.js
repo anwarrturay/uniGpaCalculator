@@ -24,7 +24,7 @@ const sidebar = ({isOpen, handleClose}) => {
       }
 
       try{
-        const response = await axios.get(`http://localhost:5000/users/${userId}`);
+        const response = await axios.get(`https://unigpacalculator-api.onrender.com/users/${userId}`);
         console.log("API Response:", response.data);
         setUser(response.data);
       }catch(err){
@@ -40,7 +40,7 @@ const sidebar = ({isOpen, handleClose}) => {
     if (!userId) return;
 
     axios
-      .get(`http://localhost:5000/user-image/${userId}`, {
+      .get(`https://unigpacalculator-api.onrender.com/user-image/${userId}`, {
         responseType: "blob", // Get image as a Blob
       })
       .then((response) => {

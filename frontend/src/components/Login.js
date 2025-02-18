@@ -29,7 +29,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/auth',
+        'https://unigpacalculator-api.onrender.com/auth',
         { idNumber, password },
         {
           headers: {

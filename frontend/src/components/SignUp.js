@@ -53,7 +53,7 @@ function Signup() {
     data.append("image", formData.image);
 
     try {
-      const response = await axios.post("http://localhost:5000/register", data, {
+      const response = await axios.post("https://unigpacalculator-api.onrender.com/register", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const responseData = await response.data;
