@@ -1,32 +1,34 @@
-import React, { useState, useEffect, useContext} from 'react'
+import React, { useEffect } from 'react'
 import Header from "./Header";
 import DashBoard from "./DashBoard";
 import SideBar from './SideBar';
-import axios from 'axios';
-import { DataContext } from './context/DataContext';
 import Loading from './utils/Loading';
+import useAuth from '../hooks/useAuth';
+import useAxiosPrivate from "../hooks/useAxiosPrivate"
+
 const StudentDashBoard = ({isOpen, setIsOpen, handleClose}) => {
-    const [user, setUser] = useState(null);
-    const { accessToken, userId } = useContext(DataContext);
+    const axiosPrivate = useAxiosPrivate();
+
+    const {user, setUser, auth} = useAuth();
+    const userId = auth?.userId;
 
     useEffect(() => {
         const fetchUserData = async () => {
-        try {
-            const response = await axios.get(`https://unigpacalculator-api.onrender.com/users/${userId}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`, // Include the access token in the request
-                },
-            });
-            setUser(response.data);
-        } catch (error) {
-            console.error('Error fetching user data:', error);
-        }
+            try {
+                const response = await axiosPrivate.get(`/users/${userId}`);
+                setUser(response.data);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
         };
 
-        
         fetchUserData();
-        
-    }, [accessToken]);
+
+    }, [auth?.accessToken]);
+
+   useEffect(()=>{
+    console.log("User Data: ", user)
+   }, [])
 
   return (
     <>

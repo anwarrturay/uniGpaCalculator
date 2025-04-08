@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { DataContext } from '../context/DataContext'
 import { useLocation } from 'react-router-dom';
 import { IoSadOutline } from 'react-icons/io5';
+import unimakLogo from "../../images/unimak-image.jpg"
+import {motion} from "framer-motion"
 
 const Loading = () => {
     const location = useLocation();
@@ -19,10 +21,26 @@ const Loading = () => {
                 <button className='underline' onClick={handleRefresh}>Refresh</button>
             </>  :
             <>
-                <p className='font-Montserrat'>Loading, Please wait!</p>
-                <div className='overflow-hidden w-[20vw] flex items-center justify-center mt-2'>
-                <div className='loading'></div>
-                </div>
+                <motion.div
+                    className="flex justify-center items-center h-screen"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                >
+                    <motion.img
+                        src={unimakLogo}
+                        alt="UltraResume Logo"
+                        className="w-[100px]"
+                        animate={{
+                        scale: [1.5, 2, 1.5],
+                        }}
+                        transition={{
+                        duration: 2.5, // Animation duration
+                        repeat: Infinity, // Repeat indefinitely
+                        ease: "easeInOut", // Smooth easing
+                        }}
+                    />
+                </motion.div>
             </>
         }
     </div>

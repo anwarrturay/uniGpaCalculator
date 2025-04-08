@@ -9,6 +9,9 @@ import Signup from "./components/SignUp";
 import UserProfile from "./components/UserProfile"
 import EditProfilePage from "./components/EditProfilePage";
 import Loading from "./components/utils/Loading";
+import RequireAuth from "./components/RequireAuth";
+import PersistentLogin from "./components/PersistentLogin";
+import ROLES_LIST from "./components/utils/Roles_List";
 function App() {
   const [isOpen, setIsOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +22,7 @@ function App() {
 
     return () => clearTimeout(timer); // Cleanup timer
   }, []);
+
   
   const handleClose = () => setIsOpen(false);
   return (
@@ -27,21 +31,39 @@ function App() {
         <Loading />
       ) : (
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Login />}/>
           <Route path="/signup" element={<Signup />}/>
-          <Route path="/studentdashboard" element={
-            <StudentDashBoard isOpen={isOpen} setIsOpen={setIsOpen} handleClose={handleClose} />}
-          />
-          <Route path="/newcalculation" element={
-            <>
-              <Header isOpen={isOpen} setIsOpen={setIsOpen} handleClose={handleClose} />
-              <NewCalculation />
-            </>}
-          />
-          <Route path="/profile">
-            <Route index element={<UserProfile />}></Route>
-            <Route path="/profile/edit" element={<EditProfilePage/>}></Route>
+
+          {/* Protected Routes */}
+          <Route element={<PersistentLogin />}>
+            <Route element={<RequireAuth allowedRoles={[ROLES_LIST.USER]}/>}>
+              <Route path="/studentdashboard" element={
+                <StudentDashBoard isOpen={isOpen} setIsOpen={setIsOpen} handleClose={handleClose} />}
+              />
+            </Route>
           </Route>
+
+          <Route element={<PersistentLogin />}>
+            <Route element={<RequireAuth allowedRoles={[ROLES_LIST.USER]} />}>
+              <Route path="/newcalculation" element={
+                <>
+                  <Header isOpen={isOpen} setIsOpen={setIsOpen} handleClose={handleClose} />
+                  <NewCalculation />
+                </>}
+              />
+            </Route>
+          </Route>
+
+          <Route element={<PersistentLogin />}>
+            <Route element={<RequireAuth allowedRoles={[ROLES_LIST.USER]} />}>
+              <Route path="/profile">
+                <Route index element={<UserProfile />}></Route>
+                <Route path="/profile/edit" element={<EditProfilePage/>}></Route>
+              </Route>
+            </Route>
+          </Route>
+
         </Routes>
       )}
     </div>

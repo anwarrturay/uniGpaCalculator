@@ -1,94 +1,113 @@
-import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import axios from '../api/axios';
 import { Eye, EyeOff } from 'lucide-react';
 import Success from './utils/Success';
 import Failure from './utils/Failure';
-import Loading from './utils/Loading';
 import { jwtDecode } from 'jwt-decode'
-import { DataContext } from './context/DataContext';
+import useAuth from '../hooks/useAuth.js';
+import {useForm} from "react-hook-form"
+import loginSchema from '../schemas/loginSchema.js';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 function Login() {
-  const [idNumber, setIdNumber] = useState('');
-  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [status, setStatus] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [errMsg, setErrMsg] = useState('');
   const navigate = useNavigate();
-  const { login } = useContext(DataContext);
+  const { setAuth, persist, setPersist } = useAuth();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/studentdashboard";
+
+  const { register, handleSubmit, formState: {errors}, watch, reset} = useForm({
+    resolver: yupResolver(loginSchema)
+  })
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true); // Start loading
+  const handleSubmitForm = async (data) => {
+    console.log("form submitted: ", data)
+    const formData = new FormData();
+    formData.append("idNumber", data.idNumber)
+    formData.append("password", data.password)
+    setIsLoading(true);
 
     try {
       const response = await axios.post(
-        'https://unigpacalculator-api.onrender.com/auth',
-        { idNumber, password },
+        '/auth',
+        formData,
         {
           headers: {
             'Content-Type': 'application/json',
           },
         }
       );
-
+      if(response) console.log(response.data);
       const { accessToken } = response.data;
-      console.log(accessToken);
       const decodedToken = jwtDecode(accessToken);
-      const userId = decodedToken.userId;
 
-      login(accessToken, userId)
+      const userId = decodedToken?.userId;
+      const roles = decodedToken?.roles
+      
+      setAuth({ accessToken, userId, roles})
 
-      setSuccess(true);
-      setStatus(true);
-      setIsLoading(false); // Stop loading after success
-      navigate('/studentdashboard');
-      setIdNumber('');
-      setPassword('');
+      if(response.status === 200){
+        setSuccess(true);
+        setIsLoading(false);
+        navigate(from, { replace: true });
+        reset();
+      }
     } catch (err) {
-      console.error('Error during login:', err);
-      setError('An error occurred. Please try again later.');
-      setStatus(false);
       setSuccess(false);
-      setIsLoading(false); // Stop loading after error
+      setIsLoading(false);
+      if (!err?.response) {
+          setErrMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+          setErrMsg("Incorrect email or password");
+      } else {
+          setErrMsg("Login failed, Please try again");
+      }
     }
   };
 
-  let display = status === true ? 'flex' : 'hidden';
+  const togglePersist = ()=>{
+    setPersist(prev=> !prev)
+  }
+
+    useEffect(()=>{
+      localStorage.setItem("persist", persist)
+  }, [persist])
+
 
   return (
     <>
  
         <div className="flex flex-col relative top-40 xs:top-48 xl:top-32 items-center justify-center bg-white drop-shadow-2xl shadow shadow-blue-300 w-[370px] h-[350px] xs:w-[400px] sm:w-[430px] md:w-[440px] rounded-md">
           <h2 className="font-bold font-Montserrat mt-3 text-xl">WELCOME BACK</h2>
-          <div className={`${display}`}>{success ? <Success /> : <Failure />}</div>
-          <form onSubmit={handleSubmit} className="flex flex-col p-5 mt-3 font-Montserrat">
+          <div className="flex items-center relative top-3 justify-center">
+              {success ? <Success /> : (errMsg && <Failure errMsg={errMsg} />)}
+          </div>
+          <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col p-5 mt-3 font-Montserrat">
             <input
               type="number"
-              value={idNumber}
-              onChange={(e) => setIdNumber(e.target.value)}
+              {...register("idNumber")}
               placeholder="ID Number"
-              required
               className="mb-2 w-[300px] sm:w-[330px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500"
               autoComplete="off"
             />
             <input
               type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password")}
               placeholder="Password"
-              required
               className="mb-2 w-[300px] sm:w-[330px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500"
               autoComplete="off"
             />
             <div className="relative top-[-48px] w-[300px]">
-              {password && (
+              {watch("password") && (
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
@@ -102,7 +121,16 @@ function Login() {
             <button type="submit" className="bg-blue-500 py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center">
               LOGIN
             </button>
-            {error && <p className="error-message">{error}</p>}
+            <div className="flex justify-center items-center mt-2">
+                <input 
+                    type="checkbox" 
+                    id='persist'
+                    onChange={togglePersist}
+                    checked={persist}
+                    className='mr-2'
+                />
+                <label htmlFor="persist">Keep me signed in</label>
+            </div>
           </form>
           <p className="font-Montserrat mb-3 text-lg">
             Do not have an account?{' '}

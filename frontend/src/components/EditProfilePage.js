@@ -1,15 +1,28 @@
 import React, { useState, useEffect} from 'react';
 import ProfileFooter from './ProfileFotter';
 import ProfileHeader from './ProfileHeader';
-import { useContext } from 'react';
-import { DataContext } from './context/DataContext';
 import { useNavigate } from 'react-router-dom';
 import Loading from './utils/Loading';
-import axios from 'axios';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import useAuth from '../hooks/useAuth';
+import { BASE_URL } from '../api/axios';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import updateInfoSchema from '../schemas/updateInfoSchema'
+import Success from './utils/Success';
+import Failure from './utils/Failure';
+
 const EditProfilePage = () => {
     const navigate = useNavigate()
-    const [user, setUser] = useState()
-    const {userId, loading, formData, setFormData} = useContext(DataContext);
+    const {user, setUser, auth, loading} = useAuth()
+    const userId = auth?.userId;
+    const axiosPrivate = useAxiosPrivate();
+    const [success, setSuccess] = useState(false);
+    const [errMsg, setErrMsg] = useState("");
+
+    const {register, handleSubmit, formState: {errors}, watch, reset, setValue} = useForm({
+        resolver: yupResolver(updateInfoSchema)
+    })
 
     useEffect(()=>{
         const fetchUserData = async ()=>{
@@ -18,11 +31,28 @@ const EditProfilePage = () => {
             console.error("User ID not found in localStorage.");
             return;
           }
-    
+
           try{
-            const response = await axios.get(`https://unigpacalculator-api.onrender.com/users/${userId}`);
-            console.log("API Response:", response.data);
-            setUser(response.data);
+            const res = await axiosPrivate.get(`/users/${userId}`);
+            console.log("API Response:", res.data);
+            if (res.data) {
+                if (res.data.firstname !== watch("firstname")) {
+                    setValue("firstname", res.data.firstname || "");
+                }
+                if (res.data.lastname !== watch("lastname")) {
+                    setValue("lastname", res.data.lastname || "");
+                }
+                if (res.data.idNumber !== watch("idNumber")) {
+                    setValue("idNumber", res.data.idNumber || "");
+                }    
+                if (res.data.department !== watch("department")) {
+                    setValue("department", res.data.department || "");
+                }
+                if (res.data.level !== watch("level")) {
+                    setValue("level", res.data.level || "");
+                }
+            }
+            setUser(res.data);
           }catch(err){
             console.error("Error fetching user data:", err);
           }
@@ -30,45 +60,61 @@ const EditProfilePage = () => {
     
         fetchUserData();
     
-      }, [userId])
+    }, [userId])
 
+    console.log("fetched values: ",watch("firstname"))
 
-
-    const cpyFormData = formData;
-    let disable = true
-
-
-    const handleEditForm = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        })
-        disable = cpyFormData !== formData;
-    }
 
     const handleImageChange = (e) => {
-        const fileName = document.querySelector('.fileName');
-        const imgURL = e.target.files[0];
-        fileName.innerHTML = imgURL.name;
-        setFormData({
-            ...formData,
-            image: URL.createObjectURL(imgURL)
-        })
+        // const fileName = document.querySelector('.fileName');
+        // const imgURL = e.target.files[0];
+        // fileName.innerHTML = imgURL.name;
+        // setFormData({
+        //     ...formData,
+        //     image: URL.createObjectURL(imgURL)
+        // })
+        console.log("image uploaded");
+        
     }
 
-    const handleSaveChanges = (e) => {
-        e.preventDefault();
-        setUser(formData);
-        navigate('/profile');
+    const handleSaveChanges = async (data) => {
+        console.log("form submitted: ", data);
+        const formData = new FormData();
+        formData.append("firstname", data.firstname)
+        formData.append("lastname", data.lastname)
+        formData.append("idNumber", data.idNumber)
+        formData.append("department", data.department)
+        formData.append("level", data.level)
+
+        try{
+            const response = await axiosPrivate.patch(
+                `/users/${userId}`,
+                formData,
+            )
+            console.log("Response Data: ", response.data);
+            setUser(response.data);
+            if(response.status === 200){
+                setSuccess(true);
+                navigate("/profile");
+                reset()
+            }
+        }catch(err){
+            console.error(err);
+            if(!err?.response){
+                setErrMsg("No Server Response");
+            }else if(err.response === 400){
+                setErrMsg("Unable to update user")
+            }
+        }
     }
 
   return (
     <>
         {   
-            user && !loading ?
+            user ?
                 <>
                     <div className='fixed top-0 right-0 left-0 z-40'>
-                        <ProfileHeader pageTitle='Edit Profile' userImage={formData?.image}/>
+                        <ProfileHeader pageTitle='Edit Profile' userImage={`${BASE_URL}${user.image}`}/>
                     </div>
                     <main className='flex flex-col items-center mt-5 px-4 pb-20 pt-32 font-Montserrat'>
                         <div className='flex flex-col items-center relative '>
@@ -82,55 +128,52 @@ const EditProfilePage = () => {
                         </div>
                         <div className='fileName text-[#3b44e6] mt-3 text-center
                         '></div>
-                        
-                        <form className='bg-white mt-2 px-4 py-5 rounded-xl w-full sm: max-w-md flex flex-col'>
+                        <div className={`flex items-center relative top-3 justify-center ${success ? "flex" : "hidden"}`}>
+                            {success ? <div className='bg-[#00FF94] flex flex-col items-center justify-center rounded-md font-Montserrat'>
+                                <p className='text-green-800'>Changes saved</p>
+                            </div> : <Failure errMsg={errMsg} />}
+                        </div>
+                        <form onSubmit={handleSubmit(handleSaveChanges, (errors)=> console.log("Validation error: ", errors))} className='bg-white mt-2 px-4 py-5 rounded-xl w-full sm:max-w-md flex flex-col'>
                             <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="firstName">Firstname:</label>
                             <input
                                 className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
                                 autoFocus
-                                name='firstName'
+                                name='firstname'
+                                value={watch("firstname")}
                                 type="text"
-                                value={formData?.firstname}
-                                onChange={handleEditForm}
+                                {...register("firstname")}
                             />
             
                             <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="lastName">Lastname:</label>
                             <input className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
                                 type="text"
                                 name='lastName'
-                                value={formData?.lastname}
-                                onChange={handleEditForm}
+                                {...register("lastname")}
+                                value={watch("lastname")}
                             />
             
                             <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="idNumber">ID Number:</label>
                             <input className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
                                 name='idNumber'
-                                type='text' 
-                                value={formData?.idNumber}
-                                onChange={handleEditForm}
+                                type='number' 
+                                {...register("idNumber")}
+                                value={watch("idNumber")}
                             />
-            
-                            <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="email">Email:</label>
+
+                            <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="department">Department:</label>
                             <input className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
-                                name='email'
-                                type="email" 
-                                value={formData?.email}
-                                onChange={handleEditForm}/>
-            
-                            <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="phone">Department:</label>
-                            <input className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
-                                name='phone'
+                                name='department'
                                 type='text' 
-                                value={formData?.department}
-                                onChange={handleEditForm}
+                               {...register("department")}
+                               value={watch("department")}
                             />
             
                             <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="level">Level:</label>  
                             <select className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none' 
                                 name="level"
                                 id="level"
-                                value={formData?.level}
-                                onChange={handleEditForm}
+                                {...register("level")}
+                                value={watch("level")}
                             >
                                 <option value="1">Year 1</option>
                                 <option value="2">Year 2</option>
@@ -138,7 +181,7 @@ const EditProfilePage = () => {
                                 <option value="4">Year 4</option>
                             </select>
             
-                            <button className='bg-white font-bold py-2 px-3 mt-4 rounded-lg text-[#3b44e6] border transition-all hover:border hover:border-[#3b44e6] text-sm self-center disabled:opacity-70 disabled:hover:border-[#f3f3f3]' disabled={cpyFormData !== formData} onClick={handleSaveChanges}>Save Changes</button>
+                            <button type='submit' className='bg-white font-bold py-2 px-3 mt-4 rounded-lg text-[#3b44e6] border transition-all hover:border hover:border-[#3b44e6] text-sm self-center disabled:opacity-70 disabled:hover:border-[#f3f3f3]'>Save Changes</button>
                         </form>
                     </main>
                     <ProfileFooter /></>
