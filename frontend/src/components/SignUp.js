@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
-import axios from 'axios';
+import axios from '../api/axios';
 import Success from './utils/Success';
 import Failure from './utils/Failure';
 import Loading from './utils/Loading';
@@ -53,7 +53,7 @@ function Signup() {
     data.append("image", formData.image);
 
     try {
-      const response = await axios.post("https://unigpacalculator-api.onrender.com/register", data, {
+      const response = await axios.post("/register", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const responseData = await response.data;
