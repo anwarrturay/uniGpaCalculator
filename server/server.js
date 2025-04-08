@@ -7,16 +7,16 @@ const cookieParser = require("cookie-parser");
 const connectDB = require("./config/dbConn.js");
 const corsOptions = require('./config/corsOptions.js');
 const credentials = require("./middleware/credentials.js");
-const verifyJWT = require("./middleware/verifyJWT.js")
-const {logger} = require("./middleware/logger.js")
-const errorHandler = require("./middleware/errorHandler.js")
+const verifyJWT = require("./middleware/verifyJWT.js");
+const {logger} = require("./middleware/logger.js");
+const errorHandler = require("./middleware/errorHandler.js");
 
 // Import Routes
 const gpaRoutes = require("./routes/gpaRoutes.js");
 const registerRoutes = require("./routes/register.js");
 const authRoutes = require("./routes/auth.js");
 const userRoutes = require("./routes/users.js");
-const refreshRoute = require("./routes/refresh.js")
+const refreshRoute = require("./routes/refresh.js");
 // Initialize Express App
 const app = express();
 const PORT = process.env.PORT || 5000;
