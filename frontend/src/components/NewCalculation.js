@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { X, Plus } from "lucide-react"
 import useAuth from '../hooks/useAuth';
 import Result from './Result';
+import SaveResultDialog from './utils/SaveResultDialog';
 // import { useRouter } from 'next/router';
 
 const NewCalculation = () => {
     // USESTATES
-    const [result, setResult] = useState("inactive")
+    const [result, setResult] = useState("inactive");
+    const [showDialog, setShowDialog] = useState(false)
     const [semester1Score, setSemester1Score] = useState({
         totalGrade: 0,
         gpa: 0
@@ -101,7 +103,7 @@ const NewCalculation = () => {
 
     const handleCalculateGpa = async (semester, modules, setGPA) => {
         console.log(formData)
-        if(semester === "Semester One") {
+        const calculateSem1 = () => {
             let totalGrades = 0;
             let creditHrs = 0;
             let gpa = 0;
@@ -115,7 +117,8 @@ const NewCalculation = () => {
             })
             gpa = (totalGrades / creditHrs).toFixed(2)
             setSemester1Score({totalGrade: totalGrades, gpa })
-        }else if(semester === "Semester Two") {
+        }
+        const calculateSem2 = () => {
             let totalGrades = 0;
             let creditHrs = 0;
             let gpa = 0;
@@ -129,7 +132,14 @@ const NewCalculation = () => {
             })
             gpa = (totalGrades / creditHrs).toFixed(2)
             setSemester2Score({totalGrade: totalGrades, gpa })
+        }
+        if(semester === "Semester One") {
+            calculateSem1();
+        }else if(semester === "Semester Two") {
+            calculateSem2();
         }else if (semester === "Both Semesters") {
+            calculateSem1();
+            calculateSem2()
             let totalGrades = 0;
             let creditHrs = 0;
             let gpa = 0;
@@ -144,52 +154,19 @@ const NewCalculation = () => {
             gpa = (totalGrades / creditHrs).toFixed(2)
             setBothSemestersScore({totalGrade: totalGrades, gpa })
         }
-        
-        // formData.map((module) => {
-        //     if (module.credits === 2){
-        //         totalGrades += foundationCourses[`${module.grade}`]
-        //     } else if (module.credits === 3) {
-        //         totalGrades += departmentalCourses[`${module.grade}`]
-        //     }
-        //     creditHrs+=module.credits
-        // })
-        // const creditHrs = formData.reduce((module) => module.credits);
         setResult("active")
-        // try {
-        //     const response = await axios.post(`${URL}/api/gpa/calculate`, 
-        //     {
-        //         semester,
-        //         modules
-        //     });
-        //     setGPA(response.data.gpa);
-        // } catch (error) {
-        //     console.error('Error calculating GPA:', error);
-        //     setGPA(null); // Reset the GPA to null in case of error
-        // }
+        setTimeout(()=>{
+            setShowDialog(true)
+        }, 5000);
     };
-
-    // const handleSaveGPA = async (semester, gpa) => {
-    //     try {
-    //         await axios.post(`${URL}/api/gpa/save`, {
-    //             semester,
-    //             gpa
-    //         });
-    //         setSavedGPAs(prev => ({
-    //             ...prev,
-    //             [`semester${semester}`]: true
-    //         }));
-    //     } catch (error) {
-    //         console.error('Error saving GPA:', error);
-    //     }
-    // };
 
     const renderSemester = (semester, modules, setModules, gpa, setGPA) => (
         <div className="">
             <h2 className='font-Montserrat text-xl ml-3 font-bold absolute'>Semester {semester}</h2>
                 <div className="flex items-center justify-evenly font-Montserrat">
                     <div className='font-medium'></div>
-                    <div className='font-medium relative xs:left-10 sm:left-24 md:left-36'>Grade</div>
-                    <div className='font-medium relative xs:left-5 sm:left-10 md:left-12'>Credit Hrs</div>
+                    <div className='font-medium relative left-16 xs:left-20 sm:left-32 md:left-36'>Grade</div>
+                    <div className='font-medium relative left-4 xs:left-7 sm:left-12 md:left-16'>Credit Hrs</div>
                 </div>
                 {modules.map((module, index) => (
                     <div key={index} className='flex items-center justify-center mt-2 font-Montserrat'>
@@ -274,40 +251,37 @@ const NewCalculation = () => {
     );
 
     return (
-        <div className="flex flex-col items-center justify-center relative top-24">
-            <select className='text-xl mb-4 border-[#ccc] rounded-md' onChange={(e) => setSemester(e.target.value)}>
+        <div className="flex flex-col items-center justify-center relative top-20">
+            <h2 className='font-bold pb-2 text-center'>Please select a semester<br></br>to proceed with calculation!</h2>
+            <select className='text-sm mb-4 border-[#ccc] rounded-md' onChange={(e) => setSemester(e.target.value)}>
                 <option>Select Semester</option>
                 <option value="Semester One">Semester One</option>
                 <option value="Semester Two">Semester Two</option>
                 <option value="Both Semesters">Both Semesters</option>
             </select>
-            { semester === "Semester One" ? 
+            { semester === "Semester One" && result !== "active" ? 
             <>
             {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
             <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate GPA</button>
         </> :
-            semester === "Semester Two" ?
+            semester === "Semester Two" && result !== "active" ?
             <>
                 {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
                 <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate GPA</button>
             </> :
-            semester === "Both Semesters" ? 
+            semester === "Both Semesters" && result !== "active" ? 
             <>
                 {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
                 {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
                 <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate CGPA</button>
             </> : ""
             }
-            <Result formData={formData} result={result} semester={semester} semester1Modules={semester1Modules} semester2Modules={semester2Modules} semester1Score={semester1Score} semester2Score={semester2Score} bothSemestersScore={bothSemestersScore}/>
+            <Result formData={formData} result={result} semester={semester} semester1Modules={semester1Modules} semester2Modules={semester2Modules} semester1Score={semester1Score} semester2Score={semester2Score} bothSemestersScore={bothSemestersScore} setResult={setResult}/>
+            {
+                showDialog && <SaveResultDialog setShowDialog={setShowDialog}/>
+            }
             
-            {savedGPAs.semester1 && savedGPAs.semester2 && (
-                <button
-                    // onClick={() => router.push('/cgpa')}
-                    className='bg-[#0056b3] text-white py-2 px-5 rounded-md mt-4 mb-8'
-                >
-                    See CGPA
-                </button>
-            )}
+            
         </div>
     );
 };

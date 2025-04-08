@@ -50,3 +50,11 @@ body{
     transform: translateX(16vw);
   }
 }
+
+@media print {
+  .print-bg {
+    background-color: #e5e7eb !important; /* Example: Tailwind bg-gray-200 */
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
