@@ -26,6 +26,8 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
         fetchUserData();
     }, [userId])
 
+    console.log(user)
+
   return (
     <>
         {formData && result === "active" && semester && 

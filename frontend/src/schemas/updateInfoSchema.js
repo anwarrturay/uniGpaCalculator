@@ -22,7 +22,7 @@ const updateInfoSchema = yup.object().shape({
 
     level: yup
     .string()
-    .oneOf(['1', '2', '3', '4'], 'Select a valid level')
+    .oneOf(['Year 1', 'Year 2', 'Year 3', 'Year 4'], 'Select a valid level')
     .required('Level is required'),
 });
 

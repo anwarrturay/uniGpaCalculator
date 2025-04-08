@@ -174,11 +174,12 @@ const EditProfilePage = () => {
                                 id="level"
                                 {...register("level")}
                                 value={watch("level")}
+                                defaultValue={user?.level}
                             >
-                                <option value="1">Year 1</option>
-                                <option value="2">Year 2</option>
-                                <option value="3">Year 3</option>
-                                <option value="4">Year 4</option>
+                                <option value="Year 1">Year 1</option>
+                                <option value="Year 2">Year 2</option>
+                                <option value="Year 3">Year 3</option>
+                                <option value="Year 4">Year 4</option>
                             </select>
             
                             <button type='submit' className='bg-white font-bold py-2 px-3 mt-4 rounded-lg text-[#3b44e6] border transition-all hover:border hover:border-[#3b44e6] text-sm self-center disabled:opacity-70 disabled:hover:border-[#f3f3f3]'>Save Changes</button>
