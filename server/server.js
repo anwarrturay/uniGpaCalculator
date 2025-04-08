@@ -17,6 +17,7 @@ const registerRoutes = require("./routes/register.js");
 const authRoutes = require("./routes/auth.js");
 const userRoutes = require("./routes/users.js");
 const refreshRoute = require("./routes/refresh.js")
+const logoutRoute = require("./routes/logout.js")
 // Initialize Express App
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -41,6 +42,7 @@ app.use(cookieParser())
 app.use('/register', registerRoutes);
 app.use('/auth', authRoutes);
 app.use('/refresh', refreshRoute)
+app.use("/logout", logoutRoute);
 
 app.use(verifyJWT)
 
