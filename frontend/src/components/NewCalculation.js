@@ -1,20 +1,77 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { X, Plus } from "lucide-react"
+import useAuth from '../hooks/useAuth';
+import Result from './Result';
 // import { useRouter } from 'next/router';
 
 const NewCalculation = () => {
-    // const router = useRouter();
-    const [semester1Modules, setSemester1Modules] = useState([
-        { module_name: '', grade: 'A+', credits: 2 }
-    ]);
-    const [semester2Modules, setSemester2Modules] = useState([
-        { module_name: '', grade: 'A+', credits: 2 }
-    ]);
+    // USESTATES
+    const [result, setResult] = useState("inactive")
+    const [semester1Score, setSemester1Score] = useState({
+        totalGrade: 0,
+        gpa: 0
+    })
+    const [semester2Score, setSemester2Score] = useState({
+        totalGrade: 0,
+        gpa: 0
+    })
+    const [bothSemestersScore, setBothSemestersScore] = useState({
+        totalGrade: 0,
+        gpa: 0
+    })
     const [semester1GPA, setSemester1GPA] = useState(null);
     const [semester2GPA, setSemester2GPA] = useState(null);
     const [savedGPAs, setSavedGPAs] = useState({ semester1: false, semester2: false });
+    const [semester1Modules, setSemester1Modules] = useState([
+        { module_name: '', grade: 'A+', credits: 2 }
+    ]);
+    const [semester, setSemester] = useState("")
+    const [semester2Modules, setSemester2Modules] = useState([
+        { module_name: '', grade: 'A+', credits: 2 }
+    ]);
+    const [formData, setFormData] = useState([...semester1Modules, ...semester2Modules])
+    const foundationCourses = {
+        "A+": 10,
+        "A": 10,
+        "A-": 9.4,
+        "B+": 8.6,
+        "B": 8,
+        "B-": 7.4,
+        "C+": 6.6,
+        "C": 6,
+        "C-": 5.4,
+        "D": 4,
+        "E": 0,
+        "F": 0 
+    }
 
+    const departmentalCourses = {
+        "A+": 15,
+        "A": 15,
+        "A-": 14.1,
+        "B+": 12.9,
+        "B": 12,
+        "B-": 11.1,
+        "C+": 9.9,
+        "C": 9,
+        "C-": 8.1,
+        "D": 6,
+        "E": 0,
+        "F": 0 
+    }
+
+    useEffect(() => {
+        if (semester === "Semester One"){
+            setFormData(semester1Modules)
+        } else if (semester === "Semester Two") {
+            setFormData(semester2Modules)
+        } else {
+            setFormData([...semester1Modules, ...semester2Modules])
+        }
+        setResult("inactive")
+    }, [semester, semester1Modules, semester2Modules])
+
+    // HANDLE FORM CHANGE
     const handleChange = (index, event, semesterModules, setSemesterModules) => {
         const values = [...semesterModules];
         if (event.target.name === 'credits') {
@@ -26,11 +83,12 @@ const NewCalculation = () => {
         setSemesterModules(values);
     };
 
-    
+    // ADD MODULE FUNCTION
     const handleAddModule = (semesterModules, setSemesterModules) => {
         setSemesterModules([...semesterModules, { module_name: '', grade: 'A+', credits: 2 }]);
     };
 
+    // DELETE MODULE FUNCTION
     const handleDeleteModule = (index, semesterModules, setSemesterModules) => {
         const values = [...semesterModules]; 
         if(values.length > 1){
@@ -42,44 +100,99 @@ const NewCalculation = () => {
     const URL = "https://unigpacalculator-api.onrender.com";
 
     const handleCalculateGpa = async (semester, modules, setGPA) => {
-        try {
-            const response = await axios.post(`${URL}/api/gpa/calculate`, 
-            {
-                semester,
-                modules
-            });
-            setGPA(response.data.gpa);
-        } catch (error) {
-            console.error('Error calculating GPA:', error);
-            setGPA(null); // Reset the GPA to null in case of error
+        console.log(formData)
+        if(semester === "Semester One") {
+            let totalGrades = 0;
+            let creditHrs = 0;
+            let gpa = 0;
+            semester1Modules.map((module) => {
+            if (module.credits === 2){
+                totalGrades += foundationCourses[`${module.grade}`]
+            } else if (module.credits === 3) {
+                totalGrades += departmentalCourses[`${module.grade}`]
+            }
+            creditHrs+=module.credits
+            })
+            gpa = (totalGrades / creditHrs).toFixed(2)
+            setSemester1Score({totalGrade: totalGrades, gpa })
+        }else if(semester === "Semester Two") {
+            let totalGrades = 0;
+            let creditHrs = 0;
+            let gpa = 0;
+            semester2Modules.map((module) => {
+            if (module.credits === 2){
+                totalGrades += foundationCourses[`${module.grade}`]
+            } else if (module.credits === 3) {
+                totalGrades += departmentalCourses[`${module.grade}`]
+            }
+            creditHrs+=module.credits
+            })
+            gpa = (totalGrades / creditHrs).toFixed(2)
+            setSemester2Score({totalGrade: totalGrades, gpa })
+        }else if (semester === "Both Semesters") {
+            let totalGrades = 0;
+            let creditHrs = 0;
+            let gpa = 0;
+            formData.map((module) => {
+            if (module.credits === 2){
+                totalGrades += foundationCourses[`${module.grade}`]
+            } else if (module.credits === 3) {
+                totalGrades += departmentalCourses[`${module.grade}`]
+            }
+            creditHrs+=module.credits
+            })
+            gpa = (totalGrades / creditHrs).toFixed(2)
+            setBothSemestersScore({totalGrade: totalGrades, gpa })
         }
+        
+        // formData.map((module) => {
+        //     if (module.credits === 2){
+        //         totalGrades += foundationCourses[`${module.grade}`]
+        //     } else if (module.credits === 3) {
+        //         totalGrades += departmentalCourses[`${module.grade}`]
+        //     }
+        //     creditHrs+=module.credits
+        // })
+        // const creditHrs = formData.reduce((module) => module.credits);
+        setResult("active")
+        // try {
+        //     const response = await axios.post(`${URL}/api/gpa/calculate`, 
+        //     {
+        //         semester,
+        //         modules
+        //     });
+        //     setGPA(response.data.gpa);
+        // } catch (error) {
+        //     console.error('Error calculating GPA:', error);
+        //     setGPA(null); // Reset the GPA to null in case of error
+        // }
     };
 
-    const handleSaveGPA = async (semester, gpa) => {
-        try {
-            await axios.post(`${URL}/api/gpa/save`, {
-                semester,
-                gpa
-            });
-            setSavedGPAs(prev => ({
-                ...prev,
-                [`semester${semester}`]: true
-            }));
-        } catch (error) {
-            console.error('Error saving GPA:', error);
-        }
-    };
+    // const handleSaveGPA = async (semester, gpa) => {
+    //     try {
+    //         await axios.post(`${URL}/api/gpa/save`, {
+    //             semester,
+    //             gpa
+    //         });
+    //         setSavedGPAs(prev => ({
+    //             ...prev,
+    //             [`semester${semester}`]: true
+    //         }));
+    //     } catch (error) {
+    //         console.error('Error saving GPA:', error);
+    //     }
+    // };
 
     const renderSemester = (semester, modules, setModules, gpa, setGPA) => (
-        <div className="mb-10">
-            <h2 className='font-medium font-Montserrat text-xl ml-3'>Semester {semester}</h2>
-                <div className="flex items-center justify-evenly font-Montserrat mt-3">
-                    <div className='font-medium'>Module</div>
-                    <div className='font-medium relative xs:left-10 sm:left-24 md:left-28'>Grade</div>
+        <div className="">
+            <h2 className='font-Montserrat text-xl ml-3 font-bold absolute'>Semester {semester}</h2>
+                <div className="flex items-center justify-evenly font-Montserrat">
+                    <div className='font-medium'></div>
+                    <div className='font-medium relative xs:left-10 sm:left-24 md:left-36'>Grade</div>
                     <div className='font-medium relative xs:left-5 sm:left-10 md:left-12'>Credit Hrs</div>
                 </div>
                 {modules.map((module, index) => (
-                    <div key={index} className='flex items-center justify-center mt-3 font-Montserrat'>
+                    <div key={index} className='flex items-center justify-center mt-2 font-Montserrat'>
                         <div className='flex flex-col'>
                             <input
                                 id='module_name'
@@ -143,11 +256,6 @@ const NewCalculation = () => {
                     >
                         <Plus />
                     </button>
-                    <button 
-                        type="submit"
-                        onClick={() => handleCalculateGpa(semester, modules, setGPA)}
-                        className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'
-                    >Calculate GPA</button>
                 </div>
             {gpa !== null && (
                 <div className="result mt-4 flex flex-col items-center">
@@ -167,8 +275,30 @@ const NewCalculation = () => {
 
     return (
         <div className="flex flex-col items-center justify-center relative top-24">
+            <select className='text-xl mb-4 border-[#ccc] rounded-md' onChange={(e) => setSemester(e.target.value)}>
+                <option>Select Semester</option>
+                <option value="Semester One">Semester One</option>
+                <option value="Semester Two">Semester Two</option>
+                <option value="Both Semesters">Both Semesters</option>
+            </select>
+            { semester === "Semester One" ? 
+            <>
             {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
-            {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
+            <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate GPA</button>
+        </> :
+            semester === "Semester Two" ?
+            <>
+                {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
+                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate GPA</button>
+            </> :
+            semester === "Both Semesters" ? 
+            <>
+                {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
+                {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
+                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate CGPA</button>
+            </> : ""
+            }
+            <Result formData={formData} result={result} semester={semester} semester1Modules={semester1Modules} semester2Modules={semester2Modules} semester1Score={semester1Score} semester2Score={semester2Score} bothSemestersScore={bothSemestersScore}/>
             
             {savedGPAs.semester1 && savedGPAs.semester2 && (
                 <button

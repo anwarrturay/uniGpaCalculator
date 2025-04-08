@@ -7,9 +7,9 @@ const cookieParser = require("cookie-parser");
 const connectDB = require("./config/dbConn.js");
 const corsOptions = require('./config/corsOptions.js');
 const credentials = require("./middleware/credentials.js");
-const verifyJWT = require("./middleware/verifyJWT.js")
-const {logger} = require("./middleware/logger.js")
-const errorHandler = require("./middleware/errorHandler.js")
+const verifyJWT = require("./middleware/verifyJWT.js");
+const {logger} = require("./middleware/logger.js");
+const errorHandler = require("./middleware/errorHandler.js");
 
 // Import Routes
 const gpaRoutes = require("./routes/gpaRoutes.js");
