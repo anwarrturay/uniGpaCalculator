@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const RegistrationSchema = new Schema({
+const User = new Schema({
     firstname: {
         type: String,
         required: true
@@ -33,9 +33,20 @@ const RegistrationSchema = new Schema({
         required: true
     },
     image: {
-        data: Buffer,
-        contentType: String
-    }
+        type: String,
+        required: true
+    },
+    roles: {
+        USER: {
+            type:Number,
+            default: 2004
+        },
+        ADMIN: {
+            type: Number,
+            default: null
+        }
+    },
+    refreshToken: { type: String }
 })
 
-module.exports = mongoose.model("Registration", RegistrationSchema);
+module.exports = mongoose.model("User", User);

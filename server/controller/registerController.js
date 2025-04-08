@@ -1,14 +1,8 @@
-const Registration = require("../models/Registration");
+const User = require("../models/User");
 const bcrypt = require('bcrypt');
-const multer = require("multer");
-
-// Multer configuration to store images in memory instead of saving to disk
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
 
 const handleNewUser = async (req, res) => {
     const { firstname, lastname, email, idNumber, password, department, level } = req.body;
-    console.log("Uploaded image:", req.file);
 
     if (!req.file) {
       return res.status(400).json({ message: "Image upload is required" });
@@ -18,18 +12,16 @@ const handleNewUser = async (req, res) => {
     }
     
     // Check for duplicate email or ID number
-    const duplicateEmail = await Registration.findOne({ email }).exec();
-    const duplicateIdNumber = await Registration.findOne({ idNumber }).exec();
+    const duplicateEmail = await User.findOne({ email }).exec();
+    const duplicateIdNumber = await User.findOne({ idNumber }).exec();
     if (duplicateEmail || duplicateIdNumber) {
       return res.status(409).json({ message: "Email or ID number already exists" });
     }
 
     try {
-        // Encrypt the password
         const hashedPwd = await bcrypt.hash(password, 10);
 
-        // Store user with image in MongoDB
-        const newUser = new Registration({ 
+        const newUser = new User({ 
             firstname,
             lastname, 
             email,
@@ -37,7 +29,7 @@ const handleNewUser = async (req, res) => {
             password: hashedPwd,
             department,
             level, 
-            image: { data: req.file.buffer, contentType: req.file.mimetype }
+            image: `/uploads/${req.file.filename}`
         });
 
         const result = await newUser.save();
@@ -50,4 +42,4 @@ const handleNewUser = async (req, res) => {
     }
 };
 
-module.exports = { handleNewUser, upload };
+module.exports = { handleNewUser };

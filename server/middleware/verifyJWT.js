@@ -13,7 +13,10 @@ const verifyJWT = (req, res, next) => {
       return res.status(403).json({ message: 'Invalid or expired token.' });
     }
 
-    req.userId = decoded.userId; // Attach the userId to the request object
+    req.userId = decoded.userId;
+    req.roles = decoded.roles;
+    req.idNumber = decoded.idNumber;
+    
     next();
   });
 };
