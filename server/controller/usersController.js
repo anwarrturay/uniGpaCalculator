@@ -29,7 +29,7 @@ const updateUserDetails = async (req, res)=>{
     
         if(req.file){
             if(specificUser?.image){
-                const oldImagePath = path.join(__dirname, "uploads", specificUser.image);
+                const oldImagePath = path.join(__dirname, "..", "uploads", specificUser.image);
                 if (fs.existsSync(oldImagePath)) {
                     fs.unlinkSync(oldImagePath);
                 }
