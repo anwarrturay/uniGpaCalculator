@@ -34,10 +34,6 @@ const sidebar = ({isOpen, handleClose}) => {
 
   }, [userId])
 
-  useEffect(()=>{
-    console.log("User Details: ", user)
-  }, [])
-
 
   return (
     <>
@@ -60,10 +56,10 @@ const sidebar = ({isOpen, handleClose}) => {
                     <Sidebar.Item>
                       <Link to={'/profile'} className='font-Montserrat'>
                         <div className='flex items-center cursor-pointer'>
-                          <div>
+                          <div className='w-[70px]'>
                             <img src={user && `${BASE_URL}${user?.image}`} className='w-[50px] h-[50px] rounded-full' alt="Profile" />
                           </div>
-                          <p className='font-medium ml-3'>{user && `${user?.firstname}  ${user?.lastname}`}</p>
+                          <p className='font-medium ml-3 text-wrap'>{user && `${user?.firstname}  ${user?.lastname}`}</p>
                         </div>
                       </Link>
                     </Sidebar.Item>

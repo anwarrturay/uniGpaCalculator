@@ -19,62 +19,90 @@ const EditProfilePage = () => {
     const axiosPrivate = useAxiosPrivate();
     const [success, setSuccess] = useState(false);
     const [errMsg, setErrMsg] = useState("");
+    const [previewImage, setPreviewImage] = useState(null);
+
 
     const {register, handleSubmit, formState: {errors}, watch, reset, setValue} = useForm({
-        resolver: yupResolver(updateInfoSchema)
+        resolver: yupResolver(updateInfoSchema),
+        defaultValues: {
+            firstname: '',
+            lastname: '',
+            idNumber: '',
+            department: '',
+            level: '',
+            image: '',
+        },
     })
 
-    useEffect(()=>{
-        const fetchUserData = async ()=>{
-    
-          if (!userId) {
-            console.error("User ID not found in localStorage.");
-            return;
-          }
 
-          try{
+    //  Fetching User personal details here.
+    useEffect(() => {
+        const fetchUserData = async () => {
+          if (!userId) return;
+    
+          try {
             const res = await axiosPrivate.get(`/users/${userId}`);
-            console.log("API Response:", res.data);
             if (res.data) {
-                if (res.data.firstname !== watch("firstname")) {
-                    setValue("firstname", res.data.firstname || "");
-                }
-                if (res.data.lastname !== watch("lastname")) {
-                    setValue("lastname", res.data.lastname || "");
-                }
-                if (res.data.idNumber !== watch("idNumber")) {
-                    setValue("idNumber", res.data.idNumber || "");
-                }    
-                if (res.data.department !== watch("department")) {
-                    setValue("department", res.data.department || "");
-                }
-                if (res.data.level !== watch("level")) {
-                    setValue("level", res.data.level || "");
-                }
+              const data = res.data;
+              setValue('firstname', data.firstname || '');
+              setValue('lastname', data.lastname || '');
+              setValue('idNumber', data.idNumber || '');
+              setValue('department', data.department || '');
+              setValue('level', data.level || '');
+    
+              const imageUrl = data.image?.startsWith('/uploads')
+                ? `${BASE_URL}${data.image}`
+                : data.image;
+    
+              setValue('image', imageUrl || '');
+              setPreviewImage(imageUrl);
+              setUser(data);
             }
-            setUser(res.data);
-          }catch(err){
-            console.error("Error fetching user data:", err);
+          } catch (err) {
+            console.error('Error fetching user data:', err);
           }
-        }
+        };
     
         fetchUserData();
+    }, [userId, axiosPrivate, setUser, setValue]);
+
+
+    const handleImageChange = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        console.log("File Selected: ", file);
+        console.log("File Size: ", file.size);
     
-    }, [userId])
-
-    console.log("fetched values: ",watch("firstname"))
-
-
-    const handleImageChange = (e) => {
-        // const fileName = document.querySelector('.fileName');
-        // const imgURL = e.target.files[0];
-        // fileName.innerHTML = imgURL.name;
-        // setFormData({
-        //     ...formData,
-        //     image: URL.createObjectURL(imgURL)
-        // })
-        console.log("image uploaded");
+        const imageUrl = URL.createObjectURL(file);
+        setPreviewImage(imageUrl);
         
+        setValue("image", file, { shouldValidate: true });
+    
+        const formData = new FormData();
+        formData.append("image", file);
+
+        try {
+            const response = await axiosPrivate.patch(`/users/${userId}`, formData);
+            console.log(response.data);
+        
+            if (response.status === 200) {  
+              const updatedImageUrl = response.data.image?.startsWith("/uploads")
+                ? `${BASE_URL}${response.data.image}`
+                : response.data.image;
+        
+              setValue("image", updatedImageUrl);
+              setPreviewImage(updatedImageUrl);
+        
+              setUser(prevUser => ({
+                ...prevUser,
+                image: updatedImageUrl
+              }));
+              navigate("/profile")
+            }
+        } catch (err) {
+            console.error("Error updating image:", err);
+        } 
     }
 
     const handleSaveChanges = async (data) => {
@@ -103,10 +131,11 @@ const EditProfilePage = () => {
             if(!err?.response){
                 setErrMsg("No Server Response");
             }else if(err.response === 400){
-                setErrMsg("Unable to update user")
+                setErrMsg("Unable to update user");
             }
         }
     }
+
 
   return (
     <>
@@ -117,29 +146,30 @@ const EditProfilePage = () => {
                         <ProfileHeader pageTitle='Edit Profile' userImage={`${BASE_URL}${user.image}`}/>
                     </div>
                     <main className='flex flex-col items-center mt-5 px-4 pb-20 pt-32 font-Montserrat'>
-                        <div className='flex flex-col items-center relative '>
-                            <label htmlFor="image" className='absolute bg-white font-bold py-2 px-3 rounded-lg text-[#3b44e6] border transition-all hover:border hover:border-[#3b44e6] hover:cursor-pointer text-sm'>Change Profile</label>
-                            <input
-                                id='image' 
-                                type="file" 
-                                className='opacity-0 -z-30'
-                                onChange={handleImageChange}
-                            />
-                        </div>
-                        <div className='fileName text-[#3b44e6] mt-3 text-center
-                        '></div>
-                        <div className={`flex items-center relative top-3 justify-center ${success ? "flex" : "hidden"}`}>
-                            {success ? <div className='bg-[#00FF94] flex flex-col items-center justify-center rounded-md font-Montserrat'>
-                                <p className='text-green-800'>Changes saved</p>
-                            </div> : <Failure errMsg={errMsg} />}
-                        </div>
+                        {/* Success / Error Message */}
+                        {success ? (
+                            <div className='bg-[#00FF94] text-green-800 rounded-md px-4 py-2 font-bold'>
+                            Changes saved!
+                            </div>
+                        ) : (
+                            errMsg && <Failure errMsg={errMsg} />
+                        )}
+
                         <form onSubmit={handleSubmit(handleSaveChanges, (errors)=> console.log("Validation error: ", errors))} className='bg-white mt-2 px-4 py-5 rounded-xl w-full sm:max-w-md flex flex-col'>
+
+                            {/* Change profile section */}
+                            <div className='flex flex-col items-center relative '>
+                                <label htmlFor="image" className='absolute bg-white font-bold py-2 px-3 rounded-lg text-[#3b44e6] border transition-all hover:border hover:border-[#3b44e6] hover:cursor-pointer text-sm'>Change Profile</label>
+                                <input
+                                    id='image' 
+                                    type="file" 
+                                    className='opacity-0 -z-30'
+                                    onChange={handleImageChange}
+                                />
+                            </div>
                             <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="firstName">Firstname:</label>
                             <input
                                 className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
-                                autoFocus
-                                name='firstname'
-                                value={watch("firstname")}
                                 type="text"
                                 {...register("firstname")}
                             />
@@ -147,34 +177,25 @@ const EditProfilePage = () => {
                             <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="lastName">Lastname:</label>
                             <input className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
                                 type="text"
-                                name='lastName'
                                 {...register("lastname")}
-                                value={watch("lastname")}
                             />
             
                             <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="idNumber">ID Number:</label>
                             <input className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
-                                name='idNumber'
                                 type='number' 
                                 {...register("idNumber")}
-                                value={watch("idNumber")}
                             />
 
                             <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="department">Department:</label>
                             <input className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
-                                name='department'
                                 type='text' 
                                {...register("department")}
-                               value={watch("department")}
                             />
             
                             <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="level">Level:</label>  
                             <select className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none' 
-                                name="level"
                                 id="level"
                                 {...register("level")}
-                                value={watch("level")}
-                                defaultValue={user?.level}
                             >
                                 <option value="Year 1">Year 1</option>
                                 <option value="Year 2">Year 2</option>

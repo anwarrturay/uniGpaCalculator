@@ -24,6 +24,9 @@ const updateInfoSchema = yup.object().shape({
     .string()
     .oneOf(['Year 1', 'Year 2', 'Year 3', 'Year 4'], 'Select a valid level')
     .required('Level is required'),
+    
+    image: yup
+      .mixed()
 });
 
 export default updateInfoSchema;

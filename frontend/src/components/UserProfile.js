@@ -26,7 +26,6 @@ const UserProfile = () => {
     
           try{
             const response = await axiosPrivate.get(`/users/${userId}`);
-            console.log("API Response:", response.data);
             setUser(response.data);
           }catch(err){
             console.error("Error fetching user data:", err);
@@ -36,10 +35,6 @@ const UserProfile = () => {
         fetchUserData();
     
     }, [userId])
-
-    useEffect(()=>{
-      console.log(user);
-    }, [])
     
   return (
     <>

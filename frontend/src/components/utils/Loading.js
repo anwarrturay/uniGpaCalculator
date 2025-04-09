@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { DataContext } from '../context/DataContext'
 import { useLocation } from 'react-router-dom';
 import { IoSadOutline } from 'react-icons/io5';
-import unimakLogo from "../../images/unimak-image.jpg"
+import unimakLogo from "../../images/unimak.png"
 import {motion} from "framer-motion"
 
 const Loading = () => {

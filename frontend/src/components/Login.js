@@ -44,6 +44,7 @@ function Login() {
           headers: {
             'Content-Type': 'application/json',
           },
+          withCredentials: true
         }
       );
       if(response) console.log(response.data);
@@ -77,10 +78,6 @@ function Login() {
   const togglePersist = ()=>{
     setPersist(prev=> !prev)
   }
-
-    useEffect(()=>{
-      localStorage.setItem("persist", persist)
-  }, [persist])
 
 
   return (

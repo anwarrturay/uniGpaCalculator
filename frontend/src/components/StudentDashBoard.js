@@ -26,9 +26,6 @@ const StudentDashBoard = ({isOpen, setIsOpen, handleClose}) => {
 
     }, [auth?.accessToken]);
 
-   useEffect(()=>{
-    console.log("User Data: ", user)
-   }, [])
 
   return (
     <>

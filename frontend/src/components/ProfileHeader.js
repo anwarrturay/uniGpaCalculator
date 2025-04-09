@@ -1,7 +1,15 @@
 import React from 'react'
 import { FaChevronLeft } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import updateInfoSchema from '../schemas/updateInfoSchema';
+
 const ProfileHeader = ({id, pageTitle, userImage}) => {
+
+  const { watch, formState: {errors}} = useForm({
+    resolver: yupResolver(updateInfoSchema)
+  })
 
   return (
     <header className='relative font-Montserrat'>
@@ -14,7 +22,12 @@ const ProfileHeader = ({id, pageTitle, userImage}) => {
             
         </div>
         <div className='absolute overflow-clip w-full top-14'>
-            <img className='w-[80px] h-[80px] object-cover object-top rounded-full m-auto' src={userImage} width='100px' alt="Profile" />
+            <img 
+              className='w-[80px] h-[80px] object-cover object-top rounded-full m-auto' 
+              src={userImage} 
+              width='100px' 
+              alt="Profile" 
+            />
         </div>
     </header>
   )
