@@ -32,10 +32,11 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
         printWindow.document.write('<html><head><title>Student Bash</title>');
       
         printWindow.document.write(`
-          <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+          <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         `);
       
         printWindow.document.write('</head><body class="p-4">');
+        printWindow.document.write("<div class='w-full flex items-center justify-center'><img class='text-center' width='100px' src='/unimak.png'/></div>")
         printWindow.document.write(content);
         printWindow.document.write('</body></html>');
       
@@ -56,78 +57,91 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
   return (
     <>
         {formData && result === "active" && semester && 
-            <div id="result" className='max-w-6xl sm:mx-10 flex flex-col items-end'>
-            <div class="main-div max-w-full mx-auto border bg-white border-gray-400 p-4 sm:p-6">
-                <div class="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between w-full mb-4">
+            <div className='max-w-3xl w-full flex flex-col items-end'>
+            <div id="result" class="main-div w-full mx-auto border bg-white p-4 sm:p-6 font-Montserrat">
+                <div class="flex flex-col items-center w-full mb-4">
                 <div class="font-bold text-xl">STATEMENT OF RESULTS</div>
-                <div class="text-sm">{format(new Date(), "MMMM Mo, y")}</div>
                 </div>
+
+                <table className='text-sm w-full'>
+                    <tbody>
+                        <tr>
+                            <td className='border-black py-1 border-[0.5px] px-2 font-bold w-[20%]'>NAME</td>
+                            <td className='border-black py-1 border-[0.5px] px-2'>{user?.firstname} {user?.lastname}</td>
+                        </tr>
+                        <tr>
+                            <td className='border-black py-1 border-[0.5px] px-2 font-bold'>ID NO.</td>
+                            <td className='border-black py-1 border-[0.5px] px-2'>{user?.idNumber}</td>
+                        </tr>
+                        <tr>
+                            <td className='border-black py-1 border-[0.5px] px-2 font-bold'>DEPARTMENT</td>
+                            <td className='border-black py-1 border-[0.5px] px-2'>{user?.department}</td>
+                        </tr>
+                        <tr>
+                            <td className='border-black py-1 border-[0.5px] px-2 font-bold'>PROGRAM</td>
+                            <td className='border-black py-1 border-[0.5px] px-2'>Degree</td>
+                        </tr>
+                    </tbody>
+                </table>
             
-                <div class="flex flex-col text-sm mb-4 border-gray-400">
-                <div className='border border-[#ccc] p-1'><span className='font-bold'>NAME:</span> {user && user?.firstname}</div>
-                <div className='border border-[#ccc] p-1 -mt-[0.05rem]'><span className='font-bold'>SURNAME:</span> {user && user?.lastname}</div>
-                <div className='border border-[#ccc] p-1 -mt-[0.05rem]'><span className='font-bold'>ID NO.:</span> {user && user?.idNumber}</div>
-                <div className='border border-[#ccc] p-1 -mt-[0.05rem]'><span className='font-bold'>DEPARTMENT:</span> {user && user?.department}</div>
-                </div>
-            
-                <div class="text-center font-bold mb-2 text-sm border border-gray-400 z-10 p-1 -mt-[1.05rem] bg-gray-200">{user?.level}</div>
+                <div class="text-center font-bold mb-2 text-sm border border-black z-10 p-1 mt-1 bg-[#ded9c3]">{user?.level}</div>
             
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-6">
                 { semester === "Semester One" || semester === "Both Semesters" ?
                 <div>
-                    <div class="text-center font-semibold mb-1 border border-gray-400 bg-gray-200 -mt-1">FIRST SEMESTER</div>
-                    <table class="w-full border border-gray-400 text-xs">
-                    <thead class="bg-gray-200">
+                    <div class="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]">FIRST SEMESTER</div>
+                    <table class="w-full border border-black text-xs">
+                    <thead class="bg-[#dcedf4]">
                         <tr>
-                        <th class="border border-gray-400 p-1">Semester Module</th>
-                        <th class="border border-gray-400 p-1">Credit Hours</th>
-                        <th class="border border-gray-400 p-1">Grade</th>
+                        <th class="border border-black p-1">Semester Module</th>
+                        <th class="border border-black p-1">Credit Hours</th>
+                        <th class="border border-black p-1">Grade</th>
                         </tr>
                     </thead>
                     <tbody>
                         {semester1Modules.map(module => {
-                            return <tr><td class="border p-1">{module.module_name}</td><td class="border p-1">{module.credits}CHrs</td><td class="border p-1">{module.grade}</td></tr>
+                            return <tr><td class="border border-black p-1">{module.module_name}</td><td class="border border-black p-1 text-center">{module.credits}CHrs</td><td class="border border-black p-1 text-center">{module.grade}</td></tr>
                         })}
+                        <tr><td colspan="3" className="border border-black p-1 text-center">Semester Total Grade Point (TGP): <span className=''>{semester1Score.totalGrade}</span></td></tr>
+                        <tr><td  colspan="3" class="border border-black p-1 text-center">Semester Cumulative GPA (CGPA): <span className=''>{semester1Score.gpa}</span></td></tr>
                     </tbody>
                     </table>
-                    <div class="text-sm border border-gray-400 p-1 bg-gray-200 -mt-[0.05rem">Semester Total Grade Point (TGP): <span className='font-bold'>{semester1Score.totalGrade}</span></div>
-                    <div class="text-sm border border-gray-400 bg-gray-200 p-1 -mt-[0.05rem]">Semester Cumulative GPA (CGPA): <span className='font-bold'>{semester1Score.gpa}</span></div>
                 </div> : ""
                 }
             
                 { semester === "Semester Two" || semester === "Both Semesters" ? 
                 <div>
-                    <div class="text-center font-semibold mb-1 border border-gray-400 bg-gray-200 -mt-1">SECOND SEMESTER</div>
-                    <table class="w-full border border-gray-400 text-xs">
-                    <thead class="bg-gray-200">
+                    <div class="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]">SECOND SEMESTER</div>
+                    <table class="w-full border border-black text-xs">
+                    <thead class="bg-[#dcedf4]">
                         <tr>
-                        <th class="border border-gray-400 p-1">Semester Module</th>
-                        <th class="border border-gray-400 p-1">Credit Hours</th>
-                        <th class="border border-gray-400 p-1">Grade</th>
+                        <th class="border border-black p-1">Semester Module</th>
+                        <th class="border border-black p-1">Credit Hours</th>
+                        <th class="border border-black p-1">Grade</th>
                         </tr>
                     </thead>
                     <tbody>
                         {semester2Modules.map(module => {
-                            return <tr><td class="border p-1">{module.module_name}</td><td class="border p-1">{module.credits}CHrs</td><td class="border p-1">{module.grade}</td></tr>
+                            return <tr><td class="border border-black p-1">{module.module_name}</td><td class="border border-black p-1 text-center">{module.credits}CHrs</td><td class="border border-black p-1 text-center">{module.grade}</td></tr>
                         })}
+                        <tr><td colspan="3" className="border border-black p-1 text-center">Semester Total Grade Point (TGP): <span className=''>{semester2Score.totalGrade}</span></td></tr>
+                        <tr><td  colspan="3" class="border border-black p-1 text-center">Semester Cumulative GPA (CGPA): <span className=''>{semester2Score.gpa}</span></td></tr>
                     </tbody>
                     </table>
-                    <div class="text-sm border border-gray-400 p-1 bg-gray-200 -mt-[0.05rem]">Semester Total Grade Point (TGP): <span className='font-bold'>{semester2Score.totalGrade}</span></div>
-                    <div class="text-sm border border-gray-400 bg-gray-200 p-1 -mt-[0.05rem]">Semester Cumulative GPA (CGPA): <span className='font-bold'>{semester2Score.gpa}</span></div>
                 </div> : ""
                 }
                 </div>
-                { semester === "Both Semesters" &&
-                    <div class="text-sm font-medium mb-2">
-                Academic Year Total Grade Point (TGP): <span className='font-bold'>{bothSemestersScore.totalGrade}</span><br></br>
-                Academic Year Cumulative GPA (CGPA): <span className='font-bold'>{bothSemestersScore.gpa}</span>
-                </div>
+                { semester === "Both Semesters" && <>
+                    <div class="text-center text-sm border border-black z-10 p-1 -mt-5">Academic Year Total Grade Point (TGP): <span className='font-normal'>{bothSemestersScore.totalGrade}</span></div>
+                    <div class="text-center mb-2 text-sm border border-black z-10 p-1 mt-1">Academic Year Cumulative GPA (CGPA): <span className='font-normal'>{bothSemestersScore.gpa}</span></div>
+                </>
                 }
                 
             
                 <div class="text-red-600 text-xs italic">
                 NOT ISSUED BY THE UNIVERSITY OF MAKENI. 
                 </div>
+                <div class="text-red-600 text-xs italic">{format(new Date(), "MMMM Mo, y")}</div>
             </div>
             <div className='flex gap-2'>
                 <button onClick={() => {setResult("inactive");}} className='bg-[#0056b3] text-white py-2 px-5 rounded-md mt-4 mb-8'>Close</button>
