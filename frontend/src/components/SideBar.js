@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { Drawer, Sidebar} from "flowbite-react";
 import unimakSM from '../images/unimak-sm.png';
-import { LogOut } from 'lucide-react';
+import { LogOut, History, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
@@ -68,8 +66,8 @@ const sidebar = ({isOpen, handleClose}) => {
                     <Sidebar.Item>
                       <Link to={'/recent'} className='cursor-pointer font-Montserrat'>
                         <div className="flex items-center">
-                          <div className="rounded-md hover:bg-[#c3c7f2] p-2.5">
-                            <FontAwesomeIcon icon={faClock} className='text-3xl text-[#364AFF]'/>
+                          <div className="rounded-md bg-[#07018130] hover:bg-[#07018137] p-2.5">
+                            <History size={24} className='text-[#070181]'/>
                           </div>
                           <div className='font-medium ml-3'>Recent Calculations</div>  
                         </div>
@@ -80,10 +78,8 @@ const sidebar = ({isOpen, handleClose}) => {
                     <Sidebar.Item>
                       <Link to={'/newcalculation'}>
                         <div className="flex items-center cursor-pointer">
-                            <div className='bg-[#c3c7f2] hover:bg-[#abb0ed] flex items-center justify-center p-2.5 rounded-md'>
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 text-[#364AFF]">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" /> 
-                              </svg>
+                            <div className='bg-[#07018130] hover:bg-[#07018137] flex items-center justify-center p-2.5 rounded-md'>
+                              <Plus className='text-[#070181]'/>
                             </div>
                             <div className="text-black text-base ml-3 font-Montserrat font-medium">
                                 New Calculation
@@ -97,10 +93,10 @@ const sidebar = ({isOpen, handleClose}) => {
                     <Sidebar.Item>
                         <span onClick={()=> navigate('/')}>
                             <div className="flex items-center cursor-pointer relative">
-                                <div className='bg-[#c3c7f2] hover:bg-[#abb0ed] flex items-center justify-center p-2.5 rounded-md'>
-                                    <LogOut className='size-6 text-[#364AFF]'/>
+                                <div className='flex items-center justify-center p-2.5 rounded-md'>
+                                    <LogOut size={24} className='text-red-500'/>
                                 </div>
-                                <div className="text-base ml-3 font-Montserrat font-medium">
+                                <div className="text-base text-red-500 ml-3 font-Montserrat font-medium">
                                     Log Out
                                 </div>
                             </div>

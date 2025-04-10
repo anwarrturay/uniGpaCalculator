@@ -98,7 +98,7 @@ function Signup() {
 						value={formData.firstname}
 						onChange={(e) => setFormData({ ...formData, firstname: e.target.value })}
 						required
-						className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
+						className='input-field'
 						/>
 						<input
 						type="text"
@@ -106,7 +106,7 @@ function Signup() {
 						value={formData.lastname}
 						onChange={(e) => setFormData({ ...formData, lastname: e.target.value })}
 						required
-						className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
+						className='input-field'
 						/>
 						<input
 						type="email"
@@ -114,7 +114,7 @@ function Signup() {
 						value={formData.email}
 						onChange={(e) => setFormData({ ...formData, email: e.target.value })}
 						required
-						className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
+						className='input-field'
 						/>
 						<input
 						type="text"
@@ -122,7 +122,7 @@ function Signup() {
 						value={formData.idNumber}
 						onChange={(e) => setFormData({ ...formData, idNumber: e.target.value })}
 						required
-						className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
+						className='input-field'
 						/>
 						<input
 						type={showPassword ? "text" : "password"}
@@ -147,7 +147,7 @@ function Signup() {
 						value={formData.department}
 						onChange={(e) => setFormData({ ...formData, department: e.target.value })}
 						required
-						className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
+						className='input-field'
 						>
 						<option value="" disabled>Select Department</option>
 						<option value="Computer Science">Computer Science</option>
@@ -174,7 +174,7 @@ function Signup() {
 						value={formData.level}
 						onChange={(e) => setFormData({ ...formData, level: e.target.value })}
 						required
-						className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500'
+						className='input-field'
 						>
 						<option value="" disabled>Level</option>
 						<option value="Year 1">Year 1</option>
@@ -191,14 +191,14 @@ function Signup() {
 						/>
 						<button 
 							type="submit" 
-							className='bg-blue-500 py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center'
+							className='bg-[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center'
 						>
 						SIGN UP
 						</button>
 					</form>
 					<p className='font-Montserrat mb-3 text-lg'>
 						Already have an account?{' '}
-						<span onClick={()=> navigate(-1)} className="text-blue-500 cursor-pointer font-medium">
+						<span onClick={()=> navigate(-1)} className="text-[#070181] cursor-pointer font-medium">
 							Login
 						</span>
 					</p>

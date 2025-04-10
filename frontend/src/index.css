@@ -58,3 +58,7 @@ body{
     print-color-adjust: exact !important;
   }
 }
+
+.input-field{
+  @apply mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-[#070181]
+}

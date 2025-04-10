@@ -13,7 +13,7 @@ const ProfileHeader = ({id, pageTitle, userImage}) => {
 
   return (
     <header className='relative font-Montserrat'>
-        <div className='header bg-[#747bff] w-full h-32 text-xl text-white p-2'>
+        <div className='header bg-[#070181] w-full h-32 text-xl text-white p-2'>
             <h1 className='text-center font-bold'>{pageTitle || 'Profile'}</h1>
             <div className='flex items-center justify-between -translate-y-7'>
                 <p className='hover:cursor-pointer'><Link to={"/studentdashboard"}><FaChevronLeft /></Link></p>

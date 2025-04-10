@@ -234,19 +234,6 @@ const NewCalculation = () => {
                         <Plus />
                     </button>
                 </div>
-            {gpa !== null && (
-                <div className="result mt-4 flex flex-col items-center">
-                    <h3>Your GPA: {gpa.toFixed(2)}</h3>
-                    {!savedGPAs[`semester${semester}`] && (
-                        <button
-                            onClick={() => handleSaveGPA(semester, gpa)}
-                            className='bg-green-500 text-white py-2 px-5 rounded-md mt-2'
-                        >
-                            Save GPA
-                        </button>
-                    )}
-                </div>
-            )}
         </div>
     );
 
@@ -262,18 +249,18 @@ const NewCalculation = () => {
             { semester === "Semester One" && result !== "active" ? 
             <>
             {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
-            <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate GPA</button>
+            <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate GPA</button>
         </> :
             semester === "Semester Two" && result !== "active" ?
             <>
                 {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
-                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate GPA</button>
+                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate GPA</button>
             </> :
             semester === "Both Semesters" && result !== "active" ? 
             <>
                 {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
                 {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
-                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate CGPA</button>
+                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate CGPA</button>
             </> : ""
             }
             <Result formData={formData} result={result} semester={semester} semester1Modules={semester1Modules} semester2Modules={semester2Modules} semester1Score={semester1Score} semester2Score={semester2Score} bothSemestersScore={bothSemestersScore} setResult={setResult}/>
