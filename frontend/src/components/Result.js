@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuth';
+import axios from '../api/axios';
 import { format } from 'date-fns';
 
-const Result = ({formData, result, semester, semester1Modules, semester2Modules, semester1Score, semester2Score, bothSemestersScore, setResult}) => {
+const Result = ({formData, result, semester, semester1Modules, semester2Modules, semester1Score, semester2Score, bothSemestersScore, setResult, setShowDialog}) => {
     const {auth, user, setUser} = useAuth()
     const userId = auth?.userId;
     const axiosPrivate = useAxiosPrivate();
@@ -24,6 +25,24 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
         }
         fetchUserData();
     }, [userId])
+
+    const testIsNew = async () => {
+        try {
+            const response = await axiosPrivate.patch(
+                'users/is-new',
+                {id: user?._id},
+                {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true
+                }
+            );
+            if(response) console.log(response.data);
+        } catch (err) {
+            console.log(err)
+        }
+    };
 
     function printResult(divId) {
         const content = document.getElementById(divId).innerHTML;
@@ -144,8 +163,8 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
                 <div class="text-red-600 text-xs italic">{format(new Date(), "MMMM Mo, y")}</div>
             </div>
             <div className='flex gap-2'>
-                <button onClick={() => {setResult("inactive");}} className='bg-[#070181] text-white py-2 px-5 rounded-md mt-4 mb-8'>Close</button>
-                <button onClick={() => printResult("result")} className='bg-[#070181] text-white py-2 px-5 rounded-md mt-4 mb-8'>Download</button> 
+                <button onClick={() => {setResult("inactive");}} className='bg-[#0056b3] text-white py-2 px-5 rounded-md mt-4 mb-8'>Close</button>
+                <button onClick={() => printResult("result")} className='bg-[#0056b3] text-white py-2 px-5 rounded-md mt-4 mb-8'>Download</button> 
             </div>
             
             </div>

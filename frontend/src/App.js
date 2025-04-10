@@ -43,6 +43,7 @@ function App() {
               <Route path="/studentdashboard" element={
                 <StudentDashBoard isOpen={isOpen} setIsOpen={setIsOpen} handleClose={handleClose} />
               } />
+              <Route path="/recent" element={<Recent />} />
 
               <Route path="/newcalculation" element={
                 <>

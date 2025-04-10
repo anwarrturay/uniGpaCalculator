@@ -1,6 +1,6 @@
 import React from 'react';
 import SideBar from './SideBar';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import unimakSM from '../images/unimak-sm.png'
 import unimakXL from '../images/unimak-xl.png'
 import useWindowSize from '../hooks/useWindowSize';
@@ -12,6 +12,7 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
   const mutableStyle = location.pathname === '/studentdashboard' ?
     'justify-between': location.pathname === '/newcalculation' ? 'justify-between': 'justify-between'
   ;
+  const navigate = useNavigate()
   return (
     <div className='bg-[#F2F2F2] z-50 fixed top-0 left-0 right-0  h-[70px]'>
       <div className={`flex items-center ${mutableStyle} lg:${mutableStyle} lg:items-start lg:mt-3`}>
@@ -28,7 +29,6 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
             </div>
           </Link>
         }
-
         { 
           width < 768 ?
             <div className="w-[50px] xs:w-[60px] ml-2 mt-3">
@@ -51,8 +51,8 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
               
             </div>
           :
-            <Link to={'/recent'} className='font-[500] font-Montserrat flex items-center rounded-md justify-center text-xl mr-3 xs:text-xl lg:text-2xl bg-[#070181] hover:bg-[#3c3797] p-2.5 mt-3'>
-              <History className='text-2xl text-white'/>
+            <Link to={'/recent'} className='font-[500] font-Montserrat flex items-center rounded-md justify-center text-xl mr-3 xs:text-xl lg:text-2xl bg-[#c3c7f2] hover:bg-[#abb0ed] p-2.5'>
+              <History className='text-2xl text-[#364AFF]'/>
             </Link>
         }
       </div>

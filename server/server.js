@@ -50,7 +50,6 @@ app.use(verifyJWT)
 
 // Protected Routes
 app.use('/users', userRoutes);
-app.use('/api/gpa', gpaRoutes);
 
 app.use(errorHandler)
 
