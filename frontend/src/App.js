@@ -12,6 +12,7 @@ import NewCalculation from "./components/NewCalculation";
 import StudentDashBoard from "./components/StudentDashBoard";
 import UserProfile from "./components/UserProfile";
 import EditProfilePage from "./components/EditProfilePage";
+import Recent from "./components/Recent";
 
 function App() {
   const [isOpen, setIsOpen] = useState(true);
@@ -41,6 +42,7 @@ function App() {
               <Route path="/studentdashboard" element={
                 <StudentDashBoard isOpen={isOpen} setIsOpen={setIsOpen} handleClose={handleClose} />
               } />
+              <Route path="/recent" element={<Recent />} />
 
               <Route path="/newcalculation" element={
                 <>

@@ -32,6 +32,10 @@ const User = new Schema({
         type: String,
         required: true
     },
+    isNewUser: {
+        type: Boolean,
+        default: true
+    },
     image: {
         type: String,
         required: true

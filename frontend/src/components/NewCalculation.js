@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus } from "lucide-react";
+import { X, Plus, LoaderCircle } from "lucide-react";
 import Result from './Result';
 import SaveResultDialog from './utils/SaveResultDialog';
 // import { useRouter } from 'next/router';
 
 const NewCalculation = () => {
     // USESTATES
+    const [isCalculating, setIsCalculating] = useState(false)
     const [result, setResult] = useState("inactive");
     const [showDialog, setShowDialog] = useState(false)
     const [semester1Score, setSemester1Score] = useState({
@@ -101,7 +102,7 @@ const NewCalculation = () => {
     const URL = "https://unigpacalculator-api.onrender.com";
 
     const handleCalculateGpa = async (semester, modules, setGPA) => {
-        console.log(formData)
+        setIsCalculating(true)
         const calculateSem1 = () => {
             let totalGrades = 0;
             let creditHrs = 0;
@@ -153,10 +154,16 @@ const NewCalculation = () => {
             gpa = (totalGrades / creditHrs).toFixed(2)
             setBothSemestersScore({totalGrade: totalGrades, gpa })
         }
-        setResult("active")
-        setTimeout(()=>{
-            setShowDialog(true)
-        }, 5000);
+        setTimeout(()=> {
+            setIsCalculating(false)
+            setResult("active")
+        }, 3000)
+        if(result === "active"){
+            setTimeout(()=>{
+                setShowDialog(true)
+            }, 7000); 
+        }
+        
     };
 
     const renderSemester = (semester, modules, setModules, gpa, setGPA) => (
@@ -262,7 +269,7 @@ const NewCalculation = () => {
             <>
             {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
             <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate GPA</button>
-        </> :
+            </> :
             semester === "Semester Two" && result !== "active" ?
             <>
                 {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
@@ -272,10 +279,10 @@ const NewCalculation = () => {
             <>
                 {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
                 {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
-                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate CGPA</button>
+                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>{isCalculating ? <div className='flex gap-2'><div className='animate-spin'><LoaderCircle /></div><>Calculating...</></div> : "Calculate CGPA"}</button>
             </> : ""
             }
-            <Result formData={formData} result={result} semester={semester} semester1Modules={semester1Modules} semester2Modules={semester2Modules} semester1Score={semester1Score} semester2Score={semester2Score} bothSemestersScore={bothSemestersScore} setResult={setResult}/>
+            <Result formData={formData} result={result} semester={semester} semester1Modules={semester1Modules} semester2Modules={semester2Modules} semester1Score={semester1Score} semester2Score={semester2Score} bothSemestersScore={bothSemestersScore} setResult={setResult} setShowDialog={setShowDialog}/>
             {
                 showDialog && <SaveResultDialog setShowDialog={setShowDialog}/>
             }
