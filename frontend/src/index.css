@@ -6,7 +6,7 @@
 
 .header{
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 70%, 0% 100%);
-  }
+}
 
 body{
   background-color: #F4F1F8;
