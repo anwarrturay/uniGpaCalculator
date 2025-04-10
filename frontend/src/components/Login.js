@@ -93,14 +93,14 @@ function Login() {
               type="number"
               {...register("idNumber")}
               placeholder="ID Number"
-              className="mb-2 w-[300px] sm:w-[330px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500"
+              className="input-field"
               autoComplete="off"
             />
             <input
               type={showPassword ? 'text' : 'password'}
               {...register("password")}
               placeholder="Password"
-              className="mb-2 w-[300px] sm:w-[330px] border border-[#ccc] rounded-md focus:ring-2 focus:ring-blue-500"
+              className="input-field"
               autoComplete="off"
             />
             <div className="relative top-[-48px] w-[300px]">
@@ -115,23 +115,32 @@ function Login() {
               )}
             </div>
 
+<<<<<<< HEAD
+            <button type="submit" className="bg-[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center">
+=======
             <button type="submit" className="bg[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center">
+>>>>>>> b99044b71cbeeadf67a484ba3b42ccaae9880732
               LOGIN
             </button>
-            <div className="flex justify-center items-center mt-2">
-                <input 
-                    type="checkbox" 
-                    id='persist'
-                    onChange={togglePersist}
-                    checked={persist}
-                    className='mr-2'
-                />
-                <label htmlFor="persist">Keep me signed in</label>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center mt-2">
+                  <input 
+                      type="checkbox" 
+                      id='persist'
+                      onChange={togglePersist}
+                      checked={persist}
+                      className='mr-2'
+                  />
+                  <label htmlFor="persist" className='text-sm'>Keep me signed in</label>
+              </div>
+              <div className="flex justify-end items-end mt-3 text-sm font-medium text-[#070181] cursor-pointer gap-4">
+                Forgot Password ?
+              </div>
             </div>
           </form>
           <p className="font-Montserrat mb-3 text-lg">
             Do not have an account?{' '}
-            <span className="text-blue-500 cursor-pointer font-medium" onClick={()=> navigate('/signup')}>
+            <span className="text-[#070181] cursor-pointer font-medium" onClick={()=> navigate('/signup')}>
               sign up
             </span>
           </p>

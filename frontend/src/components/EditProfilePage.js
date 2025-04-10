@@ -154,57 +154,64 @@ const EditProfilePage = () => {
                         ) : (
                             errMsg && <Failure errMsg={errMsg} />
                         )}
-
-                        <form onSubmit={handleSubmit(handleSaveChanges, (errors)=> console.log("Validation error: ", errors))} className='bg-white mt-2 px-4 py-5 rounded-xl w-full sm:max-w-md flex flex-col'>
-
-                            {/* Change profile section */}
-                            <div className='flex flex-col items-center relative '>
-                                <label htmlFor="image" className='absolute bg-white font-bold py-2 px-3 rounded-lg text-[#3b44e6] border transition-all hover:border hover:border-[#3b44e6] hover:cursor-pointer text-sm'>Change Profile</label>
-                                <input
-                                    id='image' 
-                                    type="file" 
-                                    className='opacity-0 -z-30'
-                                    onChange={handleImageChange}
-                                />
-                            </div>
-                            <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="firstName">Firstname:</label>
+                        {/* Change profile section */}
+                        <div className='flex flex-col items-center justify-center relative left-4 xxs:left-2'>
+                            <label htmlFor="image" className='absolute bg-white font-bold py-2 px-3 rounded-lg text-[#070181] border transition-all hover:border hover:border-[#070181] hover:cursor-pointer text-sm'>Change Profile</label>
                             <input
-                                className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
-                                type="text"
-                                {...register("firstname")}
+                                id='image' 
+                                type="file" 
+                                className='opacity-0 -z-30'
+                                onChange={handleImageChange}
                             />
-            
-                            <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="lastName">Lastname:</label>
-                            <input className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
-                                type="text"
-                                {...register("lastname")}
-                            />
-            
-                            <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="idNumber">ID Number:</label>
-                            <input className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
-                                type='number' 
-                                {...register("idNumber")}
-                            />
+                        </div>
+                        <div className="flex flex-col items-center justify-center relative left-4 xxs:left-2">
+                            <form onSubmit={handleSubmit(handleSaveChanges, (errors)=> console.log("Validation error: ", errors))} className='bg-white mt-2 px-4 py-5 rounded-xl sm:max-w-md flex flex-col'>
+                                <div className="flex flex-col justify-center">
+                                    <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="firstName">Firstname:</label>
+                                    <input
+                                        className='input-field'
+                                        type="text"
+                                        {...register("firstname")}
+                                    />
+                                </div>
+                                <div className="flex flex-col justify-center">
+                                    <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="lastName">Lastname:</label>
+                                    <input className='input-field'
+                                        type="text"
+                                        {...register("lastname")}
+                                    />
+                                </div>
+                                <div className="flex flex-col justify-center">
+                                    <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="idNumber">ID Number:</label>
+                                    <input className='input-field'
+                                        type='number' 
+                                        {...register("idNumber")}
+                                    />
+                                </div>
 
-                            <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="department">Department:</label>
-                            <input className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none'
-                                type='text' 
-                               {...register("department")}
-                            />
-            
-                            <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="level">Level:</label>  
-                            <select className='bg-[#f9f9f9] p-2 text-lg rounded-lg outline-none' 
-                                id="level"
-                                {...register("level")}
-                            >
-                                <option value="Year 1">Year 1</option>
-                                <option value="Year 2">Year 2</option>
-                                <option value="Year 3">Year 3</option>
-                                <option value="Year 4">Year 4</option>
-                            </select>
-            
-                            <button type='submit' className='bg-white font-bold py-2 px-3 mt-4 rounded-lg text-[#3b44e6] border transition-all hover:border hover:border-[#3b44e6] text-sm self-center disabled:opacity-70 disabled:hover:border-[#f3f3f3]'>Save Changes</button>
-                        </form>
+                                <div className="flex flex-col justify-center">
+                                    <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="department">Department:</label>
+                                    <input className='input-field'
+                                        type='text' 
+                                    {...register("department")}
+                                    />
+                                </div>
+                                <div className="flex flex-col justify-center">
+                                    <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="level">Level:</label>  
+                                    <select className='input-field' 
+                                        id="level"
+                                        {...register("level")}
+                                    >
+                                        <option value="Year 1">Year 1</option>
+                                        <option value="Year 2">Year 2</option>
+                                        <option value="Year 3">Year 3</option>
+                                        <option value="Year 4">Year 4</option>
+                                    </select>
+                                </div>
+                
+                                <button type='submit' className='bg-white font-bold py-2 px-3 mt-4 rounded-lg text-[#070181] border border-[#ccc] transition-all hover:border hover:border-[#3b44e6] text-sm self-center disabled:opacity-70 disabled:hover:border-[#f3f3f3]'>Save Changes</button>
+                            </form>
+                        </div>
                     </main>
                     <ProfileFooter /></>
             : <Loading link='/profile/edit'/>

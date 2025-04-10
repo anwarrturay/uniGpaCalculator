@@ -163,7 +163,7 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
                 <div class="text-red-600 text-xs italic">{format(new Date(), "MMMM Mo, y")}</div>
             </div>
             <div className='flex gap-2'>
-                <button onClick={() => {setResult("inactive"); setShowDialog(false)}} className='bg-[#0056b3] text-white py-2 px-5 rounded-md mt-4 mb-8'>Close</button>
+                <button onClick={() => {setResult("inactive");}} className='bg-[#0056b3] text-white py-2 px-5 rounded-md mt-4 mb-8'>Close</button>
                 <button onClick={() => printResult("result")} className='bg-[#0056b3] text-white py-2 px-5 rounded-md mt-4 mb-8'>Download</button> 
             </div>
             

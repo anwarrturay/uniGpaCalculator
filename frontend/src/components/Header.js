@@ -5,7 +5,7 @@ import unimakSM from '../images/unimak-sm.png'
 import unimakXL from '../images/unimak-xl.png'
 import useWindowSize from '../hooks/useWindowSize';
 import { Link } from 'react-router-dom';
-import { History } from 'lucide-react';
+import { History, ChevronLeft, AlignLeft } from 'lucide-react';
 const Header = ({isOpen, setIsOpen, handleClose}) => {
   const location = useLocation();
   const { width } = useWindowSize();
@@ -18,32 +18,20 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
       <div className={`flex items-center ${mutableStyle} lg:${mutableStyle} lg:items-start lg:mt-3`}>
         {location.pathname === '/studentdashboard' &&
           <div className="flex items-start justify-start  cursor-pointer" onClick={() => setIsOpen(true)}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="ml-4 size-12 xs:size-12">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
-              </svg>
+            <AlignLeft size={28} className='ml-2'/>
           </div>
         }
         {location.pathname === '/newcalculation' && 
           <Link to={'/studentdashboard'}>
-            <div className='flex items-center font-Montserrat'>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-              </svg>
+            <div className='flex items-center font-Montserrat mt-3'>
+              <ChevronLeft size={28} />
+              <div className='font-medium text-[19px] xs:text-xl'>Back</div>
             </div>
           </Link>
         }
-        {location.pathname === '/recent' && 
-          <div onClick={() => navigate(-1)}>
-            <div className='flex items-center font-Montserrat'>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-              </svg>
-            </div>
-          </div>
-        }
         { 
           width < 768 ?
-            <div className="w-[50px] xs:w-[60px] ml-2">
+            <div className="w-[50px] xs:w-[60px] ml-2 mt-3">
               <img src={unimakSM} alt="" />
             </div>
           : width < 992 ?
@@ -60,12 +48,9 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
 
         {location.pathname === '/studentdashboard' ? 
             <div className='font-[500] font-Montserrat flex items-center justify-center text-xl text-center mr-3 xs:text-3xl'>
-              DashBoard
+              
             </div>
-          : location.pathname === '/recent' ? 
-          <div className='font-[500] font-Montserrat flex items-center justify-center text-xl text-center mr-3 xs:text-3xl'>
-            
-          </div> :
+          :
             <Link to={'/recent'} className='font-[500] font-Montserrat flex items-center rounded-md justify-center text-xl mr-3 xs:text-xl lg:text-2xl bg-[#c3c7f2] hover:bg-[#abb0ed] p-2.5'>
               <History className='text-2xl text-[#364AFF]'/>
             </Link>
