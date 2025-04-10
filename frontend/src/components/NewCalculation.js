@@ -160,8 +160,8 @@ const NewCalculation = () => {
     };
 
     const renderSemester = (semester, modules, setModules, gpa, setGPA) => (
-        <div className="">
-            <h2 className='font-Montserrat text-lg ml-3 font-bold absolute left-2 xs:left-0'>Semester {semester}</h2>
+        <div className="relative">
+            <h2 className='font-Montserrat text-lg ml-2 font-bold absolute'>Semester {semester}</h2>
                 <div className="flex items-center justify-evenly font-Montserrat">
                     <div className='font-medium'></div>
                     <div className='font-medium relative left-10 xs:left-20 sm:left-32 md:left-36'>Grade</div>
@@ -178,7 +178,7 @@ const NewCalculation = () => {
                                 value={module.module_name}
                                 onChange={(event) => handleChange(index, event, modules, setModules)}
                                 required
-                                className='w-[100px] xxs:w-[140px] text-sm xs:w-[200px] sm:w-[300px] md:w-[330px] border border-[#ccc] rounded-md ml-4 xs:ml-1 font-Montserrat motion-preset-pop motion-duration-1000'
+                                className='w-[100px] xxs:w-[140px] text-sm xs:w-[200px] sm:w-[300px] md:w-[330px] border border-[#ccc] rounded-md xs:ml-1 font-Montserrat motion-preset-pop motion-duration-1000'
                             />
                         </div>
                         <div className="flex flex-col">
@@ -237,9 +237,9 @@ const NewCalculation = () => {
     );
 
     return (
-        <div className="flex flex-col items-center justify-center relative top-20">
-            <h2 className='font-bold pb-2 text-center'>Please select a semester<br></br>to proceed with calculation!</h2>
-            <select className='text-sm mb-4 border-[#ccc] rounded-md' onChange={(e) => setSemester(e.target.value)}>
+        <div className="flex flex-col w-full p-5 items-center justify-center relative top-20">
+            <h2 className='font-bold pb-2 text-center font-Montserrat'>Please select a semester<br></br>to proceed with calculation!</h2>
+            <select className='text-sm mb-4 border-[#ccc] rounded-md font-Montserrat' onChange={(e) => setSemester(e.target.value)}>
                 <option>Select Semester</option>
                 <option value="Semester One">Semester One</option>
                 <option value="Semester Two">Semester Two</option>
