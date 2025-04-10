@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus } from "lucide-react"
-import useAuth from '../hooks/useAuth';
+import { X, Plus } from "lucide-react";
 import Result from './Result';
 import SaveResultDialog from './utils/SaveResultDialog';
 // import { useRouter } from 'next/router';
@@ -162,11 +161,11 @@ const NewCalculation = () => {
 
     const renderSemester = (semester, modules, setModules, gpa, setGPA) => (
         <div className="">
-            <h2 className='font-Montserrat text-xl ml-3 font-bold absolute'>Semester {semester}</h2>
+            <h2 className='font-Montserrat text-lg ml-3 font-bold absolute left-2 xs:left-0'>Semester {semester}</h2>
                 <div className="flex items-center justify-evenly font-Montserrat">
                     <div className='font-medium'></div>
-                    <div className='font-medium relative left-16 xs:left-20 sm:left-32 md:left-36'>Grade</div>
-                    <div className='font-medium relative left-4 xs:left-7 sm:left-12 md:left-16'>Credit Hrs</div>
+                    <div className='font-medium relative left-10 xs:left-20 sm:left-32 md:left-36'>Grade</div>
+                    <div className='font-medium relative left-2 xs:left-7 sm:left-12 md:left-16'>Credit Hrs</div>
                 </div>
                 {modules.map((module, index) => (
                     <div key={index} className='flex items-center justify-center mt-2 font-Montserrat'>
@@ -179,7 +178,7 @@ const NewCalculation = () => {
                                 value={module.module_name}
                                 onChange={(event) => handleChange(index, event, modules, setModules)}
                                 required
-                                className='w-[150px] xs:w-[200px] sm:w-[300px] md:w-[330px] border border-[#ccc] rounded-md ml-4 xs:ml-1 font-Montserrat motion-preset-pop motion-duration-1000'
+                                className='w-[100px] xxs:w-[140px] text-sm xs:w-[200px] sm:w-[300px] md:w-[330px] border border-[#ccc] rounded-md ml-4 xs:ml-1 font-Montserrat motion-preset-pop motion-duration-1000'
                             />
                         </div>
                         <div className="flex flex-col">
@@ -188,7 +187,7 @@ const NewCalculation = () => {
                                 name="grade"
                                 value={module.grade}
                                 onChange={(event) => handleChange(index, event, modules, setModules)}
-                                className='w-[75px] xs:w-[75px] mx-2 border border-[#ccc] rounded-md font-Montserrat motion-preset-pop motion-duration-1000'
+                                className='w-[73px] xs:w-[75px] mx-2 border border-[#ccc] rounded-md font-Montserrat motion-preset-pop motion-duration-1000'
                             >
                                 <option value={'A+'}>A+</option>
                                 <option value={'A'}>A</option>
@@ -210,7 +209,7 @@ const NewCalculation = () => {
                             name="credits"  
                             value={module.credits}
                             onChange={(event) => handleChange(index, event, modules, setModules)}
-                            className='w-[70px] xs:w-[65px] border border-[#ccc] rounded-md motion-preset-pop motion-duration-1000'>
+                            className='w-[65px] xs:w-[65px] border border-[#ccc] rounded-md motion-preset-pop motion-duration-1000'>
                                 <option value={2}>2</option>
                                 <option value={3}>3</option>
                             </select>

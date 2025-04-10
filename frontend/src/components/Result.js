@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuth';
+import { format } from 'date-fns';
 
 const Result = ({formData, result, semester, semester1Modules, semester2Modules, semester1Score, semester2Score, bothSemestersScore, setResult}) => {
-    const now = new Date();
     const {auth, user, setUser} = useAuth()
     const userId = auth?.userId;
     const axiosPrivate = useAxiosPrivate();
@@ -60,7 +60,7 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
             <div class="main-div max-w-full mx-auto border bg-white border-gray-400 p-4 sm:p-6">
                 <div class="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between w-full mb-4">
                 <div class="font-bold text-xl">STATEMENT OF RESULTS</div>
-                <div class="text-sm">{now.getDate()} {now.getMonth()}</div>
+                <div class="text-sm">{format(new Date(), "MMMM Mo, y")}</div>
                 </div>
             
                 <div class="flex flex-col text-sm mb-4 border-gray-400">
