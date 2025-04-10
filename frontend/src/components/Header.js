@@ -17,27 +17,14 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
       <div className={`flex items-center ${mutableStyle} lg:${mutableStyle} lg:items-start lg:mt-3`}>
         {location.pathname === '/studentdashboard' &&
           <div className="flex items-start justify-start  cursor-pointer" onClick={() => setIsOpen(true)}>
-<<<<<<< HEAD
             <AlignLeft size={28} className='ml-2'/>
-=======
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="ml-4 size-12 xs:size-12">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
-              </svg>
->>>>>>> 74841787ab085077067144e2b570e3649c0b5050
           </div>
         }
         {location.pathname === '/newcalculation' && 
           <Link to={'/studentdashboard'}>
-<<<<<<< HEAD
             <div className='flex items-center font-Montserrat mt-3'>
               <ChevronLeft size={28} />
               <div className='font-medium text-[19px] xs:text-xl'>Back</div>
-=======
-            <div className='flex items-center font-Montserrat'>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-              </svg>
->>>>>>> 74841787ab085077067144e2b570e3649c0b5050
             </div>
           </Link>
         }
