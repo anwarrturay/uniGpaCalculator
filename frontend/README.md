@@ -11,4 +11,4 @@
     - continue the calculation from the history
     - 
 
-    Button : #0056b3
+    Button-color: #070181

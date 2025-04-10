@@ -58,7 +58,7 @@ function Login() {
 
       if(response.status === 200){
         setSuccess(true);
-        setIsLoading(false);
+        setIsLoading(true);
         navigate(from, { replace: true });
         reset();
       }
@@ -115,11 +115,7 @@ function Login() {
               )}
             </div>
 
-<<<<<<< HEAD
             <button type="submit" className="bg-[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center">
-=======
-            <button type="submit" className="bg[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center">
->>>>>>> b99044b71cbeeadf67a484ba3b42ccaae9880732
               LOGIN
             </button>
             <div className="flex items-center justify-between">
@@ -133,7 +129,7 @@ function Login() {
                   />
                   <label htmlFor="persist" className='text-sm'>Keep me signed in</label>
               </div>
-              <div className="flex justify-end items-end mt-3 text-sm font-medium text-[#070181] cursor-pointer gap-4">
+              <div onClick={()=> navigate("/forgot-password")} className="flex justify-end items-end mt-3 text-sm font-medium text-[#070181] cursor-pointer gap-4">
                 Forgot Password ?
               </div>
             </div>

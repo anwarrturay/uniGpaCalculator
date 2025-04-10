@@ -8,5 +8,4 @@ const verifyRoles = require("../middleware/VerifyRoles")
 router.route('/:id')
     .get(verifyRoles(ROLES_LIST.USER), getSpecificUser)
     .patch(upload.single("image"), verifyRoles(ROLES_LIST.USER), updateUserDetails)
-
 module.exports = router;
