@@ -3,8 +3,9 @@ import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuth';
 import axios from '../api/axios';
 import { format } from 'date-fns';
+import { Download, Save } from 'lucide-react';
 
-const Result = ({formData, result, semester, semester1Modules, semester2Modules, semester1Score, semester2Score, bothSemestersScore, setResult, setShowDialog}) => {
+const Result = ({formData, result, semester, semester1Modules, semester2Modules, semester1Score, semester2Score, bothSemestersScore, setResult}) => {
     const {auth, user, setUser} = useAuth()
     const userId = auth?.userId;
     const axiosPrivate = useAxiosPrivate();
@@ -68,6 +69,24 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
             printWindow.close();
           }, 500);
         }, 1000);
+    }
+
+    function saveHistory() {
+        console.log(semester)
+        console.log("Saving...")
+        let history;
+        if(semester === "Semester One"){
+            history = {type: "semester1", semester1Modules, semester1Score}
+            console.log(history)
+        }
+        if(semester === "Semester Two"){
+            history = {type: "semester2", semester2Modules, semester2Score}
+            console.log(history)
+        }
+        if(semester === "Both Semesters"){
+            history = {type: "both", semester1Modules, semester1Score, semester2Modules, semester2Score, bothSemestersScore}
+            console.log(history)
+        }
     }
       
 
@@ -163,8 +182,9 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
                 <div class="text-red-600 text-xs italic">{format(new Date(), "MMMM Mo, y")}</div>
             </div>
             <div className='flex gap-2'>
-                <button onClick={() => {setResult("inactive");}} className='bg-[#0056b3] text-white py-2 px-5 rounded-md mt-4 mb-8'>Close</button>
-                <button onClick={() => printResult("result")} className='bg-[#0056b3] text-white py-2 px-5 rounded-md mt-4 mb-8'>Download</button> 
+                <button onClick={() => {setResult("inactive"); setShowDialog(false)}} className='bg-[#070181] text-white py-2 px-5 rounded-md mt-4 mb-8'>Close</button> 
+                <button onClick={saveHistory} className='bg-[#070181] text-white py-2 px-4 rounded-md mt-4 mb-8 flex items-center justify-center gap-1'><Save size={16} />Save</button> 
+                <button onClick={() => printResult("result")} className='bg-[#070181] text-white py-2 px-4 rounded-md mt-4 mb-8 flex items-center justify-center gap-1'><Download size={16} />Download</button> 
             </div>
             
             </div>

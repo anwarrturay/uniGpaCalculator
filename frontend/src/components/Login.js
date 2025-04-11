@@ -115,11 +115,7 @@ function Login() {
               )}
             </div>
 
-<<<<<<< HEAD
-            <button type="submit" className="bg-[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center">
-=======
             <button type="submit" className="bg[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center">
->>>>>>> b99044b71cbeeadf67a484ba3b42ccaae9880732
               LOGIN
             </button>
             <div className="flex items-center justify-between">
