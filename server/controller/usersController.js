@@ -47,7 +47,6 @@ const updateUserDetails = async (req, res)=>{
         console.error(err)
         return res.status(500).json({ message: "Server error", error: err.message });
     }
-
 }
 
 const forgotPassword = async (req, res)=>{
@@ -59,13 +58,14 @@ const forgotPassword = async (req, res)=>{
         const foundUser = await User.findOne({ email }).exec();
         if(!foundUser) return res.status(404).json({message: "User with email Not Found"})
 
-        console.log("FoundUser: ", foundUser)
-
-
         const token = generateToken();
+        console.log("TOKEN: ", token)
+
         foundUser.resetToken = token;
         foundUser.tokenExpiry = Date.now() + 3600000;
+        // Saving the user with new resetToken and tokenExpiry date.
         const savedUser = await foundUser.save()
+
         console.log("Saved User", savedUser);
 
         const resetLink = `${process.env.CLIENT_URL}/reset-password/${token}`;

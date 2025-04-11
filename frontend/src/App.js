@@ -13,6 +13,8 @@ import StudentDashBoard from "./components/StudentDashBoard";
 import UserProfile from "./components/UserProfile";
 import EditProfilePage from "./components/EditProfilePage";
 import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
+import Recent from "./components/Recent";
 
 function App() {
   const [isOpen, setIsOpen] = useState(true);
@@ -35,6 +37,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
 
           {/* Protected Routes */}
           <Route element={<PersistentLogin />}>
