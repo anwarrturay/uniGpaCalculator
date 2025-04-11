@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const path = require("path");
 const fs = require("fs")
+const generateToken = require("./generateTokenController");
+const sendEmail = require("../service/sendEmail");
 
 const getSpecificUser = async (req, res) =>{
     const { id } = req.params;
@@ -45,31 +47,35 @@ const updateUserDetails = async (req, res)=>{
         console.error(err)
         return res.status(500).json({ message: "Server error", error: err.message });
     }
-
 }
 
-const isNewController = async (req, res) => {
-    const {id} = req?.body;
-    if(!id) return res.status(400).json({"message": "Id is required!"});
-    const user = await User.findById(id).exec();
-    if(!user) return res.status(404).json({"message": `User with id ${id} does not exist!`});
-    user.isNewUser = false;
-    const result = await user.save()
-    res.status(200).json(result)
+const forgotPassword = async (req, res)=>{
+    try{
+        const { email } = req.body;
+        console.log("Found email: ", email)
+        if(!email) return res.sendStatus(404);
+
+        const foundUser = await User.findOne({ email }).exec();
+        if(!foundUser) return res.status(404).json({message: "User with email Not Found"})
+
+        const token = generateToken();
+        console.log("TOKEN: ", token)
+
+        foundUser.resetToken = token;
+        foundUser.tokenExpiry = Date.now() + 3600000;
+        // Saving the user with new resetToken and tokenExpiry date.
+        const savedUser = await foundUser.save()
+
+        console.log("Saved User", savedUser);
+
+        const resetLink = `${process.env.CLIENT_URL}/reset-password/${token}`;
+
+        await sendEmail(email, 'Password Reset', resetLink)
+
+        res.status(200).json({ message: 'Password reset link sent to your email' });
+    }catch(err){
+        console.error("error: ", err)
+    }
 }
 
-// const getUserImage = async (req, res) => {
-//     const { id } = req.params;
-//     try {
-//         const user = await User.findById(id);
-//         if (!user || !user.image) {
-//             return res.status(404).json({ message: "Image not found" });
-//         }
-//         res.contentType(user.image.contentType);
-//         res.send(user.image.data);
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// };
-
-module.exports = { getSpecificUser, updateUserDetails, isNewController };
+module.exports = { getSpecificUser, updateUserDetails, forgotPassword };

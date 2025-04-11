@@ -5,6 +5,7 @@ import axios from '../api/axios';
 import Success from './utils/Success';
 import Failure from './utils/Failure';
 import Loading from './utils/Loading';
+import unimak from '../assets/unimak.png'
 function Signup() {
   const [formData, setFormData] = useState({
     firstname: '',
@@ -88,49 +89,61 @@ function Signup() {
 				<Loading />
 			) :
 			(
-				<div className="flex flex-col relative top-8 xs:top-20 xl:top-10 items-center justify-center bg-white drop-shadow-2xl shadow shadow-blue-300 w-[370px] xs:w-[400px] sm:w-[450px] rounded-md">
-					<h2 className='font-bold font-Montserrat text-xl mt-4 mb-3'>Student Registration</h2>
+				<div className="flex flex-col relative top-8 xs:top-20 xl:top-10 items-center justify-center drop-shadow-2xl">
+					<div className='font-Montserrat mt-4 flex flex-col items-center justify-center'>
+						<img src={unimak} alt="" className='w-[50px]'/>
+						<h1 className='text-xl font-semibold'>Create Your MiSkul Account</h1>
+						<div className="text-[12px] font-medium text-[#8b8b8b] w-[300px] text-center">
+							One MiSkul Account is all you need to access all MiSkul services.
+						</div>
+						<p className='font-Montserrat mb-3 text-sm font-semibold'>
+							Already have an MiSkul Account?{' '}
+							<span onClick={()=> navigate(-1)} className="text-[#070181] cursor-pointer font-medium">
+								Sign In
+							</span>
+						</p>
+					</div>
 					<div className={`${display}`}>{success ? <Success /> : <Failure />}</div>
 					<form onSubmit={handleSubmit} className='flex flex-col p-5 mt-3 font-Montserrat'>
 						<input
-						type="text"
-						placeholder="Firstname"
-						value={formData.firstname}
-						onChange={(e) => setFormData({ ...formData, firstname: e.target.value })}
-						required
-						className='input-field'
+							type="text"
+							placeholder="Firstname"
+							value={formData.firstname}
+							onChange={(e) => setFormData({ ...formData, firstname: e.target.value })}
+							required
+							className='input-field'
 						/>
 						<input
-						type="text"
-						placeholder="Lastname"
-						value={formData.lastname}
-						onChange={(e) => setFormData({ ...formData, lastname: e.target.value })}
-						required
-						className='input-field'
+							type="text"
+							placeholder="Lastname"
+							value={formData.lastname}
+							onChange={(e) => setFormData({ ...formData, lastname: e.target.value })}
+							required
+							className='input-field'
 						/>
 						<input
-						type="email"
-						placeholder="Email"
-						value={formData.email}
-						onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-						required
-						className='input-field'
+							type="email"
+							placeholder="Email"
+							value={formData.email}
+							onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+							required
+							className='input-field'
 						/>
 						<input
-						type="text"
-						placeholder="ID Number"
-						value={formData.idNumber}
-						onChange={(e) => setFormData({ ...formData, idNumber: e.target.value })}
-						required
-						className='input-field'
+							type="text"
+							placeholder="ID Number"
+							value={formData.idNumber}
+							onChange={(e) => setFormData({ ...formData, idNumber: e.target.value })}
+							required
+							className='input-field'
 						/>
 						<input
-						type={showPassword ? "text" : "password"}
-						placeholder="Password"
-						value={formData.password}
-						onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-						required
-						className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] rounded-md border border-[#ccc] focus:ring-2 focus:ring-blue-500'
+							type={showPassword ? "text" : "password"}
+							placeholder="Password"
+							value={formData.password}
+							onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+							required
+							className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] rounded-md border border-[#ccc] focus:ring-2 focus:ring-[#070181]'
 						/>
 						<div className="relative top-[-48px] w-[300px]">
 						{password && (
@@ -193,15 +206,9 @@ function Signup() {
 							type="submit" 
 							className='bg-[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center'
 						>
-						SIGN UP
+						Create Account
 						</button>
 					</form>
-					<p className='font-Montserrat mb-3 text-lg'>
-						Already have an account?{' '}
-						<span onClick={()=> navigate(-1)} className="text-[#070181] cursor-pointer font-medium">
-							Login
-						</span>
-					</p>
 				</div>
 			)
 		}

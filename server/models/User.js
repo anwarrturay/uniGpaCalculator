@@ -50,6 +50,16 @@ const User = new Schema({
             default: null
         }
     },
+    resetToken: {
+        type: String,
+        required: false,
+        default: null
+    },
+    tokenExpiry:{
+        type: Date,
+        required: false,
+        default: null
+    },
     refreshToken: { type: String }
 })
 

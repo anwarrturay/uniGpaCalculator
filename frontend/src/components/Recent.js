@@ -12,4 +12,4 @@ const Recent = () => {
   )
 }
 
-export default Recent
+export default Recent;

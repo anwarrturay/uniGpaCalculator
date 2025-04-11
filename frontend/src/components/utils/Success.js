@@ -5,12 +5,12 @@ const Success = () => {
   return (
     <>
       {location.pathname === '/register' ?
-      <div className='bg-[#00FF94] flex flex-col items-center justify-center rounded-md font-Montserrat'>
-          <div className='text-[#5DC486]'>Registration successful.</div>
+      <div className='bg-[#00ff9570] flex flex-col items-center justify-center rounded-md font-Montserrat'>
+          <div className='text-green-800'>Registration successful.</div>
       </div>
         : location.pathname === '/' ?
-      <div className='bg-[#00FF94] flex flex-col items-center justify-center rounded-md font-Montserrat'>
-          <div className='text-[#5DC486]'>Registration successful.</div>
+      <div className='bg-[#00ff9570] flex flex-col items-center justify-center rounded-md font-Montserrat'>
+          <div className='text-green-800'>logged in successful.</div>
       </div>
       : null
       }

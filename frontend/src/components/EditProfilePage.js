@@ -156,7 +156,7 @@ const EditProfilePage = () => {
                         )}
                         {/* Change profile section */}
                         <div className='flex flex-col items-center justify-center relative left-4 xxs:left-2'>
-                            <label htmlFor="image" className='absolute bg-white font-bold py-2 px-3 rounded-lg text-[#070181] border transition-all hover:border hover:border-[#070181] hover:cursor-pointer text-sm'>Change Profile</label>
+                            <label htmlFor="image" className='absolute font-bold py-2 px-3 rounded-lg text-[#070181] border border-[#ccc] transition-all hover:border hover:border-[#070181] hover:cursor-pointer text-sm'>Change Profile</label>
                             <input
                                 id='image' 
                                 type="file" 
@@ -165,7 +165,7 @@ const EditProfilePage = () => {
                             />
                         </div>
                         <div className="flex flex-col items-center justify-center relative left-4 xxs:left-2">
-                            <form onSubmit={handleSubmit(handleSaveChanges, (errors)=> console.log("Validation error: ", errors))} className='bg-white mt-2 px-4 py-5 rounded-xl sm:max-w-md flex flex-col'>
+                            <form onSubmit={handleSubmit(handleSaveChanges, (errors)=> console.log("Validation error: ", errors))} className='mt-2 px-4 py-5 rounded-xl sm:max-w-md flex flex-col'>
                                 <div className="flex flex-col justify-center">
                                     <label className='text-[#8b8b8b] mt-2 px-2 text-lg' htmlFor="firstName">Firstname:</label>
                                     <input
