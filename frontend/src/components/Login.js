@@ -55,7 +55,7 @@ function Login() {
       setAuth({ accessToken, userId, roles})
 
       if(response.status === 200){
-        setSuccess(true);
+        setSuccess(false);
         setIsLoading(true);
         navigate(from, { replace: true });
         reset();
