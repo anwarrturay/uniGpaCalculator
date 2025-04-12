@@ -261,7 +261,7 @@ const NewCalculation = () => {
                 <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>{isCalculating ? <div className='flex gap-2'><div className='animate-spin'><LoaderCircle /></div><>Calculating...</></div> : "Calculate CGPA"}</button>
             </> : ""
             }
-            <Result formData={formData} result={result} semester={semester} semester1Modules={semester1Modules} semester2Modules={semester2Modules} semester1Score={semester1Score} semester2Score={semester2Score} bothSemestersScore={bothSemestersScore} setResult={setResult}/>
+            <Result formData={formData} result={result} semester={semester} semester1Modules={semester1Modules} semester2Modules={semester2Modules} semester1Score={semester1Score} semester2Score={semester2Score} bothSemestersScore={bothSemestersScore} setResult={setResult} setShowDialog={setShowDialog}/>
             {/* {
                 showDialog && result === "active" && <SaveResultDialog setShowDialog={setShowDialog}/>
             } */}

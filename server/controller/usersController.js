@@ -78,4 +78,14 @@ const forgotPassword = async (req, res)=>{
     }
 }
 
-module.exports = { getSpecificUser, updateUserDetails, forgotPassword };
+const isNewController = async (req, res) => {
+    const {id} = req?.body;
+    if(!id) return res.status(400).json({"message": "Id is required!"});
+    const user = await User.findById(id).exec();
+    if(!user) return res.status(404).json({"message": `User with id ${id} does not exist!`});
+    user.isNewUser = false;
+    const result = await user.save()
+    res.status(200).json(result)
+}
+
+module.exports = { getSpecificUser, updateUserDetails, forgotPassword, isNewController };

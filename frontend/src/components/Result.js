@@ -1,11 +1,15 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import useAuth from '../hooks/useAuth';
 import axios from '../api/axios';
 import { format } from 'date-fns';
-import { Download, Save } from 'lucide-react';
+import { CheckCheck, Download, Save, LoaderCircle } from 'lucide-react';
 
-const Result = ({formData, result, semester, semester1Modules, semester2Modules, semester1Score, semester2Score, bothSemestersScore, setResult}) => {
+const Result = ({formData, result, semester, semester1Modules, semester2Modules, semester1Score, semester2Score, bothSemestersScore, setResult, setShowDialog}) => {
+    const [saved, setSaved] = useState(false)
+    const [isSaving, setIsSaving] = useState(false)
+    const [error, setError] = useState("")
+    const now = new Date();
     const {auth, user, setUser} = useAuth()
     const userId = auth?.userId;
     const axiosPrivate = useAxiosPrivate();
@@ -55,7 +59,7 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
           <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         `);
       
-        printWindow.document.write('</head><body class="p-4">');
+        printWindow.document.write('</head><body className="p-4">');
         printWindow.document.write("<div class='w-full flex items-center justify-center'><img class='text-center' width='100px' src='/unimak.png'/></div>")
         printWindow.document.write(content);
         printWindow.document.write('</body></html>');
@@ -71,34 +75,52 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
         }, 1000);
     }
 
-    function saveHistory() {
+    async function saveHistory () {
         console.log(semester)
         console.log("Saving...")
         let history;
         if(semester === "Semester One"){
-            history = {type: "semester1", semester1Modules, semester1Score}
+            history = {department: user?.department, level: user?.level, userId, type: "semester1", semester1Modules, semester1Score}
             console.log(history)
         }
         if(semester === "Semester Two"){
-            history = {type: "semester2", semester2Modules, semester2Score}
+            history = {department: user?.department, level: user?.level, userId, type: "semester2", semester2Modules, semester2Score}
             console.log(history)
         }
         if(semester === "Both Semesters"){
-            history = {type: "both", semester1Modules, semester1Score, semester2Modules, semester2Score, bothSemestersScore}
+            history = {department: user?.department, level: user?.level, userId, type: "both", semester1Modules, semester1Score, semester2Modules, semester2Score, bothSemestersScore}
             console.log(history)
         }
+        try {
+            setIsSaving(true)
+            const response = await axiosPrivate.post(
+                `users/history/${userId}`,
+                history,
+                {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true
+                }
+            );
+            if(response) setIsSaving(false);
+            if(response.data.message === "History successfully saved!") setSaved(true);
+        } catch (err) {
+            if(err.status === 400){
+                setError("Limit reached: Delete an old result to add a new one.")
+            }
+            setIsSaving(false);
+            console.log(err)
+        }
     }
-      
-
-    console.log(user)
 
   return (
     <>
         {formData && result === "active" && semester && 
-            <div className='max-w-3xl w-full flex flex-col items-end'>
-            <div id="result" class="main-div w-full mx-auto border bg-white p-4 sm:p-6 font-Montserrat">
-                <div class="flex flex-col items-center w-full mb-4">
-                <div class="font-bold text-xl">STATEMENT OF RESULTS</div>
+            <div className='max-w-3xl w-full flex flex-col gap-2 items-end'>
+            <div id="result" className="main-div w-full mx-auto border bg-white p-4 sm:p-6 font-Montserrat">
+                <div className="flex flex-col items-center w-full mb-4">
+                <div className="font-bold text-xl">STATEMENT OF RESULTS</div>
                 </div>
 
                 <table className='text-sm w-full'>
@@ -122,26 +144,26 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
                     </tbody>
                 </table>
             
-                <div class="text-center font-bold mb-2 text-sm border border-black z-10 p-1 mt-1 bg-[#ded9c3]">{user?.level}</div>
+                <div className="text-center font-bold mb-2 text-sm border border-black z-10 p-1 mt-1 bg-[#ded9c3]">{user?.level}</div>
             
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-6">
                 { semester === "Semester One" || semester === "Both Semesters" ?
                 <div>
-                    <div class="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]">FIRST SEMESTER</div>
-                    <table class="w-full border border-black text-xs">
-                    <thead class="bg-[#dcedf4]">
+                    <div className="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]">FIRST SEMESTER</div>
+                    <table className="w-full border border-black text-xs">
+                    <thead className="bg-[#dcedf4]">
                         <tr>
-                        <th class="border border-black p-1">Semester Module</th>
-                        <th class="border border-black p-1">Credit Hours</th>
-                        <th class="border border-black p-1">Grade</th>
+                        <th className="border border-black p-1">Semester Module</th>
+                        <th className="border border-black p-1">Credit Hours</th>
+                        <th className="border border-black p-1">Grade</th>
                         </tr>
                     </thead>
                     <tbody>
                         {semester1Modules.map(module => {
-                            return <tr><td class="border border-black p-1">{module.module_name}</td><td class="border border-black p-1 text-center">{module.credits}CHrs</td><td class="border border-black p-1 text-center">{module.grade}</td></tr>
+                            return <tr key={module.module_name}><td className="border border-black p-1">{module.module_name}</td><td className="border border-black p-1 text-center">{module.credits}CHrs</td><td className="border border-black p-1 text-center">{module.grade}</td></tr>
                         })}
-                        <tr><td colspan="3" className="border border-black p-1 text-center">Semester Total Grade Point (TGP): <span className=''>{semester1Score.totalGrade}</span></td></tr>
-                        <tr><td  colspan="3" class="border border-black p-1 text-center">Semester Cumulative GPA (CGPA): <span className=''>{semester1Score.gpa}</span></td></tr>
+                        <tr><td colSpan="3" className="border border-black p-1 text-center">Semester Total Grade Point (TGP): <span className=''>{semester1Score.totalGrade}</span></td></tr>
+                        <tr><td  colSpan="3" className="border border-black p-1 text-center">Semester Cumulative GPA (CGPA): <span className=''>{semester1Score.gpa}</span></td></tr>
                     </tbody>
                     </table>
                 </div> : ""
@@ -149,42 +171,44 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
             
                 { semester === "Semester Two" || semester === "Both Semesters" ? 
                 <div>
-                    <div class="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]">SECOND SEMESTER</div>
-                    <table class="w-full border border-black text-xs">
-                    <thead class="bg-[#dcedf4]">
+                    <div className="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]">SECOND SEMESTER</div>
+                    <table className="w-full border border-black text-xs">
+                    <thead className="bg-[#dcedf4]">
                         <tr>
-                        <th class="border border-black p-1">Semester Module</th>
-                        <th class="border border-black p-1">Credit Hours</th>
-                        <th class="border border-black p-1">Grade</th>
+                        <th className="border border-black p-1">Semester Module</th>
+                        <th className="border border-black p-1">Credit Hours</th>
+                        <th className="border border-black p-1">Grade</th>
                         </tr>
                     </thead>
                     <tbody>
                         {semester2Modules.map(module => {
-                            return <tr><td class="border border-black p-1">{module.module_name}</td><td class="border border-black p-1 text-center">{module.credits}CHrs</td><td class="border border-black p-1 text-center">{module.grade}</td></tr>
+                            return <tr><td className="border border-black p-1">{module.module_name}</td><td className="border border-black p-1 text-center">{module.credits}CHrs</td><td className="border border-black p-1 text-center">{module.grade}</td></tr>
                         })}
                         <tr><td colspan="3" className="border border-black p-1 text-center">Semester Total Grade Point (TGP): <span className=''>{semester2Score.totalGrade}</span></td></tr>
-                        <tr><td  colspan="3" class="border border-black p-1 text-center">Semester Cumulative GPA (CGPA): <span className=''>{semester2Score.gpa}</span></td></tr>
+                        <tr><td  colspan="3" className="border border-black p-1 text-center">Semester Cumulative GPA (CGPA): <span className=''>{semester2Score.gpa}</span></td></tr>
                     </tbody>
                     </table>
                 </div> : ""
                 }
                 </div>
                 { semester === "Both Semesters" && <>
-                    <div class="text-center text-sm border border-black z-10 p-1 -mt-5">Academic Year Total Grade Point (TGP): <span className='font-normal'>{bothSemestersScore.totalGrade}</span></div>
-                    <div class="text-center mb-2 text-sm border border-black z-10 p-1 mt-1">Academic Year Cumulative GPA (CGPA): <span className='font-normal'>{bothSemestersScore.gpa}</span></div>
+                    <div className="text-center text-sm border border-black z-10 p-1 -mt-5">Academic Year Total Grade Point (TGP): <span className='font-normal'>{bothSemestersScore.totalGrade}</span></div>
+                    <div className="text-center mb-2 text-sm border border-black z-10 p-1 mt-1">Academic Year Cumulative GPA (CGPA): <span className='font-normal'>{bothSemestersScore.gpa}</span></div>
                 </>
                 }
                 
             
-                <div class="text-red-600 text-xs italic">
+                <div className="text-red-600 text-xs italic">
                 NOT ISSUED BY THE UNIVERSITY OF MAKENI. 
                 </div>
-                <div class="text-red-600 text-xs italic">{format(new Date(), "MMMM Mo, y")}</div>
+                <div className="text-red-600 text-xs italic">{format(now, "MMMM do, y")}</div>
             </div>
+            {error && <div className="text-red-600 text-xs italic">{error}</div>}
             <div className='flex gap-2'>
-                <button onClick={() => {setResult("inactive"); setShowDialog(false)}} className='bg-[#070181] text-white py-2 px-5 rounded-md mt-4 mb-8'>Close</button> 
-                <button onClick={saveHistory} className='bg-[#070181] text-white py-2 px-4 rounded-md mt-4 mb-8 flex items-center justify-center gap-1'><Save size={16} />Save</button> 
-                <button onClick={() => printResult("result")} className='bg-[#070181] text-white py-2 px-4 rounded-md mt-4 mb-8 flex items-center justify-center gap-1'><Download size={16} />Download</button> 
+                <button onClick={() => {setResult("inactive"); setShowDialog(false); setSaved(false); setError(null)}} className='bg-[#070181] text-white py-2 px-5 rounded-md mb-8'>Close</button> 
+                <button disabled={saved} onClick={saveHistory} className='bg-[#070181] text-white py-2 px-4 rounded-md mb-8 flex items-center justify-center gap-1 disabled:bg-gray-500'>{isSaving? <div className='flex gap-2'><div className='animate-spin'><LoaderCircle /></div><>Saving...</></div> : saved ? <><CheckCheck size={18} />Saved</> : <><Save size={16} />Save</>}</button> 
+                <button onClick={() => printResult("result")} className='bg-[#070181] text-white py-2 px-4 rounded-md mb-8 flex items-center justify-center gap-1'><Download size={16} />Download</button> 
+                {/* <button onClick={testIsNew}>Test</button> */}
             </div>
             
             </div>

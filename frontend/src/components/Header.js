@@ -14,7 +14,7 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
   ;
   const navigate = useNavigate()
   return (
-    <div className='bg-[#F2F2F2] z-50 fixed top-0 left-0 right-0  h-[70px]'>
+    <div className='bg-[#F2F2F2] z-50 fixed top-0 left-0 right-0  h-[70px] shadow-sm'>
       <div className={`flex items-center ${mutableStyle} lg:${mutableStyle} lg:items-start lg:mt-3`}>
         {location.pathname === '/studentdashboard' &&
           <div className="flex items-start justify-start  cursor-pointer" onClick={() => setIsOpen(true)}>
@@ -23,18 +23,15 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
         }
         {location.pathname === '/newcalculation' && 
           <Link to={'/studentdashboard'}>
-            <div className='flex items-center font-Montserrat mt-3'>
-              <ChevronLeft size={28} />
-              <div className='font-medium text-[19px] xs:text-xl'>Back</div>
+            <div className='flex items-center font-Montserrat cursor-pointer pl-2'>
+            <ChevronLeft size={28} color='#070181'/>
             </div>
           </Link>
         }
         {location.pathname === '/recent' && 
           <div onClick={() => navigate(-1)}>
-            <div className='flex items-center font-Montserrat'>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-              </svg>
+            <div className='flex items-center font-Montserrat cursor-pointer pl-2'>
+            <ChevronLeft size={28} color='#070181'/>
             </div>
           </div>
         }
@@ -57,14 +54,14 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
 
         {location.pathname === '/studentdashboard' ? 
             <div className='font-[500] font-Montserrat flex items-center justify-center text-xl text-center mr-3 xs:text-3xl'>
-              DashBoard
+              
             </div>
           : location.pathname === '/recent' ? 
           <div className='font-[500] font-Montserrat flex items-center justify-center text-xl text-center mr-3 xs:text-3xl'>
             
           </div> :
-            <Link to={'/recent'} className='font-[500] font-Montserrat flex items-center rounded-md justify-center text-xl mr-3 xs:text-xl lg:text-2xl bg-[#c3c7f2] hover:bg-[#abb0ed] p-2.5'>
-              <History className='text-2xl text-[#364AFF]'/>
+            <Link to={'/recent'} className='bg-[#07018130] hover:bg-[#07018137] font-[500] font-Montserrat flex items-center rounded-md justify-center text-xl mr-3 xs:text-xl lg:text-2xl bg-[#c3c7f2] hover:bg-[#abb0ed] p-2.5'>
+              <History className='text-2xl text-[#070181]'/>
             </Link>
         }
       </div>
