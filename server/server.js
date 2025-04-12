@@ -17,7 +17,7 @@ const gpaRoutes = require("./routes/gpaRoutes.js");
 const registerRoutes = require("./routes/register.js");
 const authRoutes = require("./routes/auth.js");
 const userRoutes = require("./routes/users.js");
-const refreshRoute = require("./routes/refresh.js")
+const refreshRoute = require("./routes/refresh.js");
 const logoutRoute = require("./routes/logout.js")
 // Initialize Express App
 const app = express();
@@ -43,7 +43,7 @@ app.use(cookieParser())
 // public Routes.
 app.use('/register', registerRoutes);
 app.use('/auth', authRoutes);
-app.use('/refresh', refreshRoute)
+app.use('/refresh', refreshRoute);
 app.use("/logout", logoutRoute);
 
 app.use(verifyJWT)

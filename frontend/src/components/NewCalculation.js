@@ -23,7 +23,6 @@ const NewCalculation = () => {
     })
     const [semester1GPA, setSemester1GPA] = useState(null);
     const [semester2GPA, setSemester2GPA] = useState(null);
-    const [savedGPAs, setSavedGPAs] = useState({ semester1: false, semester2: false });
     const [semester1Modules, setSemester1Modules] = useState([
         { module_name: '', grade: 'A+', credits: 2 }
     ]);
@@ -157,15 +156,8 @@ const NewCalculation = () => {
         setTimeout(()=> {
             setIsCalculating(false)
             setResult("active")
-        }, 3000)
-        if(result === "active"){
-            setTimeout(()=>{
-                setShowDialog(true)
-            }, 7000); 
-        }
-        
+        }, 1500)
     };
-
     const renderSemester = (semester, modules, setModules, gpa, setGPA) => (
         <div className="relative">
             <h2 className='font-Montserrat text-lg ml-2 font-bold absolute'>Semester {semester}</h2>
@@ -194,7 +186,7 @@ const NewCalculation = () => {
                                 name="grade"
                                 value={module.grade}
                                 onChange={(event) => handleChange(index, event, modules, setModules)}
-                                className='w-[73px] xs:w-[75px] mx-2 border border-[#ccc] rounded-md font-Montserrat motion-preset-pop motion-duration-1000'
+                                className='w-[73px] xs:w-[75px] mx-2 border border-[#ccc] rounded-md font-Montserrat motion-preset-pop motion-duration-1000 text-sm'
                             >
                                 <option value={'A+'}>A+</option>
                                 <option value={'A'}>A</option>
@@ -216,7 +208,7 @@ const NewCalculation = () => {
                             name="credits"  
                             value={module.credits}
                             onChange={(event) => handleChange(index, event, modules, setModules)}
-                            className='w-[65px] xs:w-[65px] border border-[#ccc] rounded-md motion-preset-pop motion-duration-1000'>
+                            className='text-sm w-[65px] xs:w-[65px] border border-[#ccc] rounded-md motion-preset-pop motion-duration-1000'>
                                 <option value={2}>2</option>
                                 <option value={3}>3</option>
                             </select>
@@ -244,7 +236,7 @@ const NewCalculation = () => {
     );
 
     return (
-        <div className="flex flex-col w-full p-5 items-center justify-center relative top-20">
+        <div className="flex flex-col w-full p-5 items-center justify-center relative top-16">
             <h2 className='font-bold pb-2 text-center font-Montserrat'>Please select a semester<br></br>to proceed with calculation!</h2>
             <select className='text-sm mb-4 border-[#ccc] rounded-md font-Montserrat' onChange={(e) => setSemester(e.target.value)}>
                 <option>Select Semester</option>
@@ -255,24 +247,24 @@ const NewCalculation = () => {
             { semester === "Semester One" && result !== "active" ? 
             <>
             {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
-            <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate GPA</button>
+            <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>{isCalculating ? <div className='flex gap-2'><div className='animate-spin'><LoaderCircle /></div><>Calculating...</></div> : "Calculate CGPA"}</button>
         </> :
             semester === "Semester Two" && result !== "active" ?
             <>
                 {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
-                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate GPA</button>
+                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>{isCalculating ? <div className='flex gap-2'><div className='animate-spin'><LoaderCircle /></div><>Calculating...</></div> : "Calculate CGPA"}</button>
             </> :
             semester === "Both Semesters" && result !== "active" ? 
             <>
                 {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
                 {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
-                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#0056b3] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>Calculate CGPA</button>
+                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>{isCalculating ? <div className='flex gap-2'><div className='animate-spin'><LoaderCircle /></div><>Calculating...</></div> : "Calculate CGPA"}</button>
             </> : ""
             }
             <Result formData={formData} result={result} semester={semester} semester1Modules={semester1Modules} semester2Modules={semester2Modules} semester1Score={semester1Score} semester2Score={semester2Score} bothSemestersScore={bothSemestersScore} setResult={setResult} setShowDialog={setShowDialog}/>
-            {
-                showDialog && <SaveResultDialog setShowDialog={setShowDialog}/>
-            }
+            {/* {
+                showDialog && result === "active" && <SaveResultDialog setShowDialog={setShowDialog}/>
+            } */}
             
             
         </div>
