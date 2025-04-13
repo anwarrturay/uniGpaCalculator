@@ -31,6 +31,32 @@ const NewCalculation = () => {
         { module_name: '', grade: 'A+', credits: 2 }
     ]);
     const [formData, setFormData] = useState([...semester1Modules, ...semester2Modules])
+    const oneCHrs = {
+        "A+": 5,
+        "A": 5,
+        "A-": 4.7,
+        "B+": 4.3,
+        "B": 4,
+        "B-": 3.7,
+        "C+": 3.3,
+        "C": 3,
+        "C-": 2.7,
+        "D": 2.3,
+        "E": 2,
+        "F": 0,
+        "F/A+": 5,
+        "F/A": 5,
+        "F/A-": 4.7,
+        "F/B+": 4.3,
+        "F/B": 4,
+        "F/B-": 3.7,
+        "F/C+": 3.3,
+        "F/C": 3,
+        "F/C-": 2.7,
+        "F/D": 2.3,
+        "F/E": 0,
+        "F/F": 0,
+    }
     const foundationCourses = {
         "A+": 10,
         "A": 10,
@@ -42,8 +68,20 @@ const NewCalculation = () => {
         "C": 6,
         "C-": 5.4,
         "D": 4,
-        "E": 0,
-        "F": 0 
+        "E": 2,
+        "F": 0, 
+        "F/A+": 10,
+        "F/A": 10,
+        "F/A-": 9.4,
+        "F/B+": 8.6,
+        "F/B": 8,
+        "F/B-": 7.4,
+        "F/C+": 6.6,
+        "F/C": 6,
+        "F/C-": 5.4,
+        "F/D": 4,
+        "F/E": 2,
+        "F/F": 0, 
     }
 
     const departmentalCourses = {
@@ -57,8 +95,20 @@ const NewCalculation = () => {
         "C": 9,
         "C-": 8.1,
         "D": 6,
-        "E": 0,
-        "F": 0 
+        "E": 3,
+        "F": 0, 
+        "F/A+": 15,
+        "F/A": 15,
+        "F/A-": 14.1,
+        "F/B+": 12.9,
+        "F/B": 12,
+        "F/B-": 11.1,
+        "F/C+": 9.9,
+        "F/C": 9,
+        "F/C-": 8.1,
+        "F/D": 6,
+        "F/E": 0,
+        "F/F": 0, 
     }
 
     useEffect(() => {
@@ -108,9 +158,23 @@ const NewCalculation = () => {
             let gpa = 0;
             semester1Modules.map((module) => {
             if (module.credits === 2){
-                totalGrades += foundationCourses[`${module.grade}`]
+                if(module.grade.includes("F/")){
+                    totalGrades += (foundationCourses[`${module.grade}`]/2)
+                } else {
+                    totalGrades += foundationCourses[`${module.grade}`]
+                }
             } else if (module.credits === 3) {
-                totalGrades += departmentalCourses[`${module.grade}`]
+                if(module.grade.includes("F/")){
+                    totalGrades += (departmentalCourses[`${module.grade}`]/2)
+                } else {
+                    totalGrades += departmentalCourses[`${module.grade}`]
+                }
+            } else if (module.credits === 1) {
+                if(module.grade.includes("F/")){
+                    totalGrades += (oneCHrs[`${module.grade}`]/2)
+                } else {
+                    totalGrades += oneCHrs[`${module.grade}`]
+                }
             }
             creditHrs+=module.credits
             })
@@ -122,11 +186,25 @@ const NewCalculation = () => {
             let creditHrs = 0;
             let gpa = 0;
             semester2Modules.map((module) => {
-            if (module.credits === 2){
-                totalGrades += foundationCourses[`${module.grade}`]
-            } else if (module.credits === 3) {
-                totalGrades += departmentalCourses[`${module.grade}`]
-            }
+                if (module.credits === 2){
+                    if(module.grade.includes("F/")){
+                        totalGrades += (foundationCourses[`${module.grade}`]/2)
+                    } else {
+                        totalGrades += foundationCourses[`${module.grade}`]
+                    }
+                } else if (module.credits === 3) {
+                    if(module.grade.includes("F/")){
+                        totalGrades += (departmentalCourses[`${module.grade}`]/2)
+                    } else {
+                        totalGrades += departmentalCourses[`${module.grade}`]
+                    }
+                } else if (module.credits === 1) {
+                    if(module.grade.includes("F/")){
+                        totalGrades += (oneCHrs[`${module.grade}`]/2)
+                    } else {
+                        totalGrades += oneCHrs[`${module.grade}`]
+                    }
+                }
             creditHrs+=module.credits
             })
             gpa = (totalGrades / creditHrs).toFixed(2)
@@ -143,12 +221,26 @@ const NewCalculation = () => {
             let creditHrs = 0;
             let gpa = 0;
             formData.map((module) => {
-            if (module.credits === 2){
-                totalGrades += foundationCourses[`${module.grade}`]
-            } else if (module.credits === 3) {
-                totalGrades += departmentalCourses[`${module.grade}`]
-            }
-            creditHrs+=module.credits
+                if (module.credits === 2){
+                    if(module.grade.includes("F/")){
+                        totalGrades += (foundationCourses[`${module.grade}`]/2)
+                    } else {
+                        totalGrades += foundationCourses[`${module.grade}`]
+                    }
+                } else if (module.credits === 3) {
+                    if(module.grade.includes("F/")){
+                        totalGrades += (departmentalCourses[`${module.grade}`]/2)
+                    } else {
+                        totalGrades += departmentalCourses[`${module.grade}`]
+                    }
+                } else if (module.credits === 1) {
+                    if(module.grade.includes("F/")){
+                        totalGrades += (oneCHrs[`${module.grade}`]/2)
+                    } else {
+                        totalGrades += oneCHrs[`${module.grade}`]
+                    }
+                }
+                creditHrs+=module.credits
             })
             gpa = (totalGrades / creditHrs).toFixed(2)
             setBothSemestersScore({totalGrade: totalGrades, gpa })
@@ -177,7 +269,7 @@ const NewCalculation = () => {
                                 value={module.module_name}
                                 onChange={(event) => handleChange(index, event, modules, setModules)}
                                 required
-                                className='w-[100px] xxs:w-[140px] text-sm xs:w-[200px] sm:w-[300px] md:w-[330px] border border-[#ccc] rounded-md xs:ml-1 font-Montserrat motion-preset-pop motion-duration-1000'
+                                className='w-[100px] xxs:w-[140px] text-sm xs:w-[200px] sm:w-[300px] md:w-[330px] border border-[#ccc] rounded-md xs:ml-1 font-Montserrat motion-preset-pop motion-duration-1000 outline-none'
                             />
                         </div>
                         <div className="flex flex-col">
@@ -200,6 +292,18 @@ const NewCalculation = () => {
                                 <option value={'D'}>D</option>
                                 <option value={'E'}>E</option>
                                 <option value={'F'}>F</option>
+                                <option value={'F/A+'}>F/A+</option>
+                                <option value={'F/A'}>F/A</option>
+                                <option value={'F/A-'}>F/A-</option>
+                                <option value={'F/B+'}>F/B+</option>
+                                <option value={'F/B'}>F/B</option>
+                                <option value={'F/B-'}>F/B-</option>
+                                <option value={'F/C+'}>F/C+</option>
+                                <option value={'F/C'}>F/C</option>
+                                <option value={'F/C-'}>F/C-</option>
+                                <option value={'F/D'}>F/D</option>
+                                <option value={'F/E'}>F/E</option>
+                                <option value={'F/F'}>F/F</option>
                             </select>
                             {/* Grade: {module.grade} */}
                         </div>
@@ -209,6 +313,7 @@ const NewCalculation = () => {
                             value={module.credits}
                             onChange={(event) => handleChange(index, event, modules, setModules)}
                             className='text-sm w-[65px] xs:w-[65px] border border-[#ccc] rounded-md motion-preset-pop motion-duration-1000'>
+                                <option value={1}>1</option>
                                 <option value={2}>2</option>
                                 <option value={3}>3</option>
                             </select>
