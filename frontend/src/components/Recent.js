@@ -13,29 +13,30 @@ const Recent = () => {
   const {auth, user, setUser} = useAuth()
   const userId = auth?.userId;
   const axiosPrivate = useAxiosPrivate();
-  useEffect(()=>{
-      const fetchUserData = async ()=>{
-          setIsLoading(true)
-          if (!userId) {
-          console.error("User ID not found in localStorage.");
-          return;
-          }
-  
-          try{
-            const userResponse = await axiosPrivate.get(`/users/${userId}`);
-            setUser(userResponse.data);
-            const historyResponse = await axiosPrivate.get(`/users/history/${userId}`);
-            const sortedHistory = historyResponse?.data?.history?.sort((a, b) => a.createdAt > b.createdAt ? -1 : a.createdAt < b.createdAt ? 1 : 0)
-            setResultHistory(sortedHistory)
-            if(historyResponse) setIsLoading(false)
-            console.log(historyResponse);
-          }catch(err){
-            setError(err.message)
-            console.log(err.message)
-            setIsLoading(false)
-          console.error("Error fetching user history:", err);
-          }
+  const fetchUserData = async ()=>{
+    setError(null)
+      setIsLoading(true)
+      if (!userId) {
+      console.error("User ID not found in localStorage.");
+      return;
       }
+
+      try{
+        const userResponse = await axiosPrivate.get(`/users/${userId}`);
+        setUser(userResponse.data);
+        const historyResponse = await axiosPrivate.get(`/users/history/${userId}`);
+        const sortedHistory = historyResponse?.data?.history?.sort((a, b) => a.createdAt > b.createdAt ? -1 : a.createdAt < b.createdAt ? 1 : 0)
+        setResultHistory(sortedHistory)
+        if(historyResponse) setIsLoading(false)
+        console.log(historyResponse);
+      }catch(err){
+        setError(err.message)
+        console.log(err.message)
+        setIsLoading(false)
+      console.error("Error fetching user history:", err);
+      }
+  }
+  useEffect(()=>{
       fetchUserData();
   }, []);
 
@@ -83,7 +84,7 @@ const Recent = () => {
     <>
         <Header />
         <main className='flex flex-col w-full min-h-[100vh] px-5 items-center justify-center relative'>
-            {isLoading ? <div className='flex'><div className='animate-spin'><LoaderCircle size={80} color='#070181' /></div></div> : error && error === "Network Error" ? <div className='text-center'><span className='text-2xl font-bold text-red-500'>Oops!</span><br></br>We couldn’t connect to the server.<br></br>Please check your internet connection and <a className='underline text-red-500' href='/recent'>try again</a></div> : error ? <p>{error}</p> : <>
+            {isLoading ? <div className='flex'><div className='animate-spin'><LoaderCircle size={80} color='#070181' /></div></div> : error && error === "Network Error" ? <div className='text-center'><span className='text-2xl font-bold text-red-500'>Oops!</span><br></br>We couldn’t connect to the server.<br></br>Please check your internet connection and <button className='underline text-red-500' onClick={fetchUserData} href='/recent'>try again</button></div> : error ? <p>{error}</p> : <>
             <h2 className='font-Montserrat font-bold mb-3 mt-20'>Recent History({resultHistory?.length})</h2>
             <div>{resultHistory && resultHistory.map(history => <div className='flex flex-col gap-2'>
               <div id={`${history._id}`} className="main-div w-full mx-auto border bg-white p-4 sm:p-6 font-Montserrat">

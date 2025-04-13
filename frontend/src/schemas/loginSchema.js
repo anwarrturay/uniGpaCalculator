@@ -2,9 +2,10 @@
 import * as yup from 'yup';
 
 const loginSchema = yup.object().shape({
-  idNumber: yup
-    .number()
-    .required('ID Number is required'),
+  email: yup
+    .string()
+    .email('Invalid email format')
+    .required('Email is required'),
   password: yup
     .string()
     .required('Password is required')
