@@ -20,8 +20,6 @@ function Login() {
   const location = useLocation();
   const { passwordToggleButton, showPassword} = PasswordVisibility();
 
-  const from = location.state?.from?.pathname || "/studentdashboard";
-
   const { register, handleSubmit, formState: {errors}, watch, reset} = useForm({
     resolver: yupResolver(loginSchema)
   })
@@ -30,7 +28,7 @@ function Login() {
   const handleSubmitForm = async (data) => {
     console.log("form submitted: ", data)
     const formData = new FormData();
-    formData.append("idNumber", data.idNumber)
+    formData.append("email", data.email)
     formData.append("password", data.password)
     setIsLoading(true);
 
@@ -51,6 +49,10 @@ function Login() {
 
       const userId = decodedToken?.userId;
       const roles = decodedToken?.roles
+      const isNewUser = decodedToken?.isNewUser;
+
+      // If is New User then navigate to the tips component else maintain to the studentdashboard.
+      const from = !isNewUser ? location.state?.from?.pathname || "/studentdashboard" : "/tips";
       
       setAuth({ accessToken, userId, roles})
 
@@ -93,9 +95,9 @@ function Login() {
           </div>
           <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col p-5 mt-3 font-Montserrat">
               <input
-                type="number"
-                {...register("idNumber")}
-                placeholder="ID Number"
+                type="email"
+                {...register("email")}
+                placeholder="Email"
                 className="input-field"
                 autoComplete="off"
               />

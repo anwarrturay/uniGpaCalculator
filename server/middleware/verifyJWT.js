@@ -15,7 +15,7 @@ const verifyJWT = (req, res, next) => {
 
     req.userId = decoded.userId;
     req.roles = decoded.roles;
-    req.idNumber = decoded.idNumber;
+    req.email = decoded.email;
     
     next();
   });

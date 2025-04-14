@@ -57,7 +57,7 @@ function App() {
 
               <Route path="/profile" element={<UserProfile />} />
               <Route path="/profile/edit" element={<EditProfilePage />} />
-
+              {/* <Route path="/tips" element={<Tips />} />  */}
             </Route>
           </Route>
         </Routes>
