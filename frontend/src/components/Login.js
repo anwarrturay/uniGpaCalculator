@@ -48,11 +48,11 @@ function Login() {
       const decodedToken = jwtDecode(accessToken);
 
       const userId = decodedToken?.userId;
-      const roles = decodedToken?.roles
+      const roles = decodedToken?.roles;
       const isNewUser = decodedToken?.isNewUser;
 
       // If is New User then navigate to the tips component else maintain to the studentdashboard.
-      const from = !isNewUser ? location.state?.from?.pathname || "/studentdashboard" : "/tips";
+      const from = isNewUser ? location.state?.from?.pathname || "/studentdashboard" : "/tips";
       
       setAuth({ accessToken, userId, roles})
 
