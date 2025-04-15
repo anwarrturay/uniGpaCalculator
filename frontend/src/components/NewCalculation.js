@@ -42,7 +42,7 @@ const NewCalculation = () => {
         "C": 3,
         "C-": 2.7,
         "D": 2.3,
-        "E": 2,
+        "E": 1,
         "F": 0,
         "F/A+": 5,
         "F/A": 5,
@@ -54,7 +54,7 @@ const NewCalculation = () => {
         "F/C": 3,
         "F/C-": 2.7,
         "F/D": 2.3,
-        "F/E": 0,
+        "F/E": 1,
         "F/F": 0,
     }
     const foundationCourses = {
@@ -107,7 +107,7 @@ const NewCalculation = () => {
         "F/C": 9,
         "F/C-": 8.1,
         "F/D": 6,
-        "F/E": 0,
+        "F/E": 3,
         "F/F": 0, 
     }
 
