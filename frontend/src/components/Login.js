@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import axios from '../api/axios';
 import Success from './utils/Success';
 import Failure from './utils/Failure';
@@ -12,6 +12,8 @@ import PasswordVisibility from './utils/PasswordVisibility.js';
 import unimak from '../assets/unimak.png'
 import { ArrowUpRight } from 'lucide-react';
 function Login() {
+  const {token} = useParams()
+  console.log(token)
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
@@ -24,7 +26,7 @@ function Login() {
     resolver: yupResolver(loginSchema)
   })
 
-
+  const url = token ? `/auth/${token}` : '/auth';
   const handleSubmitForm = async (data) => {
     console.log("form submitted: ", data)
     const formData = new FormData();
@@ -34,7 +36,7 @@ function Login() {
 
     try {
       const response = await axios.post(
-        '/auth',
+        url,
         formData,
         {
           headers: {
@@ -113,7 +115,7 @@ function Login() {
               </div>
 
             <button type="submit" className="bg-[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center">
-              LOGIN
+              Login
             </button>
             <div className="flex items-center justify-center">
               <div className="flex items-center mt-2">

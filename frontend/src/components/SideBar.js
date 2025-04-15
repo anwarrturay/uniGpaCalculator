@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Drawer, Sidebar} from "flowbite-react";
 import unimakSM from '../images/unimak-sm.png';
-import { LogOut, History, Plus } from 'lucide-react';
+import { LogOut, History, Plus, Send, Lightbulb } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
@@ -45,7 +45,7 @@ const sidebar = ({isOpen, handleClose}) => {
         <Drawer.Items>
           <Sidebar
             aria-label="Sidebar with multi-level dropdown example"
-            className="[&>div]:bg-transparent [&>div]:p-0"
+            className="[&>div]:bg-transparent [&>div]:p-0 overflow-hidden"
           >
             <div className="flex h-full flex-col justify-between py-2">
               <div>
@@ -83,6 +83,36 @@ const sidebar = ({isOpen, handleClose}) => {
                             </div>
                             <div className="text-black text-base ml-3 font-Montserrat font-medium">
                                 New Calculation
+                            </div>
+                        </div>
+                      </Link>
+                    </Sidebar.Item>
+                  </Sidebar.ItemGroup>
+                  {/* TIPS */}
+                  <Sidebar.ItemGroup>
+                    <Sidebar.Item>
+                      <Link to={'/tips'}>
+                        <div className="flex items-center cursor-pointer">
+                            <div className='bg-[#07018130] hover:bg-[#07018137] flex items-center justify-center p-2.5 rounded-md'>
+                              <Lightbulb className='text-[#070181]'/>
+                            </div>
+                            <div className="text-black text-base ml-3 font-Montserrat font-medium">
+                                Tips
+                            </div>
+                        </div>
+                      </Link>
+                    </Sidebar.Item>
+                  </Sidebar.ItemGroup>
+                  {/* CONTACT US SECTION */}
+                  <Sidebar.ItemGroup>
+                    <Sidebar.Item>
+                      <Link to={'/contact-us'}>
+                        <div className="flex items-center cursor-pointer">
+                            <div className='bg-[#07018130] hover:bg-[#07018137] flex items-center justify-center p-2.5 rounded-md'>
+                              <Send className='text-[#070181]'/>
+                            </div>
+                            <div className="text-black text-base ml-3 font-Montserrat font-medium">
+                                Contact Us
                             </div>
                         </div>
                       </Link>
