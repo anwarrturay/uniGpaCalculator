@@ -38,7 +38,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/uploads', express.static('uploads'));
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 // public Routes.
 app.use('/register', registerRoutes);

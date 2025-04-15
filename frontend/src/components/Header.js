@@ -35,6 +35,13 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
             </div>
           </div>
         }
+        {location.pathname === '/contact-us' && (
+          <div onClick={() => navigate(-1)}>
+            <div className='flex items-center font-Montserrat cursor-pointer pl-2'>
+            <ChevronLeft size={28} color='#070181'/>
+            </div>
+          </div>
+        )}
         { 
           width < 768 ?
             <div className="w-[50px] xs:w-[60px] ml-2 mt-3">
@@ -57,12 +64,19 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
               
             </div>
           : location.pathname === '/recent' ? 
-          <div className='font-[500] font-Montserrat flex items-center justify-center text-xl text-center mr-3 xs:text-3xl'>
-            
-          </div> :
+          (
+            <div className='font-[500] font-Montserrat flex items-center justify-center text-xl text-center mr-3 xs:text-3xl'>
+              
+            </div> 
+          ):(
+            location.pathname === '/newcalculation' ? (
             <Link to={'/recent'} className='bg-[#07018130] hover:bg-[#07018137] font-[500] font-Montserrat flex items-center rounded-md justify-center text-xl mr-3 xs:text-xl lg:text-2xl bg-[#c3c7f2] hover:bg-[#abb0ed] p-2.5'>
               <History className='text-2xl text-[#070181]'/>
             </Link>
+            ) : (
+              <div></div>
+            )
+          ) 
         }
       </div>
     </div>

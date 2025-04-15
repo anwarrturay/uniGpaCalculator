@@ -36,6 +36,10 @@ const User = new Schema({
         type: Boolean,
         default: true
     },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
     image: {
         type: String,
         required: true
