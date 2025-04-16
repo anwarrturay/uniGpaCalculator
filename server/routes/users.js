@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getSpecificUser, updateUserDetails, isNewController } = require('../controller/usersController');
+const { getSpecificUser, updateUserDetails, isNewController, contactUs } = require('../controller/usersController');
 const upload  = require("../middleware/multerConfig");
 const ROLES_LIST = require("../config/roles_Lists")
 const verifyRoles = require("../middleware/VerifyRoles");
@@ -18,4 +18,6 @@ router.route('/:id')
     .get(verifyRoles(ROLES_LIST.USER), getSpecificUser)
     .patch(upload.single("image"), verifyRoles(ROLES_LIST.USER), updateUserDetails)
 
+router.route('/contact-us')
+    .post(verifyRoles(ROLES_LIST.USER), contactUs)
 module.exports = router;

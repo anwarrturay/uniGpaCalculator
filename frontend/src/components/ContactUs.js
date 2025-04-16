@@ -1,12 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from './Header';
 import { Send, ArrowRight } from 'lucide-react';
 import { FAQs } from './utils/FAQs';
 import { v4 as uuidv4 } from 'uuid';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import contactusSchema from '../schemas/contactusSchema';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import useAuth from '../hooks/useAuth';
+import SuccessFeedbackMsg from './utils/SuccessFeedbackMsg';
+import Failure from "./utils/Failure";
 const ContactUs = () => {
+  const [success, setSuccess] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const axiosPrivate = useAxiosPrivate();
+  const {register, handleSubmit, formState: {errors}, reset, watch, setValue} = useForm({
+    resolver: yupResolver(contactusSchema),
+    defaultValues:{
+      "email": ""
+    }
+  })
 
-  const handleFeedbacks = (e) => {
-    e.preventDefault();
+  const { auth } = useAuth();
+  const userId = auth?.userId;
+
+  useEffect(()=>{
+    const fetchUserEmail = async ()=>{
+      if(!userId) return;
+      try{
+        const res = await axiosPrivate.get(
+          `/users/${userId}`
+        )
+        console.log("User Data: ", res.data);
+        if(res.data){
+          setValue("email", res.data.email || '')
+        }
+      }catch(err){
+        console.error("Error Fetching User Data", {
+          message: err.message,
+          cause: err.cause
+        })
+      }
+    }
+
+    if(userId) fetchUserEmail();
+  }, [axiosPrivate, watch])
+  
+  const handleFeedbacks = async (data) => {
+    console.log("Form Submitted: ", data);
+    try{
+      const response = await axiosPrivate.post(
+        `/users/contact-us`,
+        JSON.stringify({email:data.email, issue:data.issue, message:data.message})
+      )
+      if(response.status === 200){
+        setSuccess(true)
+        setTimeout(()=>{
+          setSuccess(false)
+        }, 5000)
+        reset()
+      }
+    }catch(err){
+      if(!err?.response){
+        setErrMsg("Something Went Wrong");
+      }else if(err.response?.status === 400){
+        setErrMsg("Unable to send your feedback")
+      }
+    }
   };
 
   return (
@@ -14,7 +74,6 @@ const ContactUs = () => {
       <Header />
       <main className="relative top-20 xl:top-32 font-Montserrat flex justify-center items-start px-4 scroll-smooth">
         <div className="flex flex-col justify-start xl:flex-row gap-12 max-w-6xl w-full">
-
           {/* FAQs Section */}
           <div className="w-full xl:w-1/2">
             <div className='mb-6'>
@@ -33,7 +92,7 @@ const ContactUs = () => {
 
           {/* Vertical Divider */}
           <div className="hidden xl:flex justify-center">
-            <div className="h-full w-px bg-gray-300" />
+            <div className="h-full w-px bg-[#ccc]" />
           </div>
 
           {/* Contact Form Section */}
@@ -42,15 +101,29 @@ const ContactUs = () => {
             <p className="text-[#8b8b8b] mb-6 text-[12px]">
               We'd love to hear from you! Whether you're reporting a bug, suggesting improvements, or sharing your experience, your feedback helps us make things better.
             </p>
-
-            <form onSubmit={handleFeedbacks} className="space-y-4 mb-3">
+              {success ? (<SuccessFeedbackMsg />) : (errMsg && <Failure errMsg={errMsg}/>)}
+            <form onSubmit={handleSubmit(handleFeedbacks, (errors)=> console.log("Validation error: ", errors))} className="space-y-4 mb-3">
+              <div className="flex flex-col">
+                <label htmlFor="user-email">Email</label>
+                <input 
+                  id='user-email'
+                  type="text" 
+                  value={watch("email")}
+                  {...register("email")}
+                  className='input-field'
+                />
+              </div>
               <div className="flex flex-col">
                 <label htmlFor="categories-issue" className="mb-1 font-medium">Category</label>
-                <select id="categories-issue" className="input-field">
-                  <option value="">Bug Issue</option>
-                  <option value="">Performance Issue</option>
-                  <option value="">System Optimization</option>
-                  <option value="">Compliment</option>
+                <select 
+                  id="categories-issue" 
+                  className="input-field"
+                  {...register("issue")}
+                >
+                  <option value="Bug Issues">Bug Issue</option>
+                  <option value="Performances">Performance Issue</option>
+                  <option value="System Optimization">System Optimization</option>
+                  <option value="Compliment">Compliment</option>
                 </select>
               </div>
 
@@ -61,6 +134,7 @@ const ContactUs = () => {
                   rows="5"
                   className="input-field w-full min-h-[100px] max-h-[300px] overflow-y-auto resize-y"
                   placeholder="Type your message here"
+                  {...register("message")}
                 ></textarea>
               </div>
 

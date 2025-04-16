@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs")
 const generateToken = require("./generateTokenController");
 const sendEmail = require("../service/sendEmail");
-
+const sendFeedBacks = require("../service/sendFeedBacks")
 const getSpecificUser = async (req, res) =>{
     const { id } = req.params;
     if(!id) return res.sendStatus(404) // Not Found
@@ -88,4 +88,16 @@ const isNewController = async (req, res) => {
     res.status(200).json(result)
 }
 
-module.exports = { getSpecificUser, updateUserDetails, forgotPassword, isNewController };
+const contactUs = async (req, res)=>{
+    try{
+        const { issue, message, email } = req.body;
+        if (!issue || !message || !email ) return res.status(404).json({message: 'All fields are required'});
+
+        await sendFeedBacks(email, issue, message)
+        res.status(200).json({message: "Feedback sent successfully"})
+    }catch(err){
+        console.error(err)
+    }
+}
+
+module.exports = { getSpecificUser, updateUserDetails, forgotPassword, isNewController, contactUs };

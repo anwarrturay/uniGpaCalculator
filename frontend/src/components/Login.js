@@ -13,7 +13,6 @@ import unimak from '../assets/unimak.png'
 import { ArrowUpRight } from 'lucide-react';
 function Login() {
   const {token} = useParams()
-  console.log(token)
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
