@@ -53,14 +53,25 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
         const content = document.getElementById(divId).innerHTML;
       
         const printWindow = window.open('', '', 'height=600,width=800');
-        printWindow.document.write('<html><head><title>Student Bash</title>');
+        printWindow.document.write('<html><head><title>Miskul App</title>');
       
         printWindow.document.write(`
           <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         `);
+
+        printWindow.document.write(`
+      <style>
+        @page {
+          margin: 0;
+        }
+        body {
+          margin: 1cm;
+        }
+      </style>
+    `);
       
         printWindow.document.write('</head><body className="p-4">');
-        printWindow.document.write("<div class='w-full flex items-center justify-center'><img class='text-center' width='100px' src='/unimak.png'/></div>")
+        printWindow.document.write("<div class='w-full flex flex-col gap-1 items-center justify-center mb-2 mt-5'><img class='text-center' width='50px' src='/miskul_icon.png'/><img class='text-center' width='100px' src='/miskul_wordmark.png'/></div>")
         printWindow.document.write(content);
         printWindow.document.write('</body></html>');
       
@@ -120,7 +131,7 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
             <div className='max-w-3xl w-full flex flex-col gap-2 items-end'>
             <div id="result" className="main-div w-full mx-auto border bg-white p-4 sm:p-6 font-Montserrat">
                 <div className="flex flex-col items-center w-full mb-4">
-                <div className="font-bold text-xl">STATEMENT OF RESULTS</div>
+                <div className="text-xl">STATEMENT OF RESULTS</div>
                 </div>
 
                 <table className='text-sm w-full'>

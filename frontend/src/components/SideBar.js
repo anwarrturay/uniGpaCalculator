@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Drawer, Sidebar} from "flowbite-react";
-import unimakSM from '../images/unimak-sm.png';
+import unimakSM from '../images/miskul_icon.png';
 import { LogOut, History, Plus, Send, Lightbulb } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from "../hooks/useAuth";
@@ -38,8 +38,8 @@ const sidebar = ({isOpen, handleClose}) => {
       <Drawer open={isOpen} onClose={handleClose}>
         { isOpen &&
           <div className='flex items-center justify-start border-b-2'>
-            <img src={unimakSM} alt="" className='w-[50px] h-[50px]'/>
-            <Drawer.Header title="University Of Makeni" titleIcon={() => <></>} className='text-center align-middle ml-2 text-lg font-Montserrat'/>
+            <img src={unimakSM} alt="" className='w-[50px] h-[50px] mb-3 -mt-1'/>
+            <Drawer.Header title="Miskul App" titleIcon={() => <></>} className='text-center align-middle ml-2 text-lg font-Montserrat'/>
           </div>
         }
         <Drawer.Items>
@@ -53,7 +53,7 @@ const sidebar = ({isOpen, handleClose}) => {
                   <Sidebar.ItemGroup>
                     <Sidebar.Item>
                       <Link to={'/profile'} className='font-Montserrat'>
-                        <div className='flex items-center cursor-pointer'>
+                        <div className='flex items-center cursor-pointer mt-2'>
                           <div className='w-[70px]'>
                             <img src={user && `${BASE_URL}${user?.image}`} className='w-[50px] h-[50px] rounded-full' alt="Profile" />
                           </div>

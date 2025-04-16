@@ -343,11 +343,11 @@ const NewCalculation = () => {
     return (
         <div className="flex flex-col w-full p-5 items-center justify-center relative top-16">
             <h2 className='font-bold pb-2 text-center font-Montserrat'>Please select a semester<br></br>to proceed with calculation!</h2>
-            <select className='text-sm mb-4 border-[#ccc] rounded-md font-Montserrat' onChange={(e) => setSemester(e.target.value)}>
+            <select className='text-sm mb-4 border-[#ccc] rounded-md font-Montserrat cursor-pointer' onChange={(e) => setSemester(e.target.value)}>
                 <option>Select Semester</option>
-                <option value="Semester One">Semester One</option>
-                <option value="Semester Two">Semester Two</option>
-                <option value="Both Semesters">Both Semesters</option>
+                <option className='cursor-pointer' value="Semester One">Semester One</option>
+                <option className='cursor-pointer' value="Semester Two">Semester Two</option>
+                <option className='cursor-pointer' value="Both Semesters">Both Semesters</option>
             </select>
             { semester === "Semester One" && result !== "active" ? 
             <>

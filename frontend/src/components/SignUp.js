@@ -4,7 +4,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import axios from '../api/axios';
 import Failure from './utils/Failure';
 import Loading from './utils/Loading';
-import unimak from '../assets/unimak.png'
+import miskul_icon from '../assets/miskul_icon.png'
 import VerificationLinkMsg from './utils/VerificationLinkMsg';
 function Signup() {
   const [formData, setFormData] = useState({
@@ -85,15 +85,15 @@ function Signup() {
 
   return (
     <>
-		<div className="flex flex-col relative top-8 xs:top-20 xl:top-10 items-center justify-center drop-shadow-2xl">
+		<div className="flex flex-col h-[100vh] items-center justify-center drop-shadow-2xl">
 			<div className='font-Montserrat mt-4 flex flex-col items-center justify-center'>
-				<img src={unimak} alt="" className='w-[50px]'/>
+				<img src={miskul_icon} alt="" className='w-[50px] mb-1'/>
 				<h1 className='text-xl font-semibold'>Create Your MiSkul Account</h1>
 				<div className="text-[12px] font-medium text-[#8b8b8b] w-[300px] text-center">
 					One MiSkul Account is all you need to access all MiSkul services.
 				</div>
-				<p className='font-Montserrat mb-3 text-sm font-semibold'>
-					Already have a MiSkul Account?{' '}
+				<p className='font-Montserrat text-sm font-semibold'>
+					Already have a an account?{' '}
 					<span onClick={()=> navigate(-1)} className="text-[#070181] cursor-pointer font-medium">
 						Sign In
 					</span>
@@ -105,7 +105,7 @@ function Signup() {
 					(errMsg && <Failure errMsg={errMsg} />)
 				}
 			</div>
-			<form onSubmit={handleSubmit} className='flex flex-col p-5 mt-3 font-Montserrat'>
+			<form onSubmit={handleSubmit} className='flex flex-col p-5 font-Montserrat'>
 				<input
 					type="text"
 					placeholder="Firstname"

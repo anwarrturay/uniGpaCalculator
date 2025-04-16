@@ -65,3 +65,9 @@ body{
 .reset-btn{
   @apply bg-[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center
 }
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #facc15;
+  border-color: #facc15;
+}
