@@ -6,6 +6,11 @@ const RequireAuth = ({ allowedRoles })=>{
     const location = useLocation();
 
     const roles = auth?.roles || [];
+    
+    const toURL = location.pathname === "/master_ose" ? '/master_domot' : '/';
+    console.log(location.pathname
+    )
+    console.log(toURL);
 
     const hasRequiredRole = Array.isArray(roles)
     ? roles.some(role => allowedRoles.includes(role))
@@ -14,7 +19,7 @@ const RequireAuth = ({ allowedRoles })=>{
     return (
         hasRequiredRole 
             ? <Outlet />
-            : <Navigate to='/' state={{ from:location }} replace />
+            : <Navigate to={toURL} state={{ from:location }} replace />
     )
 }
 

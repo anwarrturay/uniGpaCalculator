@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getSpecificUser, updateUserDetails, isNewController, contactUs } = require('../controller/usersController');
+const { getSpecificUser, updateUserDetails, isNewController, contactUs, getUsers } = require('../controller/usersController');
 const upload  = require("../middleware/multerConfig");
 const ROLES_LIST = require("../config/roles_Lists")
 const verifyRoles = require("../middleware/VerifyRoles");
@@ -13,6 +13,9 @@ router.route('/history/:userId')
     .get(verifyRoles(ROLES_LIST.USER), getHistory)
     .post(verifyRoles(ROLES_LIST.USER), postHistory)
     .delete(verifyRoles(ROLES_LIST.USER), deleteHistory)
+
+router.route('/data')
+    .get(verifyRoles(ROLES_LIST.ADMIN), getUsers)
 
 router.route('/:id')
     .get(verifyRoles(ROLES_LIST.USER), getSpecificUser)

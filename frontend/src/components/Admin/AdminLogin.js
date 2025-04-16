@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import axios from '../api/axios';
-import Success from './utils/Success';
-import Failure from './utils/Failure';
+import axios from '../../api/axios.js';
+import Success from '../utils/Success.js';
+import Failure from '../utils/Failure.js';
 import { jwtDecode } from 'jwt-decode'
-import useAuth from '../hooks/useAuth.js';
+import useAuth from '../../hooks/useAuth.js';
 import {useForm} from "react-hook-form"
-import loginSchema from '../schemas/loginSchema.js';
+import loginSchema from '../../schemas/loginSchema.js';
 import { yupResolver } from '@hookform/resolvers/yup';
-import PasswordVisibility from './utils/PasswordVisibility.js';
-import miskul_icon from '../assets/miskul_icon.png'
+import PasswordVisibility from '../utils/PasswordVisibility.js';
+import miskul_icon from '../../assets/miskul_icon.png'
 import { ArrowUpRight } from 'lucide-react';
 function AdminLogin() {
   const {token} = useParams()
-  console.log(token)
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
@@ -61,7 +60,7 @@ function AdminLogin() {
       if(response.status === 200){
         setSuccess(false);
         setIsLoading(true);
-        if(roles.indexOf(1987) > -1) navigate('/admin');
+        if(roles.indexOf(1987) > -1) navigate('/master_ose');
         
         reset();
       }
