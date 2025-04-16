@@ -32,6 +32,15 @@ const sidebar = ({isOpen, handleClose}) => {
 
   }, [userId])
 
+  const logout = async () => {
+    try {
+      await axiosPrivate.get('/logout');
+      setUser(null);
+      navigate('/');
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  }
 
   return (
     <>
@@ -121,8 +130,8 @@ const sidebar = ({isOpen, handleClose}) => {
                   {/* LOGOUT SECTION */}
                   <Sidebar.ItemGroup>
                     <Sidebar.Item>
-                        <span onClick={()=> navigate('/')}>
-                            <div className="flex items-center cursor-pointer relative">
+                        <span onClick={logout} className='cursor-pointer'>
+                            <div className="flex items-center relative">
                                 <div className='flex items-center justify-center p-2.5 rounded-md'>
                                     <LogOut size={24} className='text-red-500'/>
                                 </div>

@@ -89,7 +89,7 @@ function Login() {
             <div>
               <img src={miskul_icon} alt="" className='w-[50px]'/>
             </div>
-            <h2 className="font-bold font-Montserrat text-xl">SignIn with MiSkul Account</h2>
+            <h2 className="font-bold font-Montserrat text-xl">Sign In with MiSkul Account</h2>
           </div>
           <div className="flex items-center justify-center">
               {success ? <Success /> : (errMsg && <Failure errMsg={errMsg} />)}
