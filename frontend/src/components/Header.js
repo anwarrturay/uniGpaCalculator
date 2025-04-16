@@ -19,27 +19,27 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
     <div className='bg-[#F2F2F2] z-50 fixed top-0 left-0 right-0  h-[70px] shadow-sm'>
       <div className={`flex items-center ${mutableStyle} lg:${mutableStyle} lg:items-start lg:mt-3`}>
         {location.pathname === '/studentdashboard' &&
-          <div className="flex items-start justify-start  cursor-pointer" onClick={() => setIsOpen(true)}>
+          <div className="flex items-start justify-start cursor-pointer mt-[0.35rem]" onClick={() => setIsOpen(true)}>
             <AlignLeft size={28} className='ml-2'/>
           </div>
         }
         {location.pathname === '/newcalculation' && 
           <Link to={'/studentdashboard'}>
-            <div className='flex items-center font-Montserrat cursor-pointer pl-2'>
+            <div className='flex items-center font-Montserrat cursor-pointer pl-2 md:mt-1 lg:mt-2'>
             <ChevronLeft size={28} color='#070181'/>
             </div>
           </Link>
         }
         {location.pathname === '/recent' && 
           <div onClick={() => navigate(-1)}>
-            <div className='flex items-center font-Montserrat cursor-pointer pl-2'>
+            <div className='flex items-center font-Montserrat cursor-pointer pl-2 md:mt-1 lg:mt-2'>
             <ChevronLeft size={28} color='#070181'/>
             </div>
           </div>
         }
         {location.pathname === '/contact-us' && (
           <div onClick={() => navigate(-1)}>
-            <div className='flex items-center font-Montserrat cursor-pointer pl-2'>
+            <div className='flex items-center font-Montserrat cursor-pointer pl-2 md:mt-1 lg:mt-2'>
             <ChevronLeft size={28} color='#070181'/>
             </div>
           </div>
