@@ -13,7 +13,6 @@ import miskul_icon from '../assets/miskul_icon.png'
 import { ArrowUpRight } from 'lucide-react';
 function Login() {
   const {token} = useParams()
-  console.log(token)
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState('');
@@ -90,7 +89,7 @@ function Login() {
             <div>
               <img src={miskul_icon} alt="" className='w-[50px]'/>
             </div>
-            <h2 className="font-bold font-Montserrat text-xl">SignIn with MiSkul Account</h2>
+            <h2 className="font-bold font-Montserrat text-xl">Sign In with MiSkul Account</h2>
           </div>
           <div className="flex items-center justify-center">
               {success ? <Success /> : (errMsg && <Failure errMsg={errMsg} />)}

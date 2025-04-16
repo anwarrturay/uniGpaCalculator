@@ -1,18 +1,24 @@
 import React from 'react';
+import { Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const DashBoard = () => {
+  const navigate = useNavigate();
   return (
-    <div className='flex flex-col items-center justify-center relative top-56 lg:flex-row'>
-      <div className="bg-[#003459] px-20 py-8  shadow-xl rounded-md text-white mb-2 xs:px-32 xs:py-10">
-        <div className='text-lg'>Semester 1 CGPA</div>
-        <h1 className='font-medium text-3xl text-center xs:text-[35px]'>3.56</h1> 
+    <div className='flex flex-col items-center justify-center min-h-screen font-Montserrat'>
+      <p className="text-base my-6 font-medium text-wrap text-center">Explore the Miskul App by starting a new calculation</p>
+      <div 
+        onClick={() => navigate('/newcalculation')} 
+        className="bg-white px-10 py-16 shadow-xl rounded-md text-white flex flex-col items-center justify-center 
+        xs:px-12 xs:py-20 sm:px-16 sm:py-24 md:px-20 md:py-28 lg:px-24 lg:py-32 xl:px-28 xl:py-36"
+      >
+        <Plus className='text-[#070181] cursor-pointer' size={64} />
       </div>
-      <div className="bg-[#003459] px-20 py-8 lg:ml-2 shadow-xl rounded-md text-white xs:px-32 xs:py-10">
-        <div className='text-lg'>Semester 2 CGPA</div>
-        <h1 className='font-medium text-3xl text-center  xs:text-[35px]'>4.78</h1> 
-      </div>
+      <p className='mt-4 text-sm font-medium text-center xs:text-base sm:text-lg md:text-xl lg:text-lg xl:text-base'>
+        Start a new calculation
+      </p>
     </div>
-  )
+  );
 }
 
 export default DashBoard;

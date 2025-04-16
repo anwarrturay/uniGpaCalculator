@@ -20,6 +20,5 @@ const resetPassword = async (req, res) => {
     await user.save();
   
     res.status(200).json({ message: 'Password reset successful' });
-}
-
+};
 module.exports = resetPassword;
