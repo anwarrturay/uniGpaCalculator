@@ -9,7 +9,7 @@ import {useForm} from "react-hook-form"
 import loginSchema from '../schemas/loginSchema.js';
 import { yupResolver } from '@hookform/resolvers/yup';
 import PasswordVisibility from './utils/PasswordVisibility.js';
-import unimak from '../assets/unimak.png'
+import miskul_icon from '../assets/miskul_icon.png'
 import { ArrowUpRight } from 'lucide-react';
 function Login() {
   const {token} = useParams()
@@ -84,17 +84,17 @@ function Login() {
   return (
     <>
  
-        <div className="flex flex-col relative top-36 xs:top-48 xl:top-32 items-center justify-center drop-shadow-2xl">
-          <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col h-[100vh] items-center justify-center drop-shadow-2xl gap-2">
+          <div className="flex flex-col gap-1 items-center justify-center">
             <div>
-              <img src={unimak} alt="" className='w-[50px]'/>
+              <img src={miskul_icon} alt="" className='w-[50px]'/>
             </div>
-            <h2 className="font-bold font-Montserrat text-xl">Sign In with MiSkul Account</h2>
+            <h2 className="font-bold font-Montserrat text-xl">SignIn with MiSkul Account</h2>
           </div>
-          <div className="flex items-center relative top-3 justify-center">
+          <div className="flex items-center justify-center">
               {success ? <Success /> : (errMsg && <Failure errMsg={errMsg} />)}
           </div>
-          <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col p-5 mt-3 font-Montserrat">
+          <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col px-5 -mt-2 font-Montserrat">
               <input
                 type="email"
                 {...register("email")}
@@ -107,13 +107,13 @@ function Login() {
                   type={showPassword ? 'text' : 'password'}
                   {...register("password")}
                   placeholder="Password"
-                  className="input-field"
+                  className="input-field focus:outline-none"
                   autoComplete="off"
                 />
                 {passwordToggleButton}
               </div>
 
-            <button type="submit" className="bg-[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center">
+            <button type="submit" className="bg-[#070181] py-2 px-5 font-Montserrat rounded-md text-white font-medium text-center">
               Login
             </button>
             <div className="flex items-center justify-center">
@@ -129,11 +129,11 @@ function Login() {
               </div>
             </div>
           </form>
-          <div onClick={()=> navigate("/forgot-password")} className="flex justify-center mt-3 text-base font-medium text-[#070181] cursor-pointer mb-2">
+          <div onClick={()=> navigate("/forgot-password")} className="flex justify-center text-base font-medium text-[#070181] cursor-pointer">
               Forgot Password?
               <ArrowUpRight size={24} className='text-[#070181]'/>
             </div>
-          <p className="font-Montserrat mb-3 text-base">
+          <p className="font-Montserrat text-base">
             <span className="text-[#070181] cursor-pointer font-semibold" onClick={()=> navigate('/signup')}>
               Create MiSkul Account
             </span>

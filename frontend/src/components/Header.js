@@ -3,6 +3,8 @@ import SideBar from './SideBar';
 import { useLocation, useNavigate } from 'react-router-dom';
 import unimakSM from '../images/unimak-sm.png'
 import unimakXL from '../images/unimak-xl.png'
+import miskulXL from '../images/miskul_icon.png'
+import miskulWM from '../images/miskul_wordmark.png'
 import useWindowSize from '../hooks/useWindowSize';
 import { Link } from 'react-router-dom';
 import { History, ChevronLeft, AlignLeft } from 'lucide-react';
@@ -43,18 +45,27 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
           </div>
         )}
         { 
-          width < 768 ?
-            <div className="w-[50px] xs:w-[60px] ml-2 mt-3">
-              <img src={unimakSM} alt="" />
+          width < 768 ?<div className='flex gap-2 items-center mt-[0.35rem]'>
+            <div className="w-[50px] xs:w-[50px]">
+              <img src={miskulXL} alt="" />
             </div>
-          : width < 992 ?
+            <div className="w-[60px]">
+              <img src={unimakSM} alt="" />
+            </div></div>
+          : width < 992 ? <div className='flex gap-2 items-center'>
+            <div className="w-[50px] md:w-[50px] md:mt-3 ml-2">
+              <img src={miskulXL} alt="" />
+            </div>
             <div className="w-[50px] md:w-[135px] md:mt-3 ml-2">
               <img src={unimakXL} alt="" />
+            </div></div>
+          : <div className='flex gap-2 items-center'>
+            <div className="w-[50px]  flex items-center ml-2 lg:items-start">
+              <img src={miskulXL} alt="" />
             </div>
-          :  
             <div className="w-[150px]  flex items-center ml-2 lg:items-start">
               <img src={unimakXL} alt="" />
-            </div>
+            </div></div> 
         }
 
         { location.pathname === '/studentdashboard' && <SideBar isOpen={isOpen} setIsOpen={setIsOpen} handleClose={handleClose}/>}

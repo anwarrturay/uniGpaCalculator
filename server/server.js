@@ -18,7 +18,7 @@ const registerRoutes = require("./routes/register.js");
 const authRoutes = require("./routes/auth.js");
 const userRoutes = require("./routes/users.js");
 const refreshRoute = require("./routes/refresh.js");
-const logoutRoute = require("./routes/logout.js")
+const logoutRoute = require("./routes/logout.js");
 // Initialize Express App
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -30,7 +30,7 @@ connectDB();
 app.use(credentials);
 app.use(cors(corsOptions));
 
-app.use(logger)
+app.use(logger);
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: false }));

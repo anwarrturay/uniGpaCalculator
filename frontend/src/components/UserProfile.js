@@ -45,27 +45,19 @@ const UserProfile = () => {
                 </div>
                 <main className='flex flex-col items-center justify-center mt-36 p-4 font-Montserrat'>
                     <button onClick={moveToEditProfile} className='font-bold py-2 px-3 rounded-lg text-[#070181] border border-[#ccc] transition-all hover:border hover:border-[#ccc] text-sm'>Edit Profile</button>
-                    <div className="flex flex-col items-center justify-center mt-5">
-                      <div className='rounded-xl flex flex-col gap-3'>
-                          <div className="flex items-center">
-                            <div className='font-semibold'>First name:</div>
-                            <p className='ml-3'>{user.firstname}</p>
+                    <div className="flex flex-col items-center justify-center mt-2">
+                      <div className='rounded-xl flex flex-col gap-2'>
+                          <div className="flex items-center justify-center">
+                            <p className='font-bold'>{user.firstname} {user.lastname}</p>
                           </div>
-                          <div className="flex items-center">
-                            <div className='font-semibold'>Last name:</div>
-                            <p className='ml-3'>{user.lastname}</p>
+                          <div className="flex items-center justify-center">
+                            <p className=''>{user.email}</p>
                           </div>
-                          <div className="flex items-center">
-                            <div className='font-semibold'>Email:</div>
-                            <p className='ml-3'>{user.email}</p>
+                          <div className="flex items-center justify-center">
+                            <p className=''>{user.department}</p>
                           </div>
-                          <div className="flex items-center">
-                            <div className='font-semibold'>Department:</div>
-                            <p className='ml-3'>{user.department}</p>
-                          </div>
-                          <div className="flex items-center">
-                            <div className='font-semibold'>Level:</div>
-                            <p className='ml-3'>{user.level}</p>
+                          <div className="flex items-center justify-center">
+                            <p className=''>{user.level}</p>
                           </div>
                       </div>
                     </div>
