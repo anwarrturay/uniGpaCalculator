@@ -56,13 +56,13 @@ const Admin = () => {
   return (
     <>
     <Header />
-    <main className='mt-20 px-5'>
-    <List unstyled className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+    <main className='mt-20 flex items-center justify-center'>
+    <List unstyled className="flex flex-col px-4 divide-y divide-gray-200 dark:divide-gray-700">
       {/* <h2 className='font-bold font-Montserrat text-center text-black'>Users({users?.length})</h2> */}
       {users?.map(user => userId !== user?._id &&
       <ListItem className="pb-3 sm:pb-4" key={uuidv4()}>
         <div className="flex items-center space-x-4 rtl:space-x-reverse font-Montserrat mt-4">
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 ml-7">
             <p className="truncate text-sm font-medium text-gray-900 dark:text-white">{user.firstname} {user.lastname}</p>
             <p className="truncate text-sm text-gray-500 dark:text-gray-400">{user.email}</p>
           </div>
