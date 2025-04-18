@@ -44,7 +44,7 @@ const ForgotPassword = () => {
             <h1 className='font-semibold text-2xl'>Forgot Password?</h1>
             {success ? (
                 <ResetLinkMsg />
-            ): errMsg && <Failure errMsg={errMsg}/>}
+            ): errMsg && <Failure errMsg={errMsg} setErrMsg={setErrMsg}/>}
             <form onSubmit={handleSubmit(handleSubmitEmail)} action="" className='flex flex-col gap-2 px-5'>
                 <div className="flex flex-col">
                     {/* <label htmlFor="email">Email address</label> */}
