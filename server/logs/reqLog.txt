@@ -9241,3 +9241,8 @@
 20250418	07:45:42	6ae11bf4-1563-45de-b3c1-4b446cb5201b	GET	http://localhost:3000	/users/data
 20250418	07:45:42	9ef5fd2a-9493-4062-a650-5cabb320fdfd	GET	http://localhost:3000	/users/data
 >>>>>>> 32a5b6f363f37e63cb14bdf81e7d962db21bd3cb
+20250418	12:55:52	79784158-4e61-4ecf-8285-006c2c131430	POST	http://localhost:3000	/auth
+20250418	12:55:52	c0c8de28-db22-4e80-a510-0722aec03281	GET	http://localhost:3000	/users/67fdc6b90747f93699d3fdd1
+20250418	12:55:52	b5185913-c156-4e58-9c5d-deb0d6498484	GET	http://localhost:3000	/users/data
+20250418	12:55:52	fcb9ad4e-93e9-44d3-bb87-d26d37164eb7	GET	http://localhost:3000	/users/67fdc6b90747f93699d3fdd1
+20250418	12:55:52	ff5fc3de-3478-469f-9a64-35407ed71c34	GET	http://localhost:3000	/users/data
