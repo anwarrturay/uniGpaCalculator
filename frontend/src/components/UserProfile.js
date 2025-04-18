@@ -43,7 +43,7 @@ const UserProfile = () => {
                 <div className='fixed top-0 right-0 left-0 z-40'>
                     <ProfileHeader id={user.idNumber} userImage={`${BASE_URL}${user.image}`} />
                 </div>
-                <main className='flex flex-col items-center justify-center mt-36 p-4 font-Montserrat'>
+                <main className='flex flex-col items-center justify-center font-Montserrat'>
                     <button onClick={moveToEditProfile} className='font-bold py-2 px-3 rounded-lg text-[#070181] border border-[#ccc] transition-all hover:border hover:border-[#ccc] text-sm'>Edit Profile</button>
                     <div className="flex flex-col items-center justify-center mt-2">
                       <div className='rounded-xl flex flex-col gap-2'>

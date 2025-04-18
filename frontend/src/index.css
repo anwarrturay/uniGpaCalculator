@@ -7,6 +7,17 @@
 .header{
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 70%, 0% 100%);
 }
+:root{
+  --body_background: #F4F1F8;
+  --body_color: #000000;
+  --link_color: #070181;
+}
+
+[data-theme="dark"] {
+  --body_background: #000000;
+  --body_color: #FFFFFF;
+  --link_color: #FFFFFF;
+}
 
 body{
   background-color: #F4F1F8;

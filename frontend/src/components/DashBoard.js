@@ -14,7 +14,7 @@ const DashBoard = () => {
       >
         <Plus className='text-[#070181] cursor-pointer' size={64} />
       </div>
-      <p className='mt-4 text-sm text-center xs:text-base sm:text-lg md:text-xl lg:text-lg xl:text-base font-bold'>
+      <p className='mt-4 text-sm text-center xs:text-base sm:text-lg md:text-xl lg:text-lg xl:text-base font-medium'>
         Start a new calculation
       </p>
     </div>

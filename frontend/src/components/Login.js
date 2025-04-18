@@ -132,12 +132,12 @@ function Login() {
               </div>
             </div>
           </form>
-          <div onClick={()=> navigate("/forgot-password")} className="flex justify-center text-base font-medium text-[#070181] cursor-pointer">
+          <div onClick={()=> navigate("/forgot-password")} className="flex justify-center text-base font-medium text-[#070181] cursor-pointer dark:text-[#F4F1F8]">
               Forgot Password?
-              <ArrowUpRight size={24} className='text-[#070181]'/>
+              <ArrowUpRight size={24} className='text-[#070181] dark:text-[#F4F1F8]'/>
             </div>
           <p className="font-Montserrat text-base">
-            <span className="text-[#070181] cursor-pointer font-semibold" onClick={()=> navigate('/signup')}>
+            <span className="text-[#070181] dark:text-[#F4F1F8] cursor-pointer font-semibold" onClick={()=> navigate('/signup')}>
               Create MiSkul Account
             </span>
           </p>

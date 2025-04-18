@@ -370,8 +370,6 @@ const NewCalculation = () => {
             {/* {
                 showDialog && result === "active" && <SaveResultDialog setShowDialog={setShowDialog}/>
             } */}
-            
-            
         </div>
     );
 };
