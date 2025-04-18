@@ -15,3 +15,7 @@
     success-color: #00ff9570
     Button-color: #070181
     gray-color: #8b8b8b
+    dark-mode-color: #1f2937;
+    dark-mode-text-color: #F4F1F8;
+    dark-mode-bg-color: #F4F1F8;
+    dark-mode-bg-color-hover: #EDE9FE;

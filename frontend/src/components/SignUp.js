@@ -93,7 +93,7 @@ function Signup() {
 
   return (
     <>
-		<div className="flex flex-col h-[100vh] items-center justify-center drop-shadow-2xl">
+		<div className="flex flex-col h-[100vh] items-center justify-center drop-shadow-2xl mb-5">
 			<div className='font-Montserrat mt-4 flex flex-col items-center justify-center'>
 				<img src={miskul_icon} alt="" className='w-[50px] my-2'/>
 				<h1 className='text-xl font-semibold'>Create Your MiSkul Account</h1>

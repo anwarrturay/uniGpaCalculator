@@ -6,7 +6,7 @@ import { LogOut, History, Plus, Send, Lightbulb } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from "../hooks/useAuth";
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
-import { BASE_URL } from '../api/axios';
+
 const sidebar = ({isOpen, handleClose}) => {
   const navigate = useNavigate()
   const { auth, user, setUser } = useAuth();
@@ -73,7 +73,7 @@ const sidebar = ({isOpen, handleClose}) => {
                       <Link to={'/profile'} className='font-Montserrat'>
                         <div className='flex items-center cursor-pointer mt-2'>
                           <div className=''>
-                            <img src={user && `${BASE_URL}${user?.image}`} className='w-[50px] h-[50px] rounded-full' alt="Profile" />
+                            <img src={user && user.image} className='w-[50px] h-[50px] rounded-full' alt="Profile" />
                           </div>
                           <p className='font-bold ml-2 text-wrap'>{user && `${user?.firstname}  ${user?.lastname}`}</p>
                         </div>

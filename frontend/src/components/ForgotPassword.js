@@ -65,7 +65,7 @@ const ForgotPassword = () => {
             </form>
             <div className="flex items-center">
                 <p className="text-base">Remember your password?</p>
-                <Link to={'/'} className='ml-1 text-[#070181] font-medium gap-4'>Sign In</Link>
+                <Link to={'/'} className='ml-1 text-[#070181] font-medium gap-4 hover:underline'>Sign In</Link>
             </div>
         </div>
   )

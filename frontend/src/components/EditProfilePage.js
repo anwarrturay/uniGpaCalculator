@@ -142,9 +142,9 @@ const EditProfilePage = () => {
             user ?
                 <section>
                     <div className='fixed top-0 right-0 left-0 z-40'>
-                        <ProfileHeader pageTitle='Edit Profile' userImage={`${BASE_URL}${user.image}`}/>
+                        <ProfileHeader pageTitle='Edit Profile' userImage={user.image}/>
                     </div>
-                    <main className='flex flex-col items-center mt-5 px-4 pt-32 font-Montserrat'>
+                    <main className='flex flex-col items-center mt-5 mb-16 px-4 pt-32 font-Montserrat'>
                         {/* Success / Error Message */}
                         {success ? (
                             <div className='bg-[#00FF94] text-green-800 rounded-md px-4 py-2 font-bold'>
@@ -155,7 +155,7 @@ const EditProfilePage = () => {
                         )}
                         {/* Change profile section */}
                         <div className='flex flex-col items-center justify-center relative left-4 xxs:left-2'>
-                            <label htmlFor="image" className='absolute font-bold py-2 px-3 rounded-lg text-[#070181] border border-[#ccc] transition-all hover:border hover:border-[#070181] hover:cursor-pointer text-sm'>Change Profile</label>
+                            <label htmlFor="image" className='absolute font-bold py-2 px-3 rounded-lg text-[#070181] border border-[#ccc] transition-all hover:border hover:border-[#070181] hover:cursor-pointer text-sm '>Change Profile</label>
                             <input
                                 id='image' 
                                 type="file" 

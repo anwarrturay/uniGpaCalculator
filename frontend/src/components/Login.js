@@ -71,7 +71,9 @@ function Login() {
             setErrMsg("No Server Response");
         } else if (err.response?.status === 401) {
             setErrMsg("Incorrect email or password");
-        } else {
+        }else if(err.response?.status === 404){
+          setErrMsg("Please verify your email")
+        }else {
             setErrMsg("Login failed, Please try again");
         }
       }, 50)
@@ -132,7 +134,7 @@ function Login() {
           </form>
           <div onClick={()=> navigate("/forgot-password")} className="flex justify-center text-base font-medium text-[#070181] cursor-pointer hover:underline">
               Forgot Password?
-              <ArrowUpRight size={24} className='text-[#070181]'/>
+              <ArrowUpRight size={24} className='text-[#070181] dark:text-[#F4F1F8]'/>
             </div>
           <p className="font-Montserrat text-base">
             <span className="text-[#070181] cursor-pointer font-semibold hover:underline" onClick={()=> navigate('/signup')}>
