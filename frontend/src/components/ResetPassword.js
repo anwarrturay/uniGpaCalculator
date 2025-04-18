@@ -33,15 +33,19 @@ const ResetPassword = () => {
                 reset();
             }
         }catch(err){
-            if(!err?.response){
-                setErrMsg("No server response")
-            }else if(err.response?.status === 404){
-                setErrMsg("Password or token is required")
-            }else if(err.response?.status === 400){
-                setErrMsg("Token is invalid or expired")
-            }else{
-                setErrMsg("Unable to reset password");
-            }
+            setErrMsg("");
+
+            setTimeout(()=>{
+                if(!err?.response){
+                    setErrMsg("Something went wrong");
+                }else if(err.response?.status === 404){
+                    setErrMsg("Password or token is required");
+                }else if(err.response?.status === 400){
+                    setErrMsg("Token is invalid or expired");
+                }else{
+                    setErrMsg("Unable to reset password");
+                }
+            }, 50)
         }
     }
 
@@ -49,11 +53,11 @@ const ResetPassword = () => {
 
     <div className={`flex flex-col relative top-40 xs:top-48 xl:top-32 items-center justify-start drop-shadow-2xl font-Montserrat`}>
         <h1 className='font-semibold text-2xl mt-8'>Reset account password</h1>
-        <p className="text-center text-[#8b8b8b] font-medium text-sm">Enter a new password below</p>
+        <p className="text-center text-[#8b8b8b] font-medium text-sm mb-2">Enter a new password below</p>
         {success ? (
             <PasswordResetMsg />
         ) : errMsg && <Failure errMsg={errMsg}/>}
-        <form onSubmit={handleSubmit(handlePasswordReset)} action="" className='flex flex-col p-5 mt-3'>
+        <form onSubmit={handleSubmit(handlePasswordReset)} action="" className='flex flex-col p-5'>
             <div className="flex flex-col relative">
                 <label htmlFor="password">New Password</label>
                 <input 

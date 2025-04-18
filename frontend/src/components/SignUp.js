@@ -73,13 +73,17 @@ function Signup() {
       });
     } catch (err) {
 		setSuccess(false)
-		if(!err?.response){
-			setErrMsg("No server Response");
-		}else if(err.response.status === 409){
-			setErrMsg("A User with account already Exists")
-		}else{
-			setErrMsg("Unable to Create an account")
-		}
+		setErrMsg('');
+
+		setTimeout(()=>{
+			if(!err?.response){
+				setErrMsg("No server Response");
+			}else if(err.response.status === 409){
+				setErrMsg("A User with account already Exists")
+			}else{
+				setErrMsg("Unable to Create an account")
+			}
+		}, 50)
     }
   };
 
@@ -87,7 +91,7 @@ function Signup() {
     <>
 		<div className="flex flex-col h-[100vh] items-center justify-center drop-shadow-2xl mt-3">
 			<div className='font-Montserrat mt-4 flex flex-col items-center justify-center'>
-				<img src={miskul_icon} alt="" className='w-[50px] mb-1'/>
+				<img src={miskul_icon} alt="" className='w-[50px] my-2'/>
 				<h1 className='text-xl font-semibold'>Create Your MiSkul Account</h1>
 				<div className="text-[12px] font-medium text-[#8b8b8b] w-[300px] text-center">
 					One MiSkul Account is all you need to access all MiSkul services.

@@ -19,7 +19,7 @@ const ForgotPassword = () => {
         formData.append("email", data.email)
         try{
             const response = await axios.post(
-                '/auth/forgot-password',
+                '/forgot-password',
                 formData,
                 {
                     headers: {"Content-Type": "application/json"},
@@ -31,21 +31,24 @@ const ForgotPassword = () => {
                 reset()
             }
         }catch(err){
-            if(!err?.response){
-                setErrMsg("Something went wrong.");
-            }else if(err.response?.status === 404){
-                setErrMsg("Email doesnot exists");
-            }
+            setErrMsg("");
+            setTimeout(()=>{
+                if(!err?.response){
+                    setErrMsg("Something went wrong.");
+                }else if(err.response?.status === 404){
+                    setErrMsg("Email doesnot exists");
+                }
+            }, 50)
         }
     }
   return (
         <div className='flex flex-col relative top-40 xs:top-48 xl:top-32 items-center justify-start drop-shadow-2xl font-Montserrat'>
 
-            <h1 className='font-semibold text-2xl mt-8'>Forgot Password?</h1>
+            <h1 className='font-semibold text-2xl mt-8 mb-2'>Forgot Password?</h1>
             {success ? (
                 <ResetLinkMsg />
             ): errMsg && <Failure errMsg={errMsg}/>}
-            <form onSubmit={handleSubmit(handleSubmitEmail)} action="" className='flex flex-col p-5 mt-3'>
+            <form onSubmit={handleSubmit(handleSubmitEmail)} action="" className='flex flex-col p-5'>
                 <div className="flex flex-col">
                     <label htmlFor="email">Email address</label>
                     <input 
