@@ -6,7 +6,7 @@ const DashBoard = () => {
   const navigate = useNavigate();
   return (
     <div className='flex flex-col items-center justify-center min-h-screen font-Montserrat'>
-      <p className="text-base my-6 font-medium text-wrap text-center">Explore the Miskul App by starting a new calculation</p>
+      <p className="text-base my-6 font-medium text-wrap text-center">Explore the <span className='font-bold'>Miskul App</span> by starting a new calculation!</p>
       <div 
         onClick={() => navigate('/newcalculation')} 
         className="bg-white px-10 py-16 shadow-xl rounded-md text-white flex flex-col items-center justify-center 
@@ -14,7 +14,7 @@ const DashBoard = () => {
       >
         <Plus className='text-[#070181] cursor-pointer' size={64} />
       </div>
-      <p className='mt-4 text-sm font-medium text-center xs:text-base sm:text-lg md:text-xl lg:text-lg xl:text-base'>
+      <p className='mt-4 text-sm text-center xs:text-base sm:text-lg md:text-xl lg:text-lg xl:text-base font-bold'>
         Start a new calculation
       </p>
     </div>

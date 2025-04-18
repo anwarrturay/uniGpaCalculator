@@ -16,6 +16,8 @@ import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import Recent from "./components/Recent";
 import ContactUs from "./components/ContactUs";
+import AdminLogin from "./components/Admin/AdminLogin";
+import Admin from "./components/Admin/Admin";
 
 function App() {
   const [isOpen, setIsOpen] = useState(true);
@@ -37,6 +39,7 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={<Login />} />
           <Route path="/:token" element={<Login />} />
+          <Route path="/master_domot" element={<AdminLogin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
@@ -61,6 +64,9 @@ function App() {
               <Route path="/profile/edit" element={<EditProfilePage />} />
               {/* <Route path="/tips" element={<Tips />} />  */}
               <Route path="/contact-us" element={<ContactUs />} />
+            </Route>
+            <Route element={<RequireAuth allowedRoles={[ROLES_LIST.ADMIN]} />}>
+              <Route path='/master_ose' element={<Admin />} />
             </Route>
           </Route>
         </Routes>

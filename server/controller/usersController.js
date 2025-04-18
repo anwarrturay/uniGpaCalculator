@@ -4,6 +4,13 @@ const fs = require("fs")
 const generateToken = require("./generateTokenController");
 const sendEmail = require("../service/sendEmail");
 const sendFeedBacks = require("../service/sendFeedBacks")
+const getUsers = async (req, res) =>{
+    const users = await User.find();
+    if(!users){
+        return res.status(204).json({message: `No User found.`});
+    }
+    res.status(200).json(users);
+}
 const getSpecificUser = async (req, res) =>{
     const { id } = req.params;
     if(!id) return res.sendStatus(404) // Not Found
@@ -100,4 +107,4 @@ const contactUs = async (req, res)=>{
     }
 }
 
-module.exports = { getSpecificUser, updateUserDetails, forgotPassword, isNewController, contactUs };
+module.exports = { getUsers, getSpecificUser, updateUserDetails, forgotPassword, isNewController, contactUs };

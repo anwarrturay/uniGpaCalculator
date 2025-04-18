@@ -1,9 +1,9 @@
-require('dotenv').config(); // Load environment variables
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-const path = require("path")
+const path = require("path");
 
 const connectDB = require("./config/dbConn.js");
 const corsOptions = require('./config/corsOptions.js');
@@ -19,6 +19,7 @@ const authRoutes = require("./routes/auth.js");
 const userRoutes = require("./routes/users.js");
 const refreshRoute = require("./routes/refresh.js");
 const logoutRoute = require("./routes/logout.js");
+const forgotPassword = require("./routes/forgotPassword.js");
 // Initialize Express App
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -45,6 +46,7 @@ app.use('/register', registerRoutes);
 app.use('/auth', authRoutes);
 app.use('/refresh', refreshRoute);
 app.use("/logout", logoutRoute);
+app.use('/forgot-password', forgotPassword);
 
 app.use(verifyJWT)
 

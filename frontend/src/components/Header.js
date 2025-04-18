@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import SideBar from './SideBar';
 import { useLocation, useNavigate } from 'react-router-dom';
 import unimakSM from '../images/unimak-sm.png'
@@ -6,40 +6,74 @@ import unimakXL from '../images/unimak-xl.png'
 import miskulXL from '../images/miskul_icon.png'
 import miskulWM from '../images/miskul_wordmark.png'
 import useWindowSize from '../hooks/useWindowSize';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import useAuth from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
-import { History, ChevronLeft, AlignLeft } from 'lucide-react';
+import { History, ChevronLeft, AlignLeft, LogOut } from 'lucide-react';
 const Header = ({isOpen, setIsOpen, handleClose}) => {
   const location = useLocation();
   const { width } = useWindowSize();
   const mutableStyle = location.pathname === '/studentdashboard' ?
     'justify-between': location.pathname === '/newcalculation' ? 'justify-between': 'justify-between'
   ;
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const {auth, user, setUser} = useAuth();
+  const {userId} = auth;
+  const axiosPrivate = useAxiosPrivate();
+  useEffect(()=>{
+    const fetchUserData = async ()=>{
+      if (!userId) {
+        console.error("User ID not found in localStorage.");
+        return;
+      }
+      try{
+        const response = await axiosPrivate.get(`/users/${userId}`);
+        setUser(response.data);
+      }catch(err){
+        console.error("Error fetching user data:", err);
+      }
+    }
+    fetchUserData();
+  }, [])
+  const logout = async () => {
+      try {
+        await axiosPrivate.get('/logout');
+        setUser(null);
+        navigate('/master_domot');
+      } catch (err) {
+        console.error("Logout failed:", err);
+      }
+    }
   return (
     <div className='bg-[#F2F2F2] z-50 fixed top-0 left-0 right-0  h-[70px] shadow-sm'>
       <div className={`flex items-center ${mutableStyle} lg:${mutableStyle} lg:items-start lg:mt-3`}>
         {location.pathname === '/studentdashboard' &&
-          <div className="flex items-start justify-start  cursor-pointer" onClick={() => setIsOpen(true)}>
+          <div className="flex items-start justify-start cursor-pointer mt-[0.35rem]" onClick={() => setIsOpen(true)}>
             <AlignLeft size={28} className='ml-2'/>
+          </div>
+        }
+        {location.pathname === '/master_ose' &&
+          <div className="flex items-start justify-start cursor-pointer mt-[0.35rem] font-Montserrat font-bold text-lg ml-4">
+            {user?.firstname}
           </div>
         }
         {location.pathname === '/newcalculation' && 
           <Link to={'/studentdashboard'}>
-            <div className='flex items-center font-Montserrat cursor-pointer pl-2'>
+            <div className='flex items-center font-Montserrat cursor-pointer pl-2 md:mt-1 lg:mt-2'>
             <ChevronLeft size={28} color='#070181'/>
             </div>
           </Link>
         }
         {location.pathname === '/recent' && 
           <div onClick={() => navigate(-1)}>
-            <div className='flex items-center font-Montserrat cursor-pointer pl-2'>
+            <div className='flex items-center font-Montserrat cursor-pointer pl-2 md:mt-1 lg:mt-2'>
             <ChevronLeft size={28} color='#070181'/>
             </div>
           </div>
         }
         {location.pathname === '/contact-us' && (
           <div onClick={() => navigate(-1)}>
-            <div className='flex items-center font-Montserrat cursor-pointer pl-2'>
+            <div className='flex items-center font-Montserrat cursor-pointer pl-2 md:mt-1 lg:mt-2'>
             <ChevronLeft size={28} color='#070181'/>
             </div>
           </div>
@@ -71,14 +105,24 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
         { location.pathname === '/studentdashboard' && <SideBar isOpen={isOpen} setIsOpen={setIsOpen} handleClose={handleClose}/>}
 
         {location.pathname === '/studentdashboard' ? 
-            <div className='font-[500] font-Montserrat flex items-center justify-center text-xl text-center mr-3 xs:text-3xl'>
-              
+            <div className='font-[500] font-Montserrat flex items-center justify-center text-sm text-center mr-3 xs:text-lg md:mt-2'>
+              <p>Hi <span className='font-bold'> {user.firstname}!</span></p>
             </div>
           : location.pathname === '/recent' ? 
           (
             <div className='font-[500] font-Montserrat flex items-center justify-center text-xl text-center mr-3 xs:text-3xl'>
               
             </div> 
+          ):
+          location.pathname === '/master_ose' ? 
+          (
+            <span onClick={logout} className='cursor-pointer mr-4 lg:mt-2'>
+            <div className="flex items-center relative">
+                <div className="text-base text-red-500 font-Montserrat font-bold hover:opacity-85">
+                    Log Out
+                </div>
+            </div>
+        </span>
           ):(
             location.pathname === '/newcalculation' ? (
             <Link to={'/recent'} className='bg-[#07018130] hover:bg-[#07018137] font-[500] font-Montserrat flex items-center rounded-md justify-center text-xl mr-3 xs:text-xl lg:text-2xl bg-[#c3c7f2] hover:bg-[#abb0ed] p-2.5'>

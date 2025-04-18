@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { DataContext } from '../context/DataContext'
 import { useLocation } from 'react-router-dom';
 import { IoSadOutline } from 'react-icons/io5';
-import unimakLogo from "../../images/unimak.png"
+import miskulIcon from "../../images/miskul_icon.png"
 import {motion} from "framer-motion"
 
 const Loading = () => {
@@ -28,7 +28,7 @@ const Loading = () => {
                     exit={{ opacity: 0 }}
                 >
                     <motion.img
-                        src={unimakLogo}
+                        src={miskulIcon}
                         alt="UltraResume Logo"
                         className="w-[100px]"
                         animate={{
