@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Failure = ({ errMsg, setErrMsg }) => {
   const [isVisible, setIsVisible] = useState(true);

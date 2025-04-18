@@ -52,8 +52,6 @@ function AdminLogin() {
       const roles = decodedToken?.roles;
       const isNewUser = decodedToken?.isNewUser;
       console.log(roles)
-
-      // If is New User then navigate to the tips component else maintain to the studentdashboard.
       
       setAuth({ accessToken, userId, roles})
 
@@ -81,16 +79,15 @@ function AdminLogin() {
     setPersist(prev=> !prev)
   }
 
-
   return (
     <>
- 
+
         <div className="flex flex-col h-[100vh] items-center justify-center drop-shadow-2xl gap-2">
           <div className="flex flex-col gap-1 items-center justify-center">
             <div>
               <img src={miskul_icon} alt="" className='w-[50px]'/>
             </div>
-            <h2 className="font-bold font-Montserrat text-xl">SignIn as MiSkul Admin</h2>
+            <h2 className="font-bold font-Montserrat text-xl">Sign in as MiSkul Admin</h2>
           </div>
           <div className="flex items-center justify-center">
               {success ? <Success /> : (errMsg && <Failure errMsg={errMsg} setErrMsg={setErrMsg} />)}

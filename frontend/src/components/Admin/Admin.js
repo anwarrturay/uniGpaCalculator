@@ -6,7 +6,7 @@ import { LoaderCircle } from 'lucide-react';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import Header from '../Header';
 import {List, ListItem, Avatar} from 'flowbite-react';
-
+import { v4 as uuidv4 } from 'uuid';
 const Admin = () => {
   const [users, setUsers] = useState()
   const [loading, setLoading] = useState({state: false, id: ""})
@@ -60,7 +60,7 @@ const Admin = () => {
     <List unstyled className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
       {/* <h2 className='font-bold font-Montserrat text-center text-black'>Users({users?.length})</h2> */}
       {users?.map(user => userId !== user?._id &&
-      <ListItem className="pb-3 sm:pb-4">
+      <ListItem className="pb-3 sm:pb-4" key={uuidv4()}>
         <div className="flex items-center space-x-4 rtl:space-x-reverse font-Montserrat mt-4">
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-medium text-gray-900 dark:text-white">{user.firstname} {user.lastname}</p>

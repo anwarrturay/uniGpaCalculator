@@ -20,6 +20,8 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
   const {auth, user, setUser} = useAuth();
   const {userId} = auth;
   const axiosPrivate = useAxiosPrivate();
+
+  // Fetching User personal details here.
   useEffect(()=>{
     const fetchUserData = async ()=>{
       if (!userId) {
@@ -35,6 +37,8 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
     }
     fetchUserData();
   }, [])
+
+  // Logout function
   const logout = async () => {
       try {
         await axiosPrivate.get('/logout');

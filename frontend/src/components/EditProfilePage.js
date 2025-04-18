@@ -136,16 +136,15 @@ const EditProfilePage = () => {
         }
     }
 
-
   return (
     <>
         {   
             user ?
-                <>
+                <section>
                     <div className='fixed top-0 right-0 left-0 z-40'>
                         <ProfileHeader pageTitle='Edit Profile' userImage={`${BASE_URL}${user.image}`}/>
                     </div>
-                    <main className='flex flex-col items-center mt-5 px-4 pb-20 pt-32 font-Montserrat'>
+                    <main className='flex flex-col items-center mt-5 px-4 pt-32 font-Montserrat'>
                         {/* Success / Error Message */}
                         {success ? (
                             <div className='bg-[#00FF94] text-green-800 rounded-md px-4 py-2 font-bold'>
@@ -213,7 +212,8 @@ const EditProfilePage = () => {
                             </form>
                         </div>
                     </main>
-                    <ProfileFooter /></>
+                    <ProfileFooter />
+                </section>
             : <Loading link='/profile/edit'/>
         }
     </>

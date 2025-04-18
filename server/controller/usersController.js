@@ -4,6 +4,7 @@ const fs = require("fs")
 const generateToken = require("./generateTokenController");
 const sendEmail = require("../service/sendEmail");
 const sendFeedBacks = require("../service/sendFeedBacks")
+
 const getUsers = async (req, res) =>{
     const users = await User.find();
     if(!users){

@@ -19,7 +19,7 @@ const ForgotPassword = () => {
         formData.append("email", data.email)
         try{
             const response = await axios.post(
-                '/auth/forgot-password',
+                '/forgot-password',
                 formData,
                 {
                     headers: {"Content-Type": "application/json"},

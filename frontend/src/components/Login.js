@@ -64,20 +64,23 @@ function Login() {
     } catch (err) {
       setSuccess(false);
       setIsLoading(false);
-      if (!err?.response) {
-          setErrMsg("No Server Response");
-      } else if (err.response?.status === 401) {
-          setErrMsg("Incorrect email or password");
-      } else {
-          setErrMsg("Login failed, Please try again");
-      }
+      setErrMsg('');
+
+      setTimeout(()=>{
+        if (!err?.response) {
+            setErrMsg("No Server Response");
+        } else if (err.response?.status === 401) {
+            setErrMsg("Incorrect email or password");
+        } else {
+            setErrMsg("Login failed, Please try again");
+        }
+      }, 50)
     }
   };
 
   const togglePersist = ()=>{
     setPersist(prev=> !prev)
   }
-
 
   return (
     <>

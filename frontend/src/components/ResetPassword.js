@@ -34,15 +34,19 @@ const ResetPassword = () => {
                 reset();
             }
         }catch(err){
-            if(!err?.response){
-                setErrMsg("No server response")
-            }else if(err.response?.status === 404){
-                setErrMsg("Password or token is required")
-            }else if(err.response?.status === 400){
-                setErrMsg("Token is invalid or expired")
-            }else{
-                setErrMsg("Unable to reset password");
-            }
+            setErrMsg("");
+
+            setTimeout(()=>{
+                if(!err?.response){
+                    setErrMsg("Something went wrong");
+                }else if(err.response?.status === 404){
+                    setErrMsg("Password or token is required");
+                }else if(err.response?.status === 400){
+                    setErrMsg("Token is invalid or expired");
+                }else{
+                    setErrMsg("Unable to reset password");
+                }
+            }, 50)
         }
     }
 
