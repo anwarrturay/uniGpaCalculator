@@ -32,7 +32,7 @@ const Loading = () => {
                         alt="UltraResume Logo"
                         className="w-[100px]"
                         animate={{
-                        scale: [1.5, 2, 1.5],
+                        scale: [1.0, 1.4, 1.0], // Scale animation (initial scale, maximum scale, back to initial scale)
                         }}
                         transition={{
                         duration: 2.5, // Animation duration
