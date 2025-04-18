@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 import axios from '../api/axios';
 import Failure from './utils/Failure';
 import Loading from './utils/Loading';
 import miskul_icon from '../assets/miskul_icon.png'
 import VerificationLinkMsg from './utils/VerificationLinkMsg';
 function Signup() {
+	const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     firstname: '',
     lastname: '',
@@ -41,6 +42,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     console.log("form submitted");
     e.preventDefault();
+	setIsLoading(true)
 
 	const data = new FormData();
     data.append("firstname", formData.firstname);
@@ -52,12 +54,13 @@ function Signup() {
     data.append("level", formData.level);
     data.append("image", formData.image);
 
+
     try {
       const response = await axios.post("/register", data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       const responseData = await response.data;
-      console.log(responseData);
+      if(responseData) setIsLoading(false);
       setStatus(true);
       setSuccess(true);
       // Reset the form
@@ -72,6 +75,7 @@ function Signup() {
         image: null,
       });
     } catch (err) {
+		setIsLoading(false)
 		setSuccess(false)
 		setErrMsg('');
 
@@ -89,16 +93,16 @@ function Signup() {
 
   return (
     <>
-		<div className="flex flex-col h-[100vh] items-center justify-center drop-shadow-2xl mt-3">
+		<div className="flex flex-col h-[100vh] items-center justify-center drop-shadow-2xl">
 			<div className='font-Montserrat mt-4 flex flex-col items-center justify-center'>
 				<img src={miskul_icon} alt="" className='w-[50px] my-2'/>
 				<h1 className='text-xl font-semibold'>Create Your MiSkul Account</h1>
 				<div className="text-[12px] font-medium text-[#8b8b8b] w-[300px] text-center">
 					One MiSkul Account is all you need to access all MiSkul services.
 				</div>
-				<p className='font-Montserrat text-sm font-semibold'>
+				<p className='font-Montserrat text-sm font-semibold mb-2'>
 					Already have a an account?{' '}
-					<span onClick={()=> navigate(-1)} className="text-[#070181] cursor-pointer font-medium">
+					<span onClick={()=> navigate(-1)} className="text-[#070181] cursor-pointer font-medium hover:underline">
 						Sign In
 					</span>
 				</p>
@@ -106,10 +110,10 @@ function Signup() {
 			<div>
 				{success ? 
 					(<VerificationLinkMsg />) : 
-					(errMsg && <Failure errMsg={errMsg} />)
+					(errMsg && <Failure errMsg={errMsg} setErrMsg={setErrMsg} />)
 				}
 			</div>
-			<form onSubmit={handleSubmit} className='flex flex-col p-5 font-Montserrat'>
+			<form onSubmit={handleSubmit} className='flex flex-col gap-[0.35rem] px-5 font-Montserrat'>
 				<input
 					type="text"
 					placeholder="Firstname"
@@ -142,20 +146,21 @@ function Signup() {
 					required
 					className='input-field'
 				/>
+				<div className="relative">
 				<input
 					type={showPassword ? "text" : "password"}
 					placeholder="Password"
 					value={formData.password}
 					onChange={(e) => setFormData({ ...formData, password: e.target.value })}
 					required
-					className='mb-2 w-[300px] xs:w-[330px] sm:w-[360px] rounded-md border border-[#ccc] focus:ring-2 focus:ring-[#070181]'
+					className='w-[300px] xs:w-[330px] sm:w-[360px] rounded-md border border-[#ccc] focus:ring-2 focus:ring-[#070181]'
 				/>
-				<div className="relative top-[-48px] w-[300px]">
+				
 				{password && (
 					<button
 					type="button"
 					onClick={togglePasswordVisibility}
-					className="absolute right-3 sm:right-[-14px] xl:right-[-52px] top-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+					className="absolute right-3 top-2 text-gray-500 hover:text-gray-700 focus:outline-none"
 					>
 					{showPassword ? <EyeOff /> : <Eye />}
 					</button>
@@ -205,13 +210,13 @@ function Signup() {
 					name='image'
 					required
 					onChange={handleFileChange}
-					className='mb-2 w-[300px] xs:w-[330px] border border-[#ccc] sm:w-[360px] rounded-md'
+					className='w-[300px] xs:w-[330px] border border-[#ccc] sm:w-[360px] rounded-md'
 				/>
 				<button 
 					type="submit" 
-					className='bg-[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center'
+					className='bg-[#070181] py-2 px-5 font-Montserrat rounded-md text-white font-medium text-center flex items-center justify-center'
 				>
-				Create Account
+				{isLoading ? <LoaderCircle className='animate-spin' /> : "Create Account"}
 				</button>
 			</form>
 		</div>

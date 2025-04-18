@@ -10,7 +10,7 @@ import loginSchema from '../schemas/loginSchema.js';
 import { yupResolver } from '@hookform/resolvers/yup';
 import PasswordVisibility from './utils/PasswordVisibility.js';
 import miskul_icon from '../assets/miskul_icon.png'
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, LoaderCircle } from 'lucide-react';
 function Login() {
   const {token} = useParams()
   const [success, setSuccess] = useState(false);
@@ -27,7 +27,6 @@ function Login() {
 
   const url = token ? `/auth/${token}` : '/auth';
   const handleSubmitForm = async (data) => {
-    console.log("form submitted: ", data)
     const formData = new FormData();
     formData.append("email", data.email)
     formData.append("password", data.password)
@@ -44,7 +43,6 @@ function Login() {
           withCredentials: true
         }
       );
-      if(response) console.log(response.data);
       const { accessToken } = response.data;
       const decodedToken = jwtDecode(accessToken);
 
@@ -58,8 +56,8 @@ function Login() {
       setAuth({ accessToken, userId, roles})
 
       if(response.status === 200){
-        setSuccess(false);
-        setIsLoading(true);
+        setSuccess(true);
+        setIsLoading(false);
         navigate(from, { replace: true });
         reset();
       }
@@ -92,12 +90,12 @@ function Login() {
             <div>
               <img src={miskul_icon} alt="" className='w-[50px]'/>
             </div>
-            <h2 className="font-bold font-Montserrat text-xl">Sign In with MiSkul Account</h2>
+            <h2 className="font-bold font-Montserrat text-lg">Sign In with MiSkul Account</h2>
           </div>
           <div className="flex items-center justify-center">
-              {success ? <Success /> : (errMsg && <Failure errMsg={errMsg} />)}
+              {success ? <Success /> : (errMsg && <Failure errMsg={errMsg} setErrMsg={setErrMsg} />)}
           </div>
-          <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col px-5 -mt-2 font-Montserrat">
+          <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col gap-[0.4rem] px-5 -mt-2 font-Montserrat">
               <input
                 type="email"
                 {...register("email")}
@@ -116,8 +114,8 @@ function Login() {
                 {passwordToggleButton}
               </div>
 
-            <button type="submit" className="bg-[#070181] py-2 px-5 font-Montserrat rounded-md text-white font-medium text-center">
-              Login
+            <button type="submit" className="bg-[#070181] py-2 px-5 font-Montserrat rounded-md text-white font-medium text-center flex items-center justify-center">
+              {isLoading ? <LoaderCircle className='animate-spin' /> : "Login"}
             </button>
             <div className="flex items-center justify-center">
               <div className="flex items-center mt-2">
@@ -132,12 +130,12 @@ function Login() {
               </div>
             </div>
           </form>
-          <div onClick={()=> navigate("/forgot-password")} className="flex justify-center text-base font-medium text-[#070181] cursor-pointer dark:text-[#F4F1F8]">
+          <div onClick={()=> navigate("/forgot-password")} className="flex justify-center text-base font-medium text-[#070181] cursor-pointer hover:underline">
               Forgot Password?
               <ArrowUpRight size={24} className='text-[#070181] dark:text-[#F4F1F8]'/>
             </div>
           <p className="font-Montserrat text-base">
-            <span className="text-[#070181] dark:text-[#F4F1F8] cursor-pointer font-semibold" onClick={()=> navigate('/signup')}>
+            <span className="text-[#070181] cursor-pointer font-semibold hover:underline" onClick={()=> navigate('/signup')}>
               Create MiSkul Account
             </span>
           </p>

@@ -17,6 +17,7 @@ const gpaRoutes = require("./routes/gpaRoutes.js");
 const registerRoutes = require("./routes/register.js");
 const authRoutes = require("./routes/auth.js");
 const userRoutes = require("./routes/users.js");
+const adminRoutes = require("./routes/admin.js");
 const refreshRoute = require("./routes/refresh.js");
 const logoutRoute = require("./routes/logout.js");
 const forgotPassword = require("./routes/forgotPassword.js");
@@ -48,12 +49,13 @@ app.use('/refresh', refreshRoute);
 app.use("/logout", logoutRoute);
 app.use('/forgot-password', forgotPassword);
 
-app.use(verifyJWT)
+app.use(verifyJWT);
 
 // Protected Routes
 app.use('/users', userRoutes);
+app.use('/admin', adminRoutes);
 
-app.use(errorHandler)
+app.use(errorHandler);
 
 // MongoDB Connection & Server Start
 mongoose.connection.once('open', () => {

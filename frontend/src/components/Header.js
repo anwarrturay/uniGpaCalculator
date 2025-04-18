@@ -122,9 +122,9 @@ const Header = ({ isOpen, setIsOpen, handleClose }) => {
         ) : location.pathname === '/master_ose' ? (
           <span onClick={logout} className='cursor-pointer mr-4 lg:mt-2'>
             <div className="flex items-center relative">
-              <div className="text-base text-red-500 font-Montserrat font-bold hover:opacity-85">
-                Log Out
-              </div>
+                <div className="text-base text-red-500 font-Montserrat font-bold hover:opacity-90">
+                    Log Out
+                </div>
             </div>
           </span>
         ) : location.pathname === '/newcalculation' ? (

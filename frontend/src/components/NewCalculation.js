@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { X, Plus, LoaderCircle } from "lucide-react";
 import Result from './Result';
 import SaveResultDialog from './utils/SaveResultDialog';
+import Failure from './utils/Failure';
 // import { useRouter } from 'next/router';
 
 const NewCalculation = () => {
     // USESTATES
     const [isCalculating, setIsCalculating] = useState(false)
     const [result, setResult] = useState("inactive");
+    const [error, setError] = useState(null);
     const [showDialog, setShowDialog] = useState(false)
     const [semester1Score, setSemester1Score] = useState({
         totalGrade: 0,
@@ -83,7 +85,6 @@ const NewCalculation = () => {
         "F/E": 2,
         "F/F": 0, 
     }
-
     const departmentalCourses = {
         "A+": 15,
         "A": 15,
@@ -151,6 +152,35 @@ const NewCalculation = () => {
     const URL = "https://unigpacalculator-api.onrender.com";
 
     const handleCalculateGpa = async (semester, modules, setGPA) => {
+        let calError = null;
+        if(semester === "Semester One"){
+            semester1Modules.forEach(module => {
+              if(module.module_name === ""){
+                setError("Assign a name for each module");
+                calError = true;
+              };
+              return;  
+            });
+        }
+        if(semester === "Semester Two"){
+            semester2Modules.forEach(module => {
+              if(module.module_name === ""){
+                setError("Assign a name for each module");
+                calError = true;
+              };
+              return;  
+            });
+        }
+        if(semester === "Both Semesters"){
+            formData.forEach(module => {
+              if(module.module_name === ""){
+                setError("Assign a name for each module");
+                calError = true;
+              };
+              return;  
+            });
+        }
+        if (calError) return;
         setIsCalculating(true)
         const calculateSem1 = () => {
             let totalGrades = 0;
@@ -352,17 +382,20 @@ const NewCalculation = () => {
             { semester === "Semester One" && result !== "active" ? 
             <>
             {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
+            {error && <p>{<Failure errMsg={error} setErrMsg={setError}/>}</p>}
             <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>{isCalculating ? <div className='flex gap-2'><div className='animate-spin'><LoaderCircle /></div><>Calculating...</></div> : "Calculate CGPA"}</button>
         </> :
             semester === "Semester Two" && result !== "active" ?
             <>
                 {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
+                {error && <p>{<Failure errMsg={error} setErrMsg={setError}/>}</p>}
                 <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>{isCalculating ? <div className='flex gap-2'><div className='animate-spin'><LoaderCircle /></div><>Calculating...</></div> : "Calculate CGPA"}</button>
             </> :
             semester === "Both Semesters" && result !== "active" ? 
             <>
                 {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
                 {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
+                {error && <p>{<Failure errMsg={error} setErrMsg={setError}/>}</p>}
                 <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>{isCalculating ? <div className='flex gap-2'><div className='animate-spin'><LoaderCircle /></div><>Calculating...</></div> : "Calculate CGPA"}</button>
             </> : ""
             }

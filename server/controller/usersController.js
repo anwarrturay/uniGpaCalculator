@@ -11,7 +11,7 @@ const getUsers = async (req, res) =>{
         return res.status(204).json({message: `No User found.`});
     }
     res.status(200).json(users);
-}
+}           
 const getSpecificUser = async (req, res) =>{
     const { id } = req.params;
     if(!id) return res.sendStatus(404) // Not Found
@@ -58,6 +58,7 @@ const updateUserDetails = async (req, res)=>{
 }
 
 const forgotPassword = async (req, res)=>{
+    console.log(req?.body?.email)
     try{
         const { email } = req.body;
         console.log("Found email: ", email)

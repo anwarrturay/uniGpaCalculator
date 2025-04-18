@@ -21,6 +21,7 @@ const ResetPassword = () => {
         console.log("form submitted: ", data);
         const formData = new FormData();
         formData.append("password", data.password);
+        console.log(formData)
         try{
             const response = await axios.post(
                 `/auth/reset-password/${token}`,
@@ -51,30 +52,33 @@ const ResetPassword = () => {
 
   return (
 
-    <div className={`flex flex-col relative top-40 xs:top-48 xl:top-32 items-center justify-start drop-shadow-2xl font-Montserrat`}>
-        <h1 className='font-semibold text-2xl mt-8'>Reset account password</h1>
+    <div className={`flex flex-col items-center justify-center h-[100vh] drop-shadow-2xl font-Montserrat`}>
+        <img src='/miskul_icon.png' className='w-[50px]'/>
+        <h1 className='font-semibold text-2xl'>Reset account password</h1>
         <p className="text-center text-[#8b8b8b] font-medium text-sm mb-2">Enter a new password below</p>
         {success ? (
             <PasswordResetMsg />
         ) : errMsg && <Failure errMsg={errMsg}/>}
-        <form onSubmit={handleSubmit(handlePasswordReset)} action="" className='flex flex-col p-5'>
+        <form onSubmit={handleSubmit(handlePasswordReset)} action="" className='flex flex-col gap-2 px-5'>
             <div className="flex flex-col relative">
-                <label htmlFor="password">New Password</label>
+                <label htmlFor="password" className='absolute -left-[100000000px]'>New Password</label>
                 <input 
                     id='password'
                     type={showPassword ? "text" : "password"} 
                     autoComplete='off'
+                    placeholder='New Password'
                     className={`input-field ${errors?.password && "border-red-600" }`}
                     {...register("password")}
                 />
             </div>
             <div className="flex flex-col">
-                <label htmlFor="confirm-password">Confirm Password</label>
+                <label htmlFor="confirm-password" className='absolute -left-[100000000px]'>Confirm Password</label>
                 <div className="relative">
                     <input 
                         id='confirm-password'
                         type={showPassword ? "text" : "password"} 
                         autoComplete='off'
+                        placeholder='Confirm Password'
                         className={`input-field ${errors.confirmPassword && "border-red-600"}`}
                         {...register("confirmPassword", {
                             validate: (value) => value === watch("password") || "Passwords do not match"

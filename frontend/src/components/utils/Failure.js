@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from 'react';
 
-const Failure = ({ errMsg }) => {
+const Failure = ({ errMsg, setErrMsg }) => {
   const [isVisible, setIsVisible] = useState(true);
 
-  useEffect(()=>{
-      const timer = setTimeout(() => {
-        setIsVisible(false);
-      }, 3000);
-
-      return () => clearTimeout(timer);
-  }, []);
+  setTimeout(()=>{
+    setErrMsg(null)
+    setIsVisible(false);
+  }, 3000);
 
   return (
     <div className='justify-center mb-2'>
       {isVisible && (
-        <div className="bg-[#eea7a7] flex flex-col items-center justify-center rounded-sm font-Montserrat w-[292px] xs:w-[312px] sm:w-[360px] py-2.5 relative">
-          <div className="text-[#fa3a50] font-bold flex text-center">
-            {errMsg}.
+        <div className="bg-[#eea7a7e3] flex flex-col items-center justify-center rounded-sm font-Montserrat p-2">
+          <div className="text-[#fa3a50] font-semibold flex text-sm">
+            {errMsg}!
           </div>
         </div>
       )}

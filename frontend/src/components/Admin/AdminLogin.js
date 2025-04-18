@@ -10,7 +10,7 @@ import loginSchema from '../../schemas/loginSchema.js';
 import { yupResolver } from '@hookform/resolvers/yup';
 import PasswordVisibility from '../utils/PasswordVisibility.js';
 import miskul_icon from '../../assets/miskul_icon.png'
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, LoaderCircle } from 'lucide-react';
 function AdminLogin() {
   const {token} = useParams()
   const [success, setSuccess] = useState(false);
@@ -57,9 +57,9 @@ function AdminLogin() {
 
       if(response.status === 200){
         setSuccess(false);
-        setIsLoading(true);
+        setIsLoading(false);
         if(roles.indexOf(1987) > -1) navigate('/master_ose');
-        
+        if(roles.indexOf(1987) === -1) setErrMsg("You are not an Admin");
         reset();
       }
     } catch (err) {
@@ -90,9 +90,9 @@ function AdminLogin() {
             <h2 className="font-bold font-Montserrat text-xl">Sign in as MiSkul Admin</h2>
           </div>
           <div className="flex items-center justify-center">
-              {success ? <Success /> : (errMsg && <Failure errMsg={errMsg} />)}
+              {success ? <Success /> : (errMsg && <Failure errMsg={errMsg} setErrMsg={setErrMsg} />)}
           </div>
-          <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col px-5 -mt-2 font-Montserrat">
+          <form onSubmit={handleSubmit(handleSubmitForm)} className="flex flex-col gap-[0.35rem] px-5 -mt-2 font-Montserrat">
               <input
                 type="email"
                 {...register("email")}
@@ -111,8 +111,8 @@ function AdminLogin() {
                 {passwordToggleButton}
               </div>
 
-            <button type="submit" className="bg-[#070181] py-2 px-5 font-Montserrat rounded-md text-white font-medium text-center">
-              Login
+            <button type="submit" className="bg-[#070181] py-2 px-5 font-Montserrat rounded-md text-white font-medium text-center flex items-center justify-center">
+              {isLoading ? <LoaderCircle className='animate-spin'/> : "Login"}
             </button>
             <div className="flex items-center justify-center">
               <div className="flex items-center mt-2">
