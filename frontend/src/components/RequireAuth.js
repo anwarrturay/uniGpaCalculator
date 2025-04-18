@@ -8,9 +8,6 @@ const RequireAuth = ({ allowedRoles })=>{
     const roles = auth?.roles || [];
     
     const toURL = location.pathname === "/master_ose" ? '/master_domot' : '/';
-    console.log(location.pathname
-    )
-    console.log(toURL);
 
     const hasRequiredRole = Array.isArray(roles)
     ? roles.some(role => allowedRoles.includes(role))

@@ -60,14 +60,18 @@ body{
 }
 
 .input-field{
-  @apply mb-2 w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md outline-none
+  @apply w-[300px] xs:w-[330px] sm:w-[360px] border border-[#ccc] rounded-md outline-none
 }
 .reset-btn{
-  @apply bg-[#070181] py-2 px-5 font-Montserrat mt-3 rounded-md text-white font-medium text-center
+  @apply bg-[#070181] py-2 px-5 font-Montserrat rounded-md text-white font-medium text-center
 }
 
 input:focus {
   outline: none;
   box-shadow: 0 0 0 2px #facc15;
   border-color: #facc15;
+}
+
+.close-drawer{
+  margin-top: 10px
 }

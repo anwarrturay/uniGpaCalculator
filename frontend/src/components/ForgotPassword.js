@@ -34,25 +34,26 @@ const ForgotPassword = () => {
             if(!err?.response){
                 setErrMsg("Something went wrong.");
             }else if(err.response?.status === 404){
-                setErrMsg("Email doesnot exists");
+                setErrMsg("Email does not exists");
             }
         }
     }
   return (
-        <div className='flex flex-col relative top-40 xs:top-48 xl:top-32 items-center justify-start drop-shadow-2xl font-Montserrat'>
-
-            <h1 className='font-semibold text-2xl mt-8'>Forgot Password?</h1>
+        <div className='flex flex-col items-center justify-center h-[100vh] gap-2 drop-shadow-2xl font-Montserrat'>
+            <img src='miskul_icon.png' className='w-[50px]'/>
+            <h1 className='font-semibold text-2xl'>Forgot Password?</h1>
             {success ? (
                 <ResetLinkMsg />
             ): errMsg && <Failure errMsg={errMsg}/>}
-            <form onSubmit={handleSubmit(handleSubmitEmail)} action="" className='flex flex-col p-5 mt-3'>
+            <form onSubmit={handleSubmit(handleSubmitEmail)} action="" className='flex flex-col gap-2 px-5'>
                 <div className="flex flex-col">
-                    <label htmlFor="email">Email address</label>
+                    {/* <label htmlFor="email">Email address</label> */}
                     <input 
                         id='email'
                         type="text" 
                         autoComplete='off'
                         className='input-field'
+                        placeholder='Email'
                         {...register("email")}
                     />
                 </div>

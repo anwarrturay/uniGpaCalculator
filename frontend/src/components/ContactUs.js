@@ -31,7 +31,6 @@ const ContactUs = () => {
         const res = await axiosPrivate.get(
           `/users/${userId}`
         )
-        console.log("User Data: ", res.data);
         if(res.data){
           setValue("email", res.data.email || '')
         }
@@ -47,7 +46,6 @@ const ContactUs = () => {
   }, [axiosPrivate, watch])
   
   const handleFeedbacks = async (data) => {
-    console.log("Form Submitted: ", data);
     try{
       const response = await axiosPrivate.post(
         `/users/contact-us`,
@@ -72,12 +70,12 @@ const ContactUs = () => {
   return (
     <section>
       <Header />
-      <main className="relative top-20 xl:top-32 font-Montserrat flex justify-center items-start px-4 scroll-smooth">
+      <main className="relative top-20 xl:top-32 font-Montserrat flex justify-center items-start px-5 scroll-smooth">
         <div className="flex flex-col justify-start xl:flex-row gap-12 max-w-6xl w-full">
           {/* FAQs Section */}
           <div className="w-full xl:w-1/2">
             <div className='mb-6'>
-              <h1 className="font-bold text-2xl mb-2">FAQs</h1>
+              <h1 className="font-bold text-2xl mb-1">FAQs</h1>
               <p className="text-[12px] text-[#8b8b8b]">These are the frequently asked questions from others users and to answer these questions navigate to your dashboard and tap on tips.</p>
             </div>
             <ul className="space-y-2 text-gray-700 font-medium">
@@ -97,7 +95,7 @@ const ContactUs = () => {
 
           {/* Contact Form Section */}
           <div className="w-full xl:w-1/2">
-            <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
+            <h1 className="text-2xl font-bold mb-1">Contact Us</h1>
             <p className="text-[#8b8b8b] mb-6 text-[12px]">
               We'd love to hear from you! Whether you're reporting a bug, suggesting improvements, or sharing your experience, your feedback helps us make things better.
             </p>

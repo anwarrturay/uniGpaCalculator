@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-const path = require("path")
+const path = require("path");
 
 const connectDB = require("./config/dbConn.js");
 const corsOptions = require('./config/corsOptions.js');
@@ -17,6 +17,7 @@ const gpaRoutes = require("./routes/gpaRoutes.js");
 const registerRoutes = require("./routes/register.js");
 const authRoutes = require("./routes/auth.js");
 const userRoutes = require("./routes/users.js");
+const adminRoutes = require("./routes/admin.js");
 const refreshRoute = require("./routes/refresh.js");
 const logoutRoute = require("./routes/logout.js");
 // Initialize Express App
@@ -46,12 +47,13 @@ app.use('/auth', authRoutes);
 app.use('/refresh', refreshRoute);
 app.use("/logout", logoutRoute);
 
-app.use(verifyJWT)
+app.use(verifyJWT);
 
 // Protected Routes
 app.use('/users', userRoutes);
+app.use('/admin', adminRoutes);
 
-app.use(errorHandler)
+app.use(errorHandler);
 
 // MongoDB Connection & Server Start
 mongoose.connection.once('open', () => {

@@ -106,7 +106,7 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
 
         {location.pathname === '/studentdashboard' ? 
             <div className='font-[500] font-Montserrat flex items-center justify-center text-sm text-center mr-3 xs:text-lg md:mt-2'>
-              <p>Hi <span className='font-bold'> {user.firstname}!</span></p>
+              
             </div>
           : location.pathname === '/recent' ? 
           (
@@ -118,7 +118,7 @@ const Header = ({isOpen, setIsOpen, handleClose}) => {
           (
             <span onClick={logout} className='cursor-pointer mr-4 lg:mt-2'>
             <div className="flex items-center relative">
-                <div className="text-base text-red-500 font-Montserrat font-bold hover:opacity-85">
+                <div className="text-base text-red-500 font-Montserrat font-bold hover:opacity-90">
                     Log Out
                 </div>
             </div>

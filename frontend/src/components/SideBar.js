@@ -48,7 +48,16 @@ const sidebar = ({isOpen, handleClose}) => {
         { isOpen &&
           <div className='flex items-center justify-start border-b-2'>
             <img src={unimakSM} alt="" className='w-[50px] h-[50px] mb-3 -mt-1'/>
-            <Drawer.Header title="Miskul App" titleIcon={() => <></>} className='text-center align-middle ml-2 text-lg font-Montserrat'/>
+            <div className="flex items-center justify-between -mt-3 ml-2 w-[250px]">
+              <h5 className="font-semibold font-Montserrat text-gray-500 text-base dark:text-white">Miskul App</h5>
+              <button
+                onClick={handleClose}
+                className="w-8 h-8 rounded-lg  hover:bg-gray-200 hover:text-gray-900 text-gray-400 flex items-center justify-center text-[0.7rem] font-semibold"
+              >
+                ✕
+              </button>
+            </div>
+            {/* <Drawer.Header title="Miskul App" titleIcon={() => <></>} className='text-center align-middle ml-2 text-lg font-Montserrat'/> */}
           </div>
         }
         <Drawer.Items>
@@ -63,10 +72,10 @@ const sidebar = ({isOpen, handleClose}) => {
                     <Sidebar.Item>
                       <Link to={'/profile'} className='font-Montserrat'>
                         <div className='flex items-center cursor-pointer mt-2'>
-                          <div className='w-[70px]'>
+                          <div className=''>
                             <img src={user && `${BASE_URL}${user?.image}`} className='w-[50px] h-[50px] rounded-full' alt="Profile" />
                           </div>
-                          <p className='font-medium ml-3 text-wrap'>{user && `${user?.firstname}  ${user?.lastname}`}</p>
+                          <p className='font-bold ml-2 text-wrap'>{user && `${user?.firstname}  ${user?.lastname}`}</p>
                         </div>
                       </Link>
                     </Sidebar.Item>
