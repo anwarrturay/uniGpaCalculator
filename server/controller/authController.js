@@ -14,37 +14,42 @@ const handleLogin = async (req, res) => {
     if(token){
         foundUser.isVerified = true;
     }
+
+    // Only verified can be able to access the system.
+    if(foundUser.isVerified === true){
+        const match = await bcrypt.compare(password, foundUser.password);
+        if (match) {
+            const roles = Object.values(foundUser.roles).filter(Boolean);
+            const accessToken = jwt.sign(
+                {
+                    "userId": foundUser._id,
+                    "email": email,
+                    "roles": roles,
+                    "isNewUser": foundUser.isNewUser
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: '1h' }
+            );
+            const refreshToken = jwt.sign(
+                { "email": foundUser.email },
+                process.env.REFRESH_TOKEN_SECRET,
+                { expiresIn: '1d' }
+            );
+            // Saving refreshToken with current user
+            foundUser.refreshToken = refreshToken;
+            const result = await foundUser.save();
+            console.log(result);
     
-    const match = await bcrypt.compare(password, foundUser.password);
-    if (match) {
-        const roles = Object.values(foundUser.roles).filter(Boolean);
-        const accessToken = jwt.sign(
-            {
-                "userId": foundUser._id,
-                "email": email,
-                "roles": roles,
-                "isNewUser": foundUser.isNewUser
-            },
-            process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '1h' }
-        );
-        const refreshToken = jwt.sign(
-            { "email": foundUser.email },
-            process.env.REFRESH_TOKEN_SECRET,
-            { expiresIn: '1d' }
-        );
-        // Saving refreshToken with current user
-        foundUser.refreshToken = refreshToken;
-        const result = await foundUser.save();
-        console.log(result);
-
-        // Creates Secure Cookie with refresh token
-        res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
-
-        res.status(200).json({ roles, accessToken });
-
-    } else {
-        res.sendStatus(401);
+            // Creates Secure Cookie with refresh token
+            res.cookie('jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+    
+            res.status(200).json({ roles, accessToken });
+    
+        } else {
+            res.sendStatus(401);
+        }
+    }else{
+        res.sendStatus(404);
     }
 }
 

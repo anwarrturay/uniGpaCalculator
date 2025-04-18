@@ -71,7 +71,9 @@ function Login() {
             setErrMsg("No Server Response");
         } else if (err.response?.status === 401) {
             setErrMsg("Incorrect email or password");
-        } else {
+        }else if(err.response?.status === 404){
+          setErrMsg("Please verify your email")
+        }else {
             setErrMsg("Login failed, Please try again");
         }
       }, 50)
