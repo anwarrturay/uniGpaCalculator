@@ -6,15 +6,17 @@ import emailSchema from '../schemas/forgotPasswordSchema'
 import axios from '../api/axios'
 import Failure from "./utils/Failure";
 import ResetLinkMsg from './utils/ResetLinkMsg'
+import { LoaderCircle } from 'lucide-react'
 const ForgotPassword = () => {
     const [success, setSuccess] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [errMsg, setErrMsg] = useState("")
     const {register, handleSubmit, formState: {errors}, reset} = useForm({
         resolver: yupResolver(emailSchema)
     })
 
     const handleSubmitEmail = async (data)=>{
-        console.log("form Submitted: ", data)
+        setIsLoading(true)
         const formData = new FormData();
         formData.append("email", data.email)
         try{
@@ -27,10 +29,12 @@ const ForgotPassword = () => {
             )
             console.log("Server forgot Password Response: ", response.data)
             if(response.status === 200){
+                setIsLoading(false)
                 setSuccess(true)
                 reset()
             }
         }catch(err){
+            setIsLoading(false)
             if(!err?.response){
                 setErrMsg("Something went wrong.");
             }else if(err.response?.status === 404){
@@ -43,7 +47,7 @@ const ForgotPassword = () => {
             <img src='miskul_icon.png' className='w-[50px]'/>
             <h1 className='font-semibold text-2xl'>Forgot Password?</h1>
             {success ? (
-                <ResetLinkMsg />
+                <ResetLinkMsg setSuccess={setSuccess} />
             ): errMsg && <Failure errMsg={errMsg} setErrMsg={setErrMsg}/>}
             <form onSubmit={handleSubmit(handleSubmitEmail)} action="" className='flex flex-col gap-2 px-5'>
                 <div className="flex flex-col">
@@ -57,7 +61,7 @@ const ForgotPassword = () => {
                         {...register("email")}
                     />
                 </div>
-                <button type="submit" className='reset-btn'>Reset Password</button>
+                <button type="submit" className='reset-btn flex items-center justify-center'>{isLoading ? <LoaderCircle className='animate-spin' /> : "Reset Password"}</button>
             </form>
             <div className="flex items-center">
                 <p className="text-base">Remember your password?</p>

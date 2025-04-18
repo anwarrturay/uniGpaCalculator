@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Send } from 'lucide-react'
-const resetLinkMsg = () => {
+const resetLinkMsg = ({setSuccess}) => {
     const [isVisible, setIsVisible] = useState(true);
 
     setTimeout(()=>{
+        setSuccess(false)
         setIsVisible(false)
     }, 3000)
 

@@ -8302,3 +8302,12 @@
 20250418	07:45:42	9ef5fd2a-9493-4062-a650-5cabb320fdfd	GET	http://localhost:3000	/users/data
 20250418	07:45:42	70feb28e-0675-4b54-bfdc-0e4702e6dc8c	GET	http://localhost:3000	/users/data
 20250418	07:45:42	5059d461-bf64-4ef8-982d-1520427885f5	GET	http://localhost:3000	/users/data
+20250418	07:45:42	dfd4c552-de12-4e6f-b67c-c3fcaf9a2c41	POST	http://localhost:3000	/forgot-password
+20250418	07:45:42	067b45d3-244f-4e24-8cad-8dd0b1c61322	POST	http://localhost:3000	/forgot-password
+20250418	07:45:42	22e8fcd5-956e-4fc0-81a8-ed56656d16db	POST	http://localhost:3000	/forgot-password
+20250418	07:45:42	19c9dc3e-4912-499c-8ec7-e60cf9b68980	POST	http://localhost:3000	/forgot-password
+20250418	07:45:42	e15c4b83-72f5-4424-afe3-21d02c3a64f7	POST	http://localhost:3000	/auth/reset-password/9864
+20250418	07:45:42	6fb5878a-82c7-4588-bbb6-fdbb20bc090d	POST	http://localhost:3000	/auth/reset-password/9864
+20250418	07:45:42	1ed84a41-a2db-42e4-b892-5e7c81416d02	POST	http://localhost:3000	/auth/reset-password/9864
+20250418	07:45:42	95c5ce2a-8cbb-4558-993c-5689acb47bd7	POST	http://localhost:3000	/auth/reset-password/5feaf31c9c2e74e699be055eb0d922c5b8732e9fcb4b7ffba23e86fb471dba88fdcdf24f409c11d63b7300102ad7092f2ff2aa382c1873b2aca8bc1d5eb6db8f
+20250418	07:45:42	1256bf4e-21b3-45d4-8467-59334170641a	POST	http://localhost:3000	/auth/reset-password/5feaf31c9c2e74e699be055eb0d922c5b8732e9fcb4b7ffba23e86fb471dba88fdcdf24f409c11d63b7300102ad7092f2ff2aa382c1873b2aca8bc1d5eb6db8f
