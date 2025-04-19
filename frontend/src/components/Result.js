@@ -50,40 +50,50 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
     // };
 
     function printResult(divId) {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        console.log(isMobile)
         const content = document.getElementById(divId).innerHTML;
-      
-        const printWindow = window.open('', '', 'height=600,width=800');
-        printWindow.document.write('<html><head><title>Miskul App</title>');
-      
-        printWindow.document.write(`
-          <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-        `);
-
-        printWindow.document.write(`
-      <style>
-        @page {
-          margin: 0;
+    
+        if (isMobile) {
+            alert("Printing on mobile may require manual action. Please use the browser's print option.");
+            document.body.innerHTML = `
+                <div class="w-full flex flex-col gap-1 items-center justify-center mb-2 mt-5">
+                    <img class="text-center" width="50px" src="/miskul_icon.png"/>
+                    <img class="text-center" width="100px" src="/miskul_wordmark.png"/>
+                </div>
+                ${content}
+            `;
+            window.print();
+            location.reload(); // Restore original content
+        } else {
+            // Existing window.open logic for desktop
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Miskul App</title>');
+            printWindow.document.write(`
+                <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+              `);
+            printWindow.document.write(`
+                <style>
+                    @page { margin: 0; }
+                    body { margin: 1cm; }
+                </style>
+            `);
+            printWindow.document.write('</head><body class="p-4">');
+            printWindow.document.write(`
+                <div class="w-full flex flex-col gap-1 items-center justify-center mb-2 mt-5">
+                    <img class="text-center" width="50px" src="/miskul_icon.png"/>
+                    <img class="text-center" width="100px" src="/miskul_wordmark.png"/>
+                </div>
+            `);
+            printWindow.document.write(content);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+                setTimeout(() => printWindow.close(), 500);
+            }, 1000);
         }
-        body {
-          margin: 1cm;
-        }
-      </style>
-    `);
-      
-        printWindow.document.write('</head><body className="p-4">');
-        printWindow.document.write("<div class='w-full flex flex-col gap-1 items-center justify-center mb-2 mt-5'><img class='text-center' width='50px' src='/miskul_icon.png'/><img class='text-center' width='100px' src='/miskul_wordmark.png'/></div>")
-        printWindow.document.write(content);
-        printWindow.document.write('</body></html>');
-      
-        printWindow.document.close();
-        printWindow.focus();
-      
-        setTimeout(() => {
-          printWindow.print()
-          setTimeout(() => {
-            printWindow.close();
-          }, 500);
-        }, 1000);
     }
 
     async function saveHistory () {
