@@ -31,23 +31,23 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
         fetchUserData();
     }, [userId])
 
-    const testIsNew = async () => {
-        try {
-            const response = await axiosPrivate.patch(
-                'users/is-new',
-                {id: user?._id},
-                {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true
-                }
-            );
-            if(response) console.log(response.data);
-        } catch (err) {
-            console.log(err)
-        }
-    };
+    // const testIsNew = async () => {
+    //     try {
+    //         const response = await axiosPrivate.patch(
+    //             'users/is-new',
+    //             {id: user?._id},
+    //             {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             withCredentials: true
+    //             }
+    //         );
+    //         if(response) console.log(response.data);
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+    // };
 
     function printResult(divId) {
         const content = document.getElementById(divId).innerHTML;
@@ -87,20 +87,15 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
     }
 
     async function saveHistory () {
-        console.log(semester)
-        console.log("Saving...")
         let history;
         if(semester === "Semester One"){
             history = {department: user?.department, level: user?.level, userId, type: "semester1", semester1Modules, semester1Score}
-            console.log(history)
         }
         if(semester === "Semester Two"){
             history = {department: user?.department, level: user?.level, userId, type: "semester2", semester2Modules, semester2Score}
-            console.log(history)
         }
         if(semester === "Both Semesters"){
             history = {department: user?.department, level: user?.level, userId, type: "both", semester1Modules, semester1Score, semester2Modules, semester2Score, bothSemestersScore}
-            console.log(history)
         }
         try {
             setIsSaving(true)

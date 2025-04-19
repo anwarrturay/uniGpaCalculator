@@ -1,5 +1,5 @@
 import axios from "axios";
-export const BASE_URL = "https://uni-gpa-calculator.onrender.com"
+export const BASE_URL = "https://unigpacalculator-api.onrender.com"
 
 export default axios.create({
     baseURL: BASE_URL
