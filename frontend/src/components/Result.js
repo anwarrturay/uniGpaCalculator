@@ -49,13 +49,15 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
     //     }
     // };
 
-    function printResult(divId) {
+    async function printResult(divId) {
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         console.log(isMobile)
         const content = document.getElementById(divId).innerHTML;
     
         if (isMobile) {
-            alert("Printing on mobile may require manual action. Please use the browser's print option.");
+            document.head.innerHTML += `
+                <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+            `
             document.body.innerHTML = `
                 <div class="w-full flex flex-col gap-1 items-center justify-center mb-2 mt-5">
                     <img class="text-center" width="50px" src="/miskul_icon.png"/>
@@ -63,8 +65,13 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
                 </div>
                 ${content}
             `;
-            window.print();
-            location.reload(); // Restore original content
+            setTimeout(()=> {
+                window.print();
+                setTimeout(()=>{
+                    location.reload();
+                },3000)
+            }, 2000)
+             // Restore original content
         } else {
             // Existing window.open logic for desktop
             const printWindow = window.open('', '', 'height=600,width=800');
