@@ -65,12 +65,10 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
                 </div>
                 ${content}
             `;
-            setTimeout(()=> {
-                window.print();
+            window.print();
                 setTimeout(()=>{
                     location.reload();
                 },3000)
-            }, 2000)
              // Restore original content
         } else {
             // Existing window.open logic for desktop
