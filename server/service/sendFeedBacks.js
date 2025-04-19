@@ -16,7 +16,7 @@ const sendFeedBacks = async(email, issue, message)=>{
 
     let mailOptions = {
         from: `"User Feedback:" <${process.env.EMAIL_USER}>`,
-        to: "anwarrturay03@gmail.com",
+        to: "miskul054@gmail.com",
         replyTo: email,
         subject: `New Feedback - ${issue}`,
         html: `

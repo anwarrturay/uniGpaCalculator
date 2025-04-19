@@ -4,6 +4,8 @@ const fs = require("fs")
 const generateToken = require("./generateTokenController");
 const sendEmail = require("../service/sendEmail");
 const sendFeedBacks = require("../service/sendFeedBacks")
+const cloudinary = require("../config/cloudinary");
+const { v4: uuidv4 } = require("uuid");
 
 const getUsers = async (req, res) =>{
     const users = await User.find();
@@ -23,39 +25,54 @@ const getSpecificUser = async (req, res) =>{
     res.status(200).json(user);
 }
 
-const updateUserDetails = async (req, res)=>{
-    try{
-
-        const { id } = req.params;
-        if(!id) return res.status(404).json({message: "User Id Not found"});
-    
-        const specificUser = await User.findById(id);
-        if(!specificUser) return res.sendStatus(404);
-    
-        const { firstname, lastname, email, idNumber, department, level } = req.body;
-        // const hashedPwd = await bcrypt.hash(password, 10)
-    
-        const newData = {firstname, lastname, email, idNumber, department, level}
-    
-        if(req.file){
-            if(specificUser?.image){
-                const oldImagePath = path.join(__dirname, "..", "uploads", specificUser.image);
-                if (fs.existsSync(oldImagePath)) {
-                    fs.unlinkSync(oldImagePath);
-                }
-                newData.image = `/uploads/${req.file.filename}`
-            }
+const updateUserDetails = async (req, res) => {
+    try {
+      const { id } = req.params;
+      if (!id) return res.status(404).json({ message: "User ID not found" });
+  
+      const specificUser = await User.findById(id);
+      if (!specificUser) return res.sendStatus(404);
+  
+      const { firstname, lastname, email, idNumber, department, level } = req.body;
+  
+      const newData = { firstname, lastname, email, idNumber, department, level };
+  
+      // If image file is uploaded
+      if (req.file) {
+        // Upload new image to Cloudinary
+        const cloudinaryResult = await cloudinary.uploader.upload(req.file.path, {
+          folder: "user_profiles",
+          public_id: uuidv4()
+        });
+  
+        // Clean up local file
+        fs.unlinkSync(req.file.path);
+  
+        // Delete old Cloudinary image if you're storing the public_id
+        if (specificUser.cloudinaryId) {
+          await cloudinary.uploader.destroy(specificUser.cloudinaryId);
         }
-    
-        const updatedUser = await User.findByIdAndUpdate(id, newData, { new: true, runValidators: true })
-        if(!updatedUser) return res.sendStatus(400);
-    
-        res.status(200).json({ message: "User updated successfully", data: updatedUser });
-    }catch(err){
-        console.error(err)
-        return res.status(500).json({ message: "Server error", error: err.message });
+  
+        // Save the new Cloudinary image URL
+        newData.image = cloudinaryResult.secure_url;
+  
+        // Optional: Save the public_id if you plan to delete old images in the future
+        newData.cloudinaryId = cloudinaryResult.public_id;
+      }
+  
+      const updatedUser = await User.findByIdAndUpdate(id, newData, {
+        new: true,
+        runValidators: true,
+      });
+  
+      if (!updatedUser) return res.sendStatus(400);
+  
+      res.status(200).json({ message: "User updated successfully", data: updatedUser });
+    } catch (err) {
+      console.error("Update Error:", err);
+      return res.status(500).json({ message: "Server error", error: err.message });
     }
-}
+};
 
 const forgotPassword = async (req, res)=>{
     console.log(req?.body?.email)

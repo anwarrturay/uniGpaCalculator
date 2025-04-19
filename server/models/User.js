@@ -64,7 +64,12 @@ const User = new Schema({
         required: false,
         default: null
     },
-    refreshToken: { type: String }
+    refreshToken: { type: String },
+    cloudinaryId: {
+        type: String,
+        required: true
+    }
+      
 })
 
 module.exports = mongoose.model("User", User);
