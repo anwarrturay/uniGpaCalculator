@@ -1,7 +1,10 @@
 import React from 'react'
 import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
-const PasswordResetMsg = () => {
+const PasswordResetMsg = ({setSuccess}) => {
+    setTimeout(()=>{
+        setSuccess(false)
+    }, 3000)
   return (
     <section>
         <div className="flex items-center gap-4 bg-[#00ff9570] rounded-sm w-[300px] xs:w-[330px] sm:w-[360px] p-2 mb-2">

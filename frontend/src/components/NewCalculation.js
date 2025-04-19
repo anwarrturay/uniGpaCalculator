@@ -396,7 +396,7 @@ const NewCalculation = () => {
                 {renderSemester(1, semester1Modules, setSemester1Modules, semester1GPA, setSemester1GPA)}
                 {renderSemester(2, semester2Modules, setSemester2Modules, semester2GPA, setSemester2GPA)}
                 {error && <p>{<Failure errMsg={error} setErrMsg={setError}/>}</p>}
-                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md'>{isCalculating ? <div className='flex gap-2'><div className='animate-spin'><LoaderCircle /></div><>Calculating...</></div> : "Calculate CGPA"}</button>
+                <button type="submit" onClick={() => handleCalculateGpa(semester)} className='bg-[#070181] font-Montserrat font-medium text-white py-2 px-5 rounded-md flex items-center justify-center min-w-44'>{isCalculating ? <LoaderCircle className='animate-spin' /> : "Calculate CGPA"}</button>
             </> : ""
             }
             <Result formData={formData} result={result} semester={semester} semester1Modules={semester1Modules} semester2Modules={semester2Modules} semester1Score={semester1Score} semester2Score={semester2Score} bothSemestersScore={bothSemestersScore} setResult={setResult} setShowDialog={setShowDialog}/>

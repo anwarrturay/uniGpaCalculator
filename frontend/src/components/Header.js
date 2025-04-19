@@ -113,7 +113,7 @@ const Header = ({ isOpen, setIsOpen, handleClose }) => {
         {/* Right Side Logic */}
         {location.pathname === '/studentdashboard' ? (
           <div className='font-[500] font-Montserrat flex items-center justify-center text-sm text-center mr-3 xs:text-lg md:mt-2'>
-            <p>Hi <strong>{user && user?.firstname}</strong></p>
+            
           </div>
         ) : location.pathname === '/recent' ? (
           <div className='font-[500] font-Montserrat flex items-center justify-center text-xl text-center mr-3 xs:text-3xl'>

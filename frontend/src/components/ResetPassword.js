@@ -7,8 +7,10 @@ import PasswordVisibility from './utils/PasswordVisibility';
 import axios from "../api/axios";
 import Failure from "./utils/Failure"
 import PasswordResetMsg from './utils/PasswordResetMsg';
+import { LoaderCircle } from 'lucide-react';
 const ResetPassword = () => {
     const [success, setSuccess] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const { token } = useParams()
     const [errMsg, setErrMsg] = useState("");
     const { register, handleSubmit, formState: {errors}, reset, watch} = useForm({
@@ -18,7 +20,7 @@ const ResetPassword = () => {
     const { passwordToggleButton, showPassword } = PasswordVisibility();
 
     const handlePasswordReset = async (data)=>{
-        console.log("form submitted: ", data);
+        setIsLoading(true);
         const formData = new FormData();
         formData.append("password", data.password);
         console.log(formData)
@@ -30,10 +32,12 @@ const ResetPassword = () => {
             )
             console.log("Server Response for Password Reset: ", response.data);
             if(response.status === 200){
+                setIsLoading(false)
                 setSuccess(true);
                 reset();
             }
         }catch(err){
+            setIsLoading(false)
             setErrMsg("");
 
             setTimeout(()=>{
@@ -57,8 +61,8 @@ const ResetPassword = () => {
         <h1 className='font-semibold text-2xl'>Reset account password</h1>
         <p className="text-center text-[#8b8b8b] font-medium text-sm mb-2">Enter a new password below</p>
         {success ? (
-            <PasswordResetMsg />
-        ) : errMsg && <Failure errMsg={errMsg}/>}
+            <PasswordResetMsg setSuccess={setSuccess} />
+        ) : errMsg && <Failure errMsg={errMsg} setErrMsg={setErrMsg}/>}
         <form onSubmit={handleSubmit(handlePasswordReset)} action="" className='flex flex-col gap-2 px-5'>
             <div className="flex flex-col relative">
                 <label htmlFor="password" className='absolute -left-[100000000px]'>New Password</label>
@@ -87,7 +91,7 @@ const ResetPassword = () => {
                     {passwordToggleButton}
                 </div>
             </div>
-            <button type="submit" className='reset-btn'>Reset Password</button>
+            <button type="submit" className='reset-btn flex items-center justify-center'>{isLoading ? <LoaderCircle className="animate-spin"/> : "Reset Password"}</button>
         </form>
     </div>
 

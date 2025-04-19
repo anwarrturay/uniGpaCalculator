@@ -45,7 +45,7 @@ const Recent = () => {
       const response = await axiosPrivate.delete(`/users/history/${userId}`);
       const sortedHistory = response?.data?.history?.sort((a, b) => a.createdAt > b.createdAt ? -1 : a.createdAt < b.createdAt ? 1 : 0)
       setResultHistory(sortedHistory)
-      if(response)setIsDeleting({status: false, id: null})
+      if(response){setIsDeleting({status: false, id: null}); console.log(response)}
     } catch(err){
       setIsDeleting({status: false, id: null})
       console.log(err)

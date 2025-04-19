@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import updateInfoSchema from '../schemas/updateInfoSchema'
 import Success from './utils/Success';
 import Failure from './utils/Failure';
+import { LoaderCircle } from 'lucide-react';
 
 const EditProfilePage = () => {
     const navigate = useNavigate()
@@ -18,6 +19,7 @@ const EditProfilePage = () => {
     const userId = auth?.userId;
     const axiosPrivate = useAxiosPrivate();
     const [success, setSuccess] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [errMsg, setErrMsg] = useState("");
     const [previewImage, setPreviewImage] = useState(null);
 
@@ -106,7 +108,7 @@ const EditProfilePage = () => {
     }
 
     const handleSaveChanges = async (data) => {
-        console.log("form submitted: ", data);
+        setIsLoading(true)
         const formData = new FormData();
         formData.append("firstname", data.firstname)
         formData.append("lastname", data.lastname)
@@ -122,11 +124,13 @@ const EditProfilePage = () => {
             console.log("Response Data: ", response.data);
             setUser(response.data);
             if(response.status === 200){
+                setIsLoading(false)
                 setSuccess(true);
                 navigate("/profile");
                 reset()
             }
         }catch(err){
+            setIsLoading(false)
             console.error(err);
             if(!err?.response){
                 setErrMsg("No Server Response");
@@ -208,7 +212,7 @@ const EditProfilePage = () => {
                                     </select>
                                 </div>
                 
-                                <button type='submit' className='bg-white font-bold py-2 px-3 mt-4 rounded-lg text-[#070181] border border-[#ccc] transition-all hover:border hover:border-[#3b44e6] text-sm self-center disabled:opacity-70 disabled:hover:border-[#f3f3f3]'>Save Changes</button>
+                                <button type='submit' className='bg-white font-bold py-2 px-3 mt-4 rounded-lg text-[#070181] border border-[#ccc] transition-all hover:border hover:border-[#070181] text-sm self-center disabled:opacity-70 disabled:hover:border-[#f3f3f3] min-w-32 flex items-center justify-center'>{isLoading ? <LoaderCircle className='animate-spin' /> : "Save Changes"}</button>
                             </form>
                         </div>
                     </main>

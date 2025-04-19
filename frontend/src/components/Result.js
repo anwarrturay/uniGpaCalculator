@@ -31,76 +31,86 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
         fetchUserData();
     }, [userId])
 
-    const testIsNew = async () => {
-        try {
-            const response = await axiosPrivate.patch(
-                'users/is-new',
-                {id: user?._id},
-                {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                withCredentials: true
-                }
-            );
-            if(response) console.log(response.data);
-        } catch (err) {
-            console.log(err)
-        }
-    };
+    // const testIsNew = async () => {
+    //     try {
+    //         const response = await axiosPrivate.patch(
+    //             'users/is-new',
+    //             {id: user?._id},
+    //             {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             withCredentials: true
+    //             }
+    //         );
+    //         if(response) console.log(response.data);
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+    // };
 
-    function printResult(divId) {
+    async function printResult(divId) {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        console.log(isMobile)
         const content = document.getElementById(divId).innerHTML;
-      
-        const printWindow = window.open('', '', 'height=600,width=800');
-        printWindow.document.write('<html><head><title>Miskul App</title>');
-      
-        printWindow.document.write(`
-          <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-        `);
-
-        printWindow.document.write(`
-      <style>
-        @page {
-          margin: 0;
+    
+        if (isMobile) {
+            document.head.innerHTML += `
+                <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+            `
+            document.body.innerHTML = `
+                <div class="w-full flex flex-col gap-1 items-center justify-center mb-2 mt-5">
+                    <img class="text-center" width="50px" src="/miskul_icon.png"/>
+                    <img class="text-center" width="100px" src="/miskul_wordmark.png"/>
+                </div>
+                ${content}
+            `;
+            window.print();
+                setTimeout(()=>{
+                    location.reload();
+                },3000)
+             // Restore original content
+        } else {
+            // Existing window.open logic for desktop
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>Miskul App</title>');
+            printWindow.document.write(`
+                <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+              `);
+            printWindow.document.write(`
+                <style>
+                    @page { margin: 0; }
+                    body { margin: 1cm; }
+                </style>
+            `);
+            printWindow.document.write('</head><body class="p-4">');
+            printWindow.document.write(`
+                <div class="w-full flex flex-col gap-1 items-center justify-center mb-2 mt-5">
+                    <img class="text-center" width="50px" src="/miskul_icon.png"/>
+                    <img class="text-center" width="100px" src="/miskul_wordmark.png"/>
+                </div>
+            `);
+            printWindow.document.write(content);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+                setTimeout(() => printWindow.close(), 500);
+            }, 1000);
         }
-        body {
-          margin: 1cm;
-        }
-      </style>
-    `);
-      
-        printWindow.document.write('</head><body className="p-4">');
-        printWindow.document.write("<div class='w-full flex flex-col gap-1 items-center justify-center mb-2 mt-5'><img class='text-center' width='50px' src='/miskul_icon.png'/><img class='text-center' width='100px' src='/miskul_wordmark.png'/></div>")
-        printWindow.document.write(content);
-        printWindow.document.write('</body></html>');
-      
-        printWindow.document.close();
-        printWindow.focus();
-      
-        setTimeout(() => {
-          printWindow.print()
-          setTimeout(() => {
-            printWindow.close();
-          }, 500);
-        }, 1000);
     }
 
     async function saveHistory () {
-        console.log(semester)
-        console.log("Saving...")
         let history;
         if(semester === "Semester One"){
             history = {department: user?.department, level: user?.level, userId, type: "semester1", semester1Modules, semester1Score}
-            console.log(history)
         }
         if(semester === "Semester Two"){
             history = {department: user?.department, level: user?.level, userId, type: "semester2", semester2Modules, semester2Score}
-            console.log(history)
         }
         if(semester === "Both Semesters"){
             history = {department: user?.department, level: user?.level, userId, type: "both", semester1Modules, semester1Score, semester2Modules, semester2Score, bothSemestersScore}
-            console.log(history)
         }
         try {
             setIsSaving(true)
@@ -155,14 +165,14 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
                     </tbody>
                 </table>
             
-                <div className="text-center font-bold mb-2 text-sm border border-black z-10 p-1 mt-1 bg-[#ded9c3]">{user?.level}</div>
+                <div className="text-center font-bold mb-2 text-sm border border-black z-10 p-1 mt-1 bg-[#ded9c3]" style={{backgroundColor: "#ded9c3"}}>{user?.level}</div>
             
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-6">
                 { semester === "Semester One" || semester === "Both Semesters" ?
                 <div>
-                    <div className="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]">FIRST SEMESTER</div>
+                    <div className="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]" style={{backgroundColor: "#dcedf4"}}>FIRST SEMESTER</div>
                     <table className="w-full border border-black text-xs">
-                    <thead className="bg-[#dcedf4]">
+                    <thead className="bg-[#dcedf4]" style={{backgroundColor: "#dcedf4"}} >
                         <tr>
                         <th className="border border-black p-1">Semester Module</th>
                         <th className="border border-black p-1">Credit Hours</th>
@@ -182,9 +192,9 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
             
                 { semester === "Semester Two" || semester === "Both Semesters" ? 
                 <div>
-                    <div className="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]">SECOND SEMESTER</div>
+                    <div className="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]" style={{backgroundColor: "#dcedf4"}}>SECOND SEMESTER</div>
                     <table className="w-full border border-black text-xs">
-                    <thead className="bg-[#dcedf4]">
+                    <thead className="bg-[#dcedf4]" style={{backgroundColor: "#dcedf4"}}>
                         <tr>
                         <th className="border border-black p-1">Semester Module</th>
                         <th className="border border-black p-1">Credit Hours</th>
