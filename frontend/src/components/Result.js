@@ -160,14 +160,14 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
                     </tbody>
                 </table>
             
-                <div className="text-center font-bold mb-2 text-sm border border-black z-10 p-1 mt-1 bg-[#ded9c3]">{user?.level}</div>
+                <div className="text-center font-bold mb-2 text-sm border border-black z-10 p-1 mt-1 bg-[#ded9c3]" style={{backgroundColor: "#ded9c3"}}>{user?.level}</div>
             
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-6">
                 { semester === "Semester One" || semester === "Both Semesters" ?
                 <div>
-                    <div className="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]">FIRST SEMESTER</div>
+                    <div className="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]" style={{backgroundColor: "#dcedf4"}}>FIRST SEMESTER</div>
                     <table className="w-full border border-black text-xs">
-                    <thead className="bg-[#dcedf4]">
+                    <thead className="bg-[#dcedf4]" style={{backgroundColor: "#dcedf4"}} >
                         <tr>
                         <th className="border border-black p-1">Semester Module</th>
                         <th className="border border-black p-1">Credit Hours</th>
@@ -187,9 +187,9 @@ const Result = ({formData, result, semester, semester1Modules, semester2Modules,
             
                 { semester === "Semester Two" || semester === "Both Semesters" ? 
                 <div>
-                    <div className="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]">SECOND SEMESTER</div>
+                    <div className="text-center font-semibold mb-1 border border-black -mt-1 p-1 bg-[#dcedf4]" style={{backgroundColor: "#dcedf4"}}>SECOND SEMESTER</div>
                     <table className="w-full border border-black text-xs">
-                    <thead className="bg-[#dcedf4]">
+                    <thead className="bg-[#dcedf4]" style={{backgroundColor: "#dcedf4"}}>
                         <tr>
                         <th className="border border-black p-1">Semester Module</th>
                         <th className="border border-black p-1">Credit Hours</th>
