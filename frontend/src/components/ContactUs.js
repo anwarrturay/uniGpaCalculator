@@ -137,8 +137,8 @@ const ContactUs = () => {
               </div>
 
               <button type="submit" className="bg-[#070181] text-white px-4 py-2 rounded-md flex items-center justify-center hover:bg-gray-800 font-medium w-[300px] xs:w-[330px] sm:w-[360px]">
-                Send
                 <Send className="ml-2" />
+                Send
               </button>
             </form>
           </div>

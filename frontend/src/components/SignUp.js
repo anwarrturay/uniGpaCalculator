@@ -153,7 +153,7 @@ function Signup() {
 					value={formData.password}
 					onChange={(e) => setFormData({ ...formData, password: e.target.value })}
 					required
-					className='w-[300px] xs:w-[330px] sm:w-[360px] rounded-md border border-[#ccc] focus:ring-2 focus:ring-[#070181]'
+					className='w-[300px] xs:w-[330px] sm:w-[360px] rounded-md border border-[#ccc]'
 				/>
 				
 				{password && (
